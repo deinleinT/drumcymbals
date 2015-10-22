@@ -37,7 +37,7 @@ public abstract class DataObject implements Persistent, Serializable {
 	 *
 	 */
 	protected transient int writeCount = 0;
-
+	
 	/**
 	 *
 	 */

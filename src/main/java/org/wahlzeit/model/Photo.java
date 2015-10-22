@@ -69,6 +69,20 @@ public class Photo extends DataObject {
 
 	protected PhotoId id = null;
 	
+	//Coordinate Attribut hinzugefuegt
+	protected Coordinate location;
+	
+	
+	public Coordinate getLocation() {
+		return location;
+	}
+
+	public void setLocation(Coordinate location) {
+		this.location = location;
+	}
+	//
+	
+	
 	/**
 	 *
 	 */
@@ -418,4 +432,6 @@ public class Photo extends DataObject {
 		noVotesAtLastNotification = noVotes;
 		incWriteCount();
 	}
+	
+	
 }
