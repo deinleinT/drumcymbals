@@ -70,14 +70,14 @@ public class Photo extends DataObject {
 	protected PhotoId id = null;
 	
 	//Coordinate Attribut hinzugefuegt
-	protected Coordinate location;
+	protected AbstractCoordinate location;
 	
 	
-	public Coordinate getLocation() {
+	public AbstractCoordinate getLocation() {
 		return location;
 	}
 
-	public void setLocation(Coordinate location) {
+	public void setLocation(AbstractCoordinate location) {
 		this.location = location;
 	}
 	//
@@ -146,22 +146,43 @@ public class Photo extends DataObject {
 	Key parent = ObjectManager.applicationRootKey;
 
 	/**
-	 *
+	 *bearbeitet
 	 */
 	public Photo() {
 		id = PhotoId.getNextId();
+		location=CoordinateFactory.getCoordinate(null, null);
 		incWriteCount();
 	}
 
 	/**
+	 * bearbeitet
+	 * 
 	 * @methodtype constructor
 	 */
 	public Photo(PhotoId myId) {
 		id = myId;
-
+		location=CoordinateFactory.getCoordinate(null, null);
+		incWriteCount();
+	}
+	
+	/**
+	 * ergeanzt
+	 */
+	public Photo(PhotoId myId, Double latitude, Double longitude) {
+		id = myId;
+		location=CoordinateFactory.getCoordinate(latitude, longitude);
 		incWriteCount();
 	}
 
+	/**
+	 * ergeanzt
+	 */
+	public Photo(PhotoId myId, AbstractCoordinate location) {
+		id = myId;
+		this.location=location;
+		incWriteCount();
+	}
+	
 	/**
 	 * @methodtype get
 	 */

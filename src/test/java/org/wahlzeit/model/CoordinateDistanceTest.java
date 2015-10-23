@@ -5,6 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * TestKlasse fuer die Ueberpruefung der Korrektheit der Distanzmethoden
+ * 
+ * @author ThomasDeinlein
+ */
 public class CoordinateDistanceTest {
 
 	private Coordinate location;
@@ -14,14 +19,14 @@ public class CoordinateDistanceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		location = new Coordinate();
-		testCoordinate = new Coordinate();
+		location = new Coordinate(0.0,0.0);
+		testCoordinate = new Coordinate(0.0,0.0);
 		expected = new double[1];
 		actual = new double[1];
 	}
 
 	@Test
-	public void testLatitudinalDistance() {
+	public void testLatitudinalDistance() throws CoordinateNullException  {
 
 		/*
 		 * location hat Koordinaten (1.0, 1.0), testCoordinate hat (0.0, 0.0)
@@ -52,7 +57,7 @@ public class CoordinateDistanceTest {
 	}
 
 	@Test
-	public void testLongitudinalDistance() {
+	public void testLongitudinalDistance()throws CoordinateNullException  {
 
 		/*
 		 * location hat Koordinaten (1.0, 1.0), testCoordinate hat (0.0, 0.0)
@@ -91,7 +96,7 @@ public class CoordinateDistanceTest {
 	 * 
 	 */
 	@Test
-	public void testDistance1() {
+	public void testDistance1()throws CoordinateNullException  {
 
 		location.setLatitude(1.0);
 		location.setLongitude(2.0);
@@ -114,7 +119,7 @@ public class CoordinateDistanceTest {
 	 * 
 	 */
 	@Test
-	public void testDistance2() {
+	public void testDistance2()throws CoordinateNullException  {
 
 		location.setLatitude(0.0);
 		location.setLongitude(0.0);
@@ -137,7 +142,7 @@ public class CoordinateDistanceTest {
 	 * 
 	 */
 	@Test
-	public void testDistance3() {
+	public void testDistance3()throws CoordinateNullException  {
 
 		location.setLatitude(-1.0);
 		location.setLongitude(-2.0);
@@ -158,7 +163,7 @@ public class CoordinateDistanceTest {
 	 * Ergebnis ermittelt anhand google.maps
 	 */
 	@Test
-	public void testRealDistance1() {
+	public void testRealDistance1()throws CoordinateNullException  {
 
 		location.setLatitude(49.460894);
 		location.setLongitude(11.132840);
@@ -180,7 +185,7 @@ public class CoordinateDistanceTest {
 	 * Ergebnis ermittelt anhand google.maps
 	 */
 	@Test
-	public void testRealDistance2() {
+	public void testRealDistance2() throws CoordinateNullException {
 
 		location.setLatitude(49.572680);
 		location.setLongitude(11.028427);
@@ -200,7 +205,7 @@ public class CoordinateDistanceTest {
 	 * geworfen werden.
 	 */
 	@Test(expected = NullPointerException.class)
-	public void testNullPointer() {
+	public void testNullPointer()throws CoordinateNullException  {
 		location.getDistance(null);
 		location.getLatitudinalDistance(null);
 		location.getLongitudinalDistance(null);

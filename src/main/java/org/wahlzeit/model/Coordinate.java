@@ -5,49 +5,11 @@ package org.wahlzeit.model;
  *
  *
  */
-public class Coordinate {
+public class Coordinate extends AbstractCoordinate {
 
-	private double latitude;
-	private double longitude;
-
-	public Coordinate() {
-	}
 
 	public Coordinate(double latitude, double longitude) {
-		this.setLatitude(latitude);
-		this.setLongitude(longitude);
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-
-		if (obj instanceof Coordinate) {
-			if (this.getLatitude() == ((Coordinate) obj).getLatitude()
-					&& this.getLatitude() == ((Coordinate) obj).getLatitude()) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-
+		super(latitude, longitude);
 	}
 
 	/**
@@ -56,15 +18,16 @@ public class Coordinate {
 	 * @return neues Coordinates-Objekt
 	 * 
 	 *         Berechnet die Distanz zweier Koordinaten anhand des Satz des
-	 *         Pythagoras. Die Latitude-Werte werden voneiander abgezogen und quadriert, ebenso die Longitude-Werte.
-	 *         Beide Ergebnise werden addiert. Von diesem Ergebnis wird die Quadratwurzel gezogen, was dann den Distance-Wert 
-	 *         wiederspiegelt.
+	 *         Pythagoras. Die Latitude-Werte werden voneiander abgezogen und
+	 *         quadriert, ebenso die Longitude-Werte. Beide Ergebnise werden
+	 *         addiert. Von diesem Ergebnis wird die Quadratwurzel gezogen, was
+	 *         dann den Distance-Wert wiederspiegelt.
 	 */
-	public double getDistance(Coordinate other) {
+	public double getDistance(Coordinate other) throws CoordinateNullException {
 
 		double latitudeDistanceSquare = Math.pow(this.getLatitudinalDistance(other), 2);
 		double longitudeDistanceSquare = Math.pow(this.getLongitudinalDistance(other), 2);
-		
+
 		return Math.sqrt((latitudeDistanceSquare + longitudeDistanceSquare));
 	}
 
@@ -77,7 +40,7 @@ public class Coordinate {
 	 *         als absoluten Wert zurueck.
 	 * 
 	 */
-	public double getLatitudinalDistance(Coordinate other) {
+	public double getLatitudinalDistance(Coordinate other) throws CoordinateNullException {
 		return Math.abs(other.getLatitude() - this.getLatitude());
 	}
 
@@ -89,7 +52,7 @@ public class Coordinate {
 	 *         Berechnet Differenz der Longitude-Werte. Gibt als Ergebnis den
 	 *         Betrag der Differenz zurueck.
 	 */
-	public double getLongitudinalDistance(Coordinate other) {
+	public double getLongitudinalDistance(Coordinate other) throws CoordinateNullException {
 
 		return Math.abs(other.getLongitude() - this.getLongitude());
 	}
@@ -103,7 +66,7 @@ public class Coordinate {
 	 *         Entfernung zwischen zwei GPS-Koordinaten in km.
 	 *
 	 */
-	public double getRealDistance(Coordinate other) {
+	public double getRealDistance(Coordinate other) throws CoordinateNullException {
 
 		int radius = 6371;
 
