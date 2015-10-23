@@ -14,26 +14,15 @@ import org.junit.Test;
 public class CoordinateCreateInstanceTest {
 	
 	AbstractCoordinate coordinate;
-	boolean[] expecteds;
-	boolean[] actuals;
 	
-	@Before
-	public void setUp(){
-		expecteds = new boolean[1];
-		actuals = new boolean[1];
-	}
-
 	/**
 	 * Der Fabrikmethode werden zwei null-Parameter uebergeben.
 	 * Es muss das Flag entsprechend gesetzt werden.
 	 */
 	@Test
-	public void testCoordinateNull1() {
+	public void testCoordinateNullTwoNullParameters() {
 		coordinate = CoordinateFactory.getCoordinate(null, null);
-		expecteds[0]=coordinate.isNull;
-		actuals[0]=true;
-		
-		assertArrayEquals(expecteds, actuals);
+		assertTrue(coordinate.isNull);
 	}
 	
 	
@@ -42,25 +31,29 @@ public class CoordinateCreateInstanceTest {
 	 * Es muss das Flag entsprechend gesetzt werden.
 	 */
 	@Test
-	public void testCoordinateNull2() {
+	public void testCoordinateNullLatitudeNullParameter() {
 		coordinate = CoordinateFactory.getCoordinate(null, 45.23);
-		expecteds[0]=coordinate.isNull;
-		actuals[0]=true;
-		
-		assertArrayEquals(expecteds, actuals);
+		assertTrue(coordinate.isNull);
 	}
 	
 	/**
-	 * Der Fabrikmethode werden zwei null-Parameter uebergeben.
+	 * Der Fabrikmethode wird ein null-Parameter uebergeben.
 	 * Es muss das Flag entsprechend gesetzt werden.
 	 */
 	@Test
-	public void testCoordinateNull3() {
+	public void testCoordinateNullLongitudeNullParameter() {
 		coordinate = CoordinateFactory.getCoordinate(45.23, null);
-		expecteds[0]=coordinate.isNull;
-		actuals[0]=true;
-		
-		assertArrayEquals(expecteds, actuals);
+		assertTrue(coordinate.isNull);
+	}
+	
+	/**
+	 * Der Fabrikmethode werden zwei double-Parameter uebergeben.
+	 * Es muss das Flag auf false gesetzt sein.
+	 */
+	@Test
+	public void testCoordinateObject() {
+		coordinate = CoordinateFactory.getCoordinate(45.23, 23.23);
+		assertFalse(coordinate.isNull);
 	}
 
 }

@@ -44,7 +44,9 @@ public class CoordinateDistanceTest {
 		assertArrayEquals(expected, actual, 1.0);
 
 		/*
-		 * 
+		 * location hat neue Koordinaten (-1.0, 0.0)
+		 * testCoordinate (-5.0,5.0)
+		 * Ergebnis muss 4.0 sein
 		 */
 		location.setLatitude(-1.0);
 		location.setLongitude(0.0);
@@ -75,7 +77,9 @@ public class CoordinateDistanceTest {
 		assertArrayEquals(expected, actual, 1.0);
 
 		/*
-		 * 
+		 * location hat neue Koordinaten (4.0, -1.0)
+		 * testCoordinate (-5.0,-3.0)
+		 * Ergebnis muss 2.0 sein
 		 */
 		location.setLatitude(4.0);
 		location.setLongitude(-1.0);
@@ -163,7 +167,7 @@ public class CoordinateDistanceTest {
 	 * Ergebnis ermittelt anhand google.maps
 	 */
 	@Test
-	public void testRealDistance1()throws CoordinateNullException  {
+	public void testRealDistance()throws CoordinateNullException  {
 
 		location.setLatitude(49.460894);
 		location.setLongitude(11.132840);
@@ -185,7 +189,7 @@ public class CoordinateDistanceTest {
 	 * Ergebnis ermittelt anhand google.maps
 	 */
 	@Test
-	public void testRealDistance2() throws CoordinateNullException {
+	public void testRealDistanceBetweenFAUAndStanford() throws CoordinateNullException {
 
 		location.setLatitude(49.572680);
 		location.setLongitude(11.028427);
