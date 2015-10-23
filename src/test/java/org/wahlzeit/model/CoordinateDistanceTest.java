@@ -14,15 +14,13 @@ public class CoordinateDistanceTest {
 
 	private Coordinate location;
 	private Coordinate testCoordinate;
-	private double[] expected;
-	private double[] actual;
+	private double expected;
+	private double actual;
 
 	@Before
 	public void setUp() throws Exception {
 		location = new Coordinate(0.0,0.0);
 		testCoordinate = new Coordinate(0.0,0.0);
-		expected = new double[1];
-		actual = new double[1];
 	}
 
 	@Test
@@ -37,11 +35,11 @@ public class CoordinateDistanceTest {
 		location.setLatitude(1.0);
 		location.setLongitude(1.0);
 
-		expected[0] = location.getLatitudinalDistance(testCoordinate);
-		actual[0] = 1.0;
+		expected = 1.0;
+		actual = location.getLatitudinalDistance(testCoordinate);
 
-		assertNotEquals(0.0, actual[0], 0.0);
-		assertArrayEquals(expected, actual, 1.0);
+		assertNotEquals(0.0, actual, 0.0);
+		assertEquals(expected, actual, 1.0);
 
 		/*
 		 * location hat neue Koordinaten (-1.0, 0.0)
@@ -52,10 +50,10 @@ public class CoordinateDistanceTest {
 		location.setLongitude(0.0);
 		testCoordinate.setLatitude(-5.0);
 		testCoordinate.setLongitude(5.0);
-		expected[0] = 4.0;
-		actual[0] = location.getLatitudinalDistance(testCoordinate);
+		expected = location.getLatitudinalDistance(testCoordinate);
+		actual = 4.0;
 
-		assertArrayEquals(expected, actual, 0.0);
+		assertEquals(expected, actual, 0.0);
 	}
 
 	@Test
@@ -70,11 +68,11 @@ public class CoordinateDistanceTest {
 		location.setLatitude(1.0);
 		location.setLongitude(1.0);
 
-		expected[0] = 1.0;
-		actual[0] = location.getLongitudinalDistance(testCoordinate);
+		expected = 1.0;
+		actual = location.getLongitudinalDistance(testCoordinate);
 
-		assertNotEquals(0.0, actual[0], 0.0);
-		assertArrayEquals(expected, actual, 1.0);
+		assertNotEquals(0.0, actual, 0.0);
+		assertEquals(expected, actual, 1.0);
 
 		/*
 		 * location hat neue Koordinaten (4.0, -1.0)
@@ -85,10 +83,10 @@ public class CoordinateDistanceTest {
 		location.setLongitude(-1.0);
 		testCoordinate.setLatitude(-5.0);
 		testCoordinate.setLongitude(-3.0);
-		expected[0] = 2.0;
-		actual[0] = location.getLongitudinalDistance(testCoordinate);
+		expected = 2.0;
+		actual = location.getLongitudinalDistance(testCoordinate);
 
-		assertArrayEquals(expected, actual, 0.0);
+		assertEquals(expected, actual, 0.0);
 
 	}
 
@@ -108,10 +106,10 @@ public class CoordinateDistanceTest {
 		testCoordinate.setLatitude(6.0);
 		testCoordinate.setLongitude(3.0);
 
-		expected[0] = 5.099;
-		actual[0] = location.getDistance(testCoordinate);
+		expected = 5.099;
+		actual = location.getDistance(testCoordinate);
 
-		assertArrayEquals(expected, actual, 0.001);
+		assertEquals(expected, actual, 0.001);
 
 	}
 
@@ -131,10 +129,10 @@ public class CoordinateDistanceTest {
 		testCoordinate.setLatitude(6.0);
 		testCoordinate.setLongitude(3.0);
 
-		expected[0] = 6.7082;
-		actual[0] = location.getDistance(testCoordinate);
+		expected = 6.7082;
+		actual = location.getDistance(testCoordinate);
 
-		assertArrayEquals(expected, actual, 0.001);
+		assertEquals(expected, actual, 0.001);
 
 	}
 
@@ -154,10 +152,10 @@ public class CoordinateDistanceTest {
 		testCoordinate.setLatitude(-6.0);
 		testCoordinate.setLongitude(-3.0);
 
-		expected[0] = 5.099;
-		actual[0] = location.getDistance(testCoordinate);
+		expected = 5.099;
+		actual = location.getDistance(testCoordinate);
 
-		assertArrayEquals(expected, actual, 0.001);
+		assertEquals(expected, actual, 0.001);
 
 	}
 
@@ -175,10 +173,10 @@ public class CoordinateDistanceTest {
 		testCoordinate.setLatitude(51.497557);
 		testCoordinate.setLongitude(7.454901);
 
-		expected[0] = 345.100;
-		actual[0] = location.getRealDistance(testCoordinate);
+		expected = 345.100;
+		actual = location.getRealDistance(testCoordinate);
 
-		assertArrayEquals(expected, actual, 0.2);
+		assertEquals(expected, actual, 0.2);
 
 	}
 
@@ -197,10 +195,10 @@ public class CoordinateDistanceTest {
 		testCoordinate.setLatitude(37.427994);
 		testCoordinate.setLongitude(-122.170255);
 
-		expected[0] = 9305.376;
-		actual[0] = location.getRealDistance(testCoordinate);
+		expected = 9305.376;
+		actual = location.getRealDistance(testCoordinate);
 
-		assertArrayEquals(expected, actual, 2.5);
+		assertEquals(expected, actual, 2.5);
 
 	}
 
@@ -213,6 +211,8 @@ public class CoordinateDistanceTest {
 		location.getDistance(null);
 		location.getLatitudinalDistance(null);
 		location.getLongitudinalDistance(null);
+		
+		assertEquals(0.0, 0.0, 0.0);
 	}
 
 }
