@@ -1,5 +1,11 @@
 package org.wahlzeit.model;
 
+/**
+ * AbstractClass to encapsulate the Coordinate of a Photo-Object
+ * 
+ * @author ThomasDeinlein
+ *
+ */
 public abstract class AbstractCoordinate {
 
 	protected boolean isNull;

@@ -1,22 +1,21 @@
 package org.wahlzeit.model;
 
 /**
- * Factory fuer die Erzeugung von Coordinate-Objekten
+ * Factory to get a correct instance of a Coordinate
  * 
  * @author ThomasDeinlein
  *
  */
 public class CoordinateFactory {
 
-
 	/**
-	 * Fabrikmethode
+	 * Factory-method
 	 * 
-	 * @param latitude Breitengrad
-	 * @param longitude Laengengrad
-	 * @return Coordinate-Objekt, bei Übergabe von zwei Doublewerten wird
-	 *         Coordinate-Objekt erstellt, bei Übergabe mindestens eines
-	 *         null-Wertes wird CoordinateNull-Objekt zurueckgegeben
+	 * @param latitude
+	 * @param longitude
+	 * @return AbstractCoordinate-Object, if one parameter is null, this method
+	 *         returns a CoordinateNull-Object (NullObject), if both parameter
+	 *         are double-values, this method returns a Coordinate-Object
 	 */
 	public static AbstractCoordinate getCoordinate(Double latitude, Double longitude) {
 		if (latitude == null || longitude == null) {

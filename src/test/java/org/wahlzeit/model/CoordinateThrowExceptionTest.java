@@ -7,9 +7,10 @@ public class CoordinateThrowExceptionTest {
 	AbstractCoordinate coordinate;
 
 	/**
-	 * Per Factory wird ein NullObjekt erstellt. Auf diesem NullObjekt wird eine
-	 * Coordinate-Methode ausgefuehrt. Da keine Koordinaten vorhanden sind, muss
-	 * eine CoordinateNullException geworfen werden.
+	 * TestMethod to check the correct behaviour, when the getLatitude()-method
+	 * will be executed on a CoordinateNull-Object (it has to throw a
+	 * CoordinateNullException).
+	 * 
 	 */
 	@Test(expected = CoordinateNullException.class)
 	public void testNullExceptionWhileGetLatitude() throws CoordinateNullException {
@@ -19,9 +20,10 @@ public class CoordinateThrowExceptionTest {
 	}
 
 	/**
-	 * Per Factory wird ein NullObjekt erstellt. Auf diesem NullObjekt wird eine
-	 * Coordinate-Methode ausgefuehrt. Da keine Koordinaten vorhanden sind, muss
-	 * eine CoordinateNullException geworfen werden.
+	 * TestMethod to check the correct behaviour, when the getLongitude()-method
+	 * will be executed on a CoordinateNull-Object (it has to throw a
+	 * CoordinateNullException).
+	 * 
 	 */
 	@Test(expected = CoordinateNullException.class)
 	public void testNullExceptionWhileGetLongitude() throws CoordinateNullException {
@@ -31,9 +33,10 @@ public class CoordinateThrowExceptionTest {
 	}
 
 	/**
-	 * Per Factory wird ein NullObjekt erstellt. Auf diesem NullObjekt wird eine
-	 * Coordinate-Methode ausgefuehrt. Da keine Koordinaten vorhanden sind, muss
-	 * eine CoordinateNullException geworfen werden.
+	 * TestMethod to check the correct behaviour, when the
+	 * getLatitudinalDistance()-method will be executed on a
+	 * CoordinateNull-Object (it has to throw a CoordinateNullException).
+	 * 
 	 */
 	@Test(expected = CoordinateNullException.class)
 	public void testNullExceptionWhileGetLatitudinalDistance() throws CoordinateNullException {
@@ -44,9 +47,10 @@ public class CoordinateThrowExceptionTest {
 	}
 
 	/**
-	 * Per Factory wird ein NullObjekt erstellt. Auf diesem NullObjekt wird eine
-	 * Coordinate-Methode ausgefuehrt. Da keine Koordinaten vorhanden sind, muss
-	 * eine CoordinateNullException geworfen werden.
+	 * TestMethod to check the correct behaviour, when the
+	 * getLongitudinalDistance()-method will be executed on a
+	 * CoordinateNull-Object (it has to throw a CoordinateNullException).
+	 * 
 	 */
 	@Test(expected = CoordinateNullException.class)
 	public void testNullExceptionWhileGetLongitudinalDistance() throws CoordinateNullException {
@@ -57,9 +61,10 @@ public class CoordinateThrowExceptionTest {
 	}
 
 	/**
-	 * Per Factory wird ein NullObjekt erstellt. Auf diesem NullObjekt wird eine
-	 * Coordinate-Methode ausgefuehrt. Da keine Koordinaten vorhanden sind, muss
-	 * eine CoordinateNullException geworfen werden.
+	 * TestMethod to check the correct behaviour, when the
+	 * getLongitudinalDistance()-method will be executed on a
+	 * CoordinateNull-Object (it has to throw a CoordinateNullException).
+	 * 
 	 */
 	@Test(expected = CoordinateNullException.class)
 	public void testNullExceptionWhileSetLatitude() throws CoordinateNullException {
@@ -69,9 +74,10 @@ public class CoordinateThrowExceptionTest {
 	}
 
 	/**
-	 * Per Factory wird ein NullObjekt erstellt. Auf diesem NullObjekt wird eine
-	 * Coordinate-Methode ausgefuehrt. Da keine Koordinaten vorhanden sind, muss
-	 * eine CoordinateNullException geworfen werden.
+	 * TestMethod to check the correct behaviour, when the setLongitude()-method
+	 * will be executed on a CoordinateNull-Object (it has to throw a
+	 * CoordinateNullException).
+	 * 
 	 */
 	@Test(expected = CoordinateNullException.class)
 	public void testNullExceptionWhileSetLongitude() throws CoordinateNullException {
@@ -81,9 +87,10 @@ public class CoordinateThrowExceptionTest {
 	}
 
 	/**
-	 * Per Factory wird ein NullObjekt erstellt. Auf diesem NullObjekt wird eine
-	 * Coordinate-Methode ausgefuehrt. Da keine Koordinaten vorhanden sind, muss
-	 * eine CoordinateNullException geworfen werden.
+	 * TestMethod to check the correct behaviour, when the
+	 * getRealDistance()-method will be executed on a CoordinateNull-Object (it
+	 * has to throw a CoordinateNullException).
+	 * 
 	 */
 	@Test(expected = CoordinateNullException.class)
 	public void testNullExceptionWhileGetRealDistance() throws CoordinateNullException {
@@ -94,9 +101,10 @@ public class CoordinateThrowExceptionTest {
 	}
 
 	/**
-	 * Per Factory wird ein NullObjekt erstellt. Auf diesem NullObjekt wird eine
-	 * Coordinate-Methode ausgefuehrt. Da keine Koordinaten vorhanden sind, muss
-	 * eine CoordinateNullException geworfen werden.
+	 * TestMethod to check the correct behaviour, when the getDistance()-method
+	 * will be executed on a CoordinateNull-Object (it has to throw a
+	 * CoordinateNullException).
+	 * 
 	 */
 	@Test(expected = CoordinateNullException.class)
 	public void testNullExceptionWhileGetDistance() throws CoordinateNullException {
@@ -107,46 +115,42 @@ public class CoordinateThrowExceptionTest {
 	}
 
 	/**
-	 * Testet die Korrektheit des Wertebereiches. Latitude und Longitude duerfen
-	 * nur im Bereiche 0 bis 180 sowie 0 bis -180 liegen. Es wird eine
-	 * IllegalArgumentException geworfen, falls ungueltiger Double-Wert
-	 * eingegeben wird.
+	 * TestMethod to check the correct behaviour, when the CoordinateFactory
+	 * gets an invalid parameter for the latitude.
+	 * 
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testWrongLatitude1() {
+	public void testWrongLatitudeOversizedNegativeValue() {
 		coordinate = CoordinateFactory.getCoordinate(-91.0, 0.0);
 	}
-	
+
 	/**
-	 * Testet die Korrektheit des Wertebereiches. Latitude und Longitude duerfen
-	 * nur im Bereiche 0 bis 180 sowie 0 bis -180 liegen. Es wird eine
-	 * IllegalArgumentException geworfen, falls ungueltiger Double-Wert
-	 * eingegeben wird.
+	 * TestMethod to check the correct behaviour, when the CoordinateFactory
+	 * gets an invalid parameter for the latitude.
+	 * 
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testWrongLatitude2() {
+	public void testWrongLatitudeOversizedPositivValue() {
 		coordinate = CoordinateFactory.getCoordinate(100.0, 0.0);
 	}
-	
+
 	/**
-	 * Testet die Korrektheit des Wertebereiches. Latitude und Longitude duerfen
-	 * nur im Bereiche 0 bis 180 sowie 0 bis -180 liegen. Es wird eine
-	 * IllegalArgumentException geworfen, falls ungueltiger Double-Wert
-	 * eingegeben wird.
+	 * TestMethod to check the correct behaviour, when the CoordinateFactory
+	 * gets an invalid parameter for the longitude.
+	 * 
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testWrongLongitude1() {
+	public void testWrongLongitudeOversizedNegativeValue() {
 		coordinate = CoordinateFactory.getCoordinate(0.0, -181.0);
 	}
-	
+
 	/**
-	 * Testet die Korrektheit des Wertebereiches. Latitude und Longitude duerfen
-	 * nur im Bereiche 0 bis 180 sowie 0 bis -180 liegen. Es wird eine
-	 * IllegalArgumentException geworfen, falls ungueltiger Double-Wert
-	 * eingegeben wird.
+	 * TestMethod to check the correct behaviour, when the CoordinateFactory
+	 * gets an invalid parameter for the longitude.
+	 * 
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testWrongLongitude2() {
+	public void testWrongLongitudeOversizedPositiveValue() {
 		coordinate = CoordinateFactory.getCoordinate(0.0, 181.0);
 	}
 

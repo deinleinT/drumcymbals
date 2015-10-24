@@ -1,12 +1,12 @@
 package org.wahlzeit.model;
 
 /**
+ * The Coordinates of a Photo, with Latitude and Longitude.
+ * 
  * @author ThomasDeinlein
- *
  *
  */
 public class Coordinate extends AbstractCoordinate {
-
 
 	public Coordinate(double latitude, double longitude) {
 		super(latitude, longitude);
@@ -14,14 +14,11 @@ public class Coordinate extends AbstractCoordinate {
 
 	/**
 	 * @param other
-	 *            zu uebergebendes Coordinate-Objekt
-	 * @return neues Coordinates-Objekt
+	 *            the other Coordinate-Object
+	 * @return the calculated distance between the coordinates as a double-value
 	 * 
-	 *         Berechnet die Distanz zweier Koordinaten anhand des Satz des
-	 *         Pythagoras. Die Latitude-Werte werden voneiander abgezogen und
-	 *         quadriert, ebenso die Longitude-Werte. Beide Ergebnise werden
-	 *         addiert. Von diesem Ergebnis wird die Quadratwurzel gezogen, was
-	 *         dann den Distance-Wert wiederspiegelt.
+	 *         Calculates the distance of two coordinates with the Pythagoras'
+	 *         theorem.
 	 */
 	public double getDistance(Coordinate other) throws CoordinateNullException {
 
@@ -33,11 +30,12 @@ public class Coordinate extends AbstractCoordinate {
 
 	/**
 	 * @param other
-	 *            zu uebergebendes Coordinate-Objekt
-	 * @return double-Wert der berechneten Differenz der Latitude-Werte
+	 *            the other Coordinate-Object
+	 * @return distance between the latitude-values of both coordinates as
+	 *         double-value
 	 * 
-	 *         Berechnet this.latitude - other.latitude, und gibt berechneten
-	 *         als absoluten Wert zurueck.
+	 *         Calculates other.latitude - this.latitude and returns the
+	 *         absolute value of this value.
 	 * 
 	 */
 	public double getLatitudinalDistance(Coordinate other) throws CoordinateNullException {
@@ -46,11 +44,13 @@ public class Coordinate extends AbstractCoordinate {
 
 	/**
 	 * @param other
-	 *            zu uebergebendes Coordinate-Objekt
-	 * @return double-Wert der berechneten Differenz der Longitude-Werte
+	 *            the other Coordinate-Object
+	 * @return distance between the latitude-values of both coordinates as
+	 *         double-value
 	 * 
-	 *         Berechnet Differenz der Longitude-Werte. Gibt als Ergebnis den
-	 *         Betrag der Differenz zurueck.
+	 *         Calculates other.longitude - this.longitude and returns the
+	 *         absolute value of this value.
+	 * 
 	 */
 	public double getLongitudinalDistance(Coordinate other) throws CoordinateNullException {
 
@@ -59,12 +59,12 @@ public class Coordinate extends AbstractCoordinate {
 
 	/**
 	 * @param other
-	 *            zu uebergebendes Coordinate-Objekt
-	 * @return double-Wert der berechneten Entfernung in KM
+	 *            the other Coordinate-Object
+	 * @return the real distance in km as a double-value
 	 * 
-	 *         Berechnet mit Hilfe der Haversine-Formel die tatsächliche
-	 *         Entfernung zwischen zwei GPS-Koordinaten in km.
-	 *
+	 *         Calculates with the haversine-formula the real distance between
+	 *         the two coordinates.
+	 * 
 	 */
 	public double getRealDistance(Coordinate other) throws CoordinateNullException {
 

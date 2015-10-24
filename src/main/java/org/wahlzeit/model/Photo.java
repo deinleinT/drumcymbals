@@ -69,7 +69,7 @@ public class Photo extends DataObject {
 
 	protected PhotoId id = null;
 	
-	//Coordinate Attribut hinzugefuegt
+	//added in the context of adap-hw03
 	protected AbstractCoordinate location;
 	
 	
@@ -146,7 +146,7 @@ public class Photo extends DataObject {
 	Key parent = ObjectManager.applicationRootKey;
 
 	/**
-	 *bearbeitet
+	 * changed in context of adap-hw03
 	 */
 	public Photo() {
 		id = PhotoId.getNextId();
@@ -155,7 +155,7 @@ public class Photo extends DataObject {
 	}
 
 	/**
-	 * bearbeitet
+	 * changed in context of adap-hw03
 	 * 
 	 * @methodtype constructor
 	 */
@@ -166,7 +166,7 @@ public class Photo extends DataObject {
 	}
 	
 	/**
-	 * ergeanzt
+	 * added in context of adap-hw03
 	 */
 	public Photo(PhotoId myId, Double latitude, Double longitude) {
 		id = myId;
@@ -175,7 +175,7 @@ public class Photo extends DataObject {
 	}
 
 	/**
-	 * ergeanzt
+	 * added in context of adap-hw03
 	 */
 	public Photo(PhotoId myId, AbstractCoordinate location) {
 		id = myId;
