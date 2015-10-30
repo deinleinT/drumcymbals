@@ -13,50 +13,51 @@ import org.junit.Test;
  */
 public class CoordinateCreateInstanceTest {
 
-	AbstractCoordinate coordinate;
+	Coordinate coordinate;
+	CoordinateFactory coordinateFactory = CoordinateFactory.getInstance();
 
 	/**
 	 * The FactoryMethod gets two null-Parameter. It has to return a
-	 * CoordinateNull-Object.
+	 * NullCoordinate-Object.
 	 * 
 	 */
 	@Test
 	public void testCoordinateNullTwoNullParameters() {
-		coordinate = CoordinateFactory.getCoordinate(null, null);
-		assertTrue(coordinate.isNull);
+		coordinate = coordinateFactory.createCoordinate(null, null);
+		assertTrue(coordinate.isNullObject());
 	}
 
 	/**
 	 * The FactoryMethod gets one null-Parameter. It has to return a
-	 * CoordinateNull-Object.
+	 * NullCoordinate-Object.
 	 * 
 	 */
 	@Test
 	public void testCoordinateNullLatitudeNullParameter() {
-		coordinate = CoordinateFactory.getCoordinate(null, 45.23);
-		assertTrue(coordinate.isNull);
+		coordinate = coordinateFactory.createCoordinate(null, 45.23);
+		assertTrue(coordinate.isNullObject());
 	}
 
 	/**
 	 * The FactoryMethod gets one null-Parameter. It has to return a
-	 * CoordinateNull-Object.
+	 * NullCoordinate-Object.
 	 * 
 	 */
 	@Test
 	public void testCoordinateNullLongitudeNullParameter() {
-		coordinate = CoordinateFactory.getCoordinate(45.23, null);
-		assertTrue(coordinate.isNull);
+		coordinate = coordinateFactory.createCoordinate(45.23, null);
+		assertTrue(coordinate.isNullObject());
 	}
 
 	/**
 	 * The FactoryMethod gets one null-Parameter. It has to return a
-	 * Coordinate-Object.
+	 * NullCoordinate-Object.
 	 * 
 	 */
 	@Test
 	public void testCoordinateObject() {
-		coordinate = CoordinateFactory.getCoordinate(45.23, 23.23);
-		assertFalse(coordinate.isNull);
+		coordinate = coordinateFactory.createCoordinate(45.23, 23.23);
+		assertFalse(coordinate.isNullObject());
 	}
 
 }

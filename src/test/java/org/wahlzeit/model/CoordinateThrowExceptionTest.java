@@ -4,113 +4,114 @@ import org.junit.Test;
 
 public class CoordinateThrowExceptionTest {
 
-	AbstractCoordinate coordinate;
-
+	Coordinate coordinate;
+	CoordinateFactory coordinateFactory = CoordinateFactory.getInstance();
+	
 	/**
 	 * TestMethod to check the correct behaviour, when the getLatitude()-method
-	 * will be executed on a CoordinateNull-Object (it has to throw a
-	 * CoordinateNullException).
+	 * will be executed on a NullCoordinate-Object (it has to throw a
+	 * NullCoordinateException).
 	 * 
 	 */
-	@Test(expected = CoordinateNullException.class)
-	public void testNullExceptionWhileGetLatitude() throws CoordinateNullException {
+	@Test(expected = NullCoordinateException.class)
+	public void testNullExceptionWhileGetLatitude() throws NullCoordinateException {
 
-		coordinate = CoordinateFactory.getCoordinate(null, null);
+		coordinate = coordinateFactory.createCoordinate(null, null);
 		coordinate.getLatitude();
 	}
 
 	/**
 	 * TestMethod to check the correct behaviour, when the getLongitude()-method
-	 * will be executed on a CoordinateNull-Object (it has to throw a
-	 * CoordinateNullException).
+	 * will be executed on a NullCoordinate-Object (it has to throw a
+	 * NullCoordinateException).
 	 * 
 	 */
-	@Test(expected = CoordinateNullException.class)
-	public void testNullExceptionWhileGetLongitude() throws CoordinateNullException {
+	@Test(expected = NullCoordinateException.class)
+	public void testNullExceptionWhileGetLongitude() throws NullCoordinateException {
 
-		coordinate = CoordinateFactory.getCoordinate(null, null);
+		coordinate = coordinateFactory.createCoordinate(null, null);
 		coordinate.getLongitude();
 	}
 
 	/**
 	 * TestMethod to check the correct behaviour, when the
 	 * getLatitudinalDistance()-method will be executed on a
-	 * CoordinateNull-Object (it has to throw a CoordinateNullException).
+	 * NullCoordinate-Object (it has to throw a NullCoordinateException).
 	 * 
 	 */
-	@Test(expected = CoordinateNullException.class)
-	public void testNullExceptionWhileGetLatitudinalDistance() throws CoordinateNullException {
+	@Test(expected = NullCoordinateException.class)
+	public void testNullExceptionWhileGetLatitudinalDistance() throws NullCoordinateException {
 
-		coordinate = CoordinateFactory.getCoordinate(null, null);
-		Coordinate anotherCoordinate = (Coordinate) CoordinateFactory.getCoordinate(34.43, 3.33);
+		coordinate = CoordinateFactory.getInstance().createCoordinate(null, null);
+		RealCoordinate anotherCoordinate = (RealCoordinate) coordinateFactory.createCoordinate(34.43, 3.33);
 		coordinate.getLatitudinalDistance(anotherCoordinate);
 	}
 
 	/**
 	 * TestMethod to check the correct behaviour, when the
 	 * getLongitudinalDistance()-method will be executed on a
-	 * CoordinateNull-Object (it has to throw a CoordinateNullException).
+	 * NullCoordinate-Object (it has to throw a NullCoordinateException).
 	 * 
 	 */
-	@Test(expected = CoordinateNullException.class)
-	public void testNullExceptionWhileGetLongitudinalDistance() throws CoordinateNullException {
+	@Test(expected = NullCoordinateException.class)
+	public void testNullExceptionWhileGetLongitudinalDistance() throws NullCoordinateException {
 
-		coordinate = CoordinateFactory.getCoordinate(null, null);
-		Coordinate anotherCoordinate = (Coordinate) CoordinateFactory.getCoordinate(34.43, 3.33);
+		coordinate = CoordinateFactory.getInstance().createCoordinate(null, null);
+		RealCoordinate anotherCoordinate = (RealCoordinate) coordinateFactory.createCoordinate(34.43, 3.33);
 		coordinate.getLongitudinalDistance(anotherCoordinate);
 	}
 
 	/**
 	 * TestMethod to check the correct behaviour, when the
 	 * getLongitudinalDistance()-method will be executed on a
-	 * CoordinateNull-Object (it has to throw a CoordinateNullException).
+	 * NullCoordinate-Object (it has to throw a NullCoordinateException).
 	 * 
 	 */
-	@Test(expected = CoordinateNullException.class)
-	public void testNullExceptionWhileSetLatitude() throws CoordinateNullException {
+	@Test(expected = NullCoordinateException.class)
+	public void testNullExceptionWhileSetLatitude() throws NullCoordinateException {
 
-		coordinate = CoordinateFactory.getCoordinate(null, null);
+		coordinate = coordinateFactory.createCoordinate(null, null);
 		coordinate.setLatitude(34);
 	}
 
 	/**
 	 * TestMethod to check the correct behaviour, when the setLongitude()-method
-	 * will be executed on a CoordinateNull-Object (it has to throw a
-	 * CoordinateNullException).
+	 * will be executed on a NullCoordinate-Object (it has to throw a
+	 * NullCoordinateException).
 	 * 
 	 */
-	@Test(expected = CoordinateNullException.class)
-	public void testNullExceptionWhileSetLongitude() throws CoordinateNullException {
+	@Test(expected = NullCoordinateException.class)
+	public void testNullExceptionWhileSetLongitude() throws NullCoordinateException {
 
-		coordinate = CoordinateFactory.getCoordinate(null, null);
+		coordinate = coordinateFactory.createCoordinate(null, null);
 		coordinate.setLongitude(34);
 	}
 
 	/**
 	 * TestMethod to check the correct behaviour, when the
-	 * getRealDistance()-method will be executed on a CoordinateNull-Object (it
-	 * has to throw a CoordinateNullException).
+	 * getRealDistance()-method will be executed on a NullCoordinate-Object (it
+	 * has to throw a NullCoordinateException).
 	 * 
 	 */
-	@Test(expected = CoordinateNullException.class)
-	public void testNullExceptionWhileGetRealDistance() throws CoordinateNullException {
+	@Test(expected = NullCoordinateException.class)
+	public void testNullExceptionWhileGetRealDistance() throws NullCoordinateException {
 
-		coordinate = CoordinateFactory.getCoordinate(null, null);
-		Coordinate anotherCoordinate = (Coordinate) CoordinateFactory.getCoordinate(34.43, 3.33);
-		coordinate.getRealDistance(anotherCoordinate);
+		coordinate = coordinateFactory.createCoordinate(null, null);
+		RealCoordinate anotherCoordinate = (RealCoordinate) coordinateFactory.createCoordinate(34.43, 3.33);
+		coordinate.getRealDistanceWithHaversineFormula(anotherCoordinate);
 	}
 
 	/**
 	 * TestMethod to check the correct behaviour, when the getDistance()-method
-	 * will be executed on a CoordinateNull-Object (it has to throw a
-	 * CoordinateNullException).
+	 * will be executed on a NullCoordinate-Object (it has to throw a
+	 * NullCoordinateException).
 	 * 
 	 */
-	@Test(expected = CoordinateNullException.class)
-	public void testNullExceptionWhileGetDistance() throws CoordinateNullException {
+	@Test(expected = NullCoordinateException.class)
+	public void testNullExceptionWhileGetDistance() throws NullCoordinateException {
 
-		coordinate = CoordinateFactory.getCoordinate(null, null);
-		Coordinate anotherCoordinate = (Coordinate) CoordinateFactory.getCoordinate(34.43, 3.33);
+		coordinate = coordinateFactory.createCoordinate(null, null);
+		RealCoordinate anotherCoordinate = (RealCoordinate) coordinateFactory.createCoordinate(34.43, 3.33);
 		coordinate.getDistance(anotherCoordinate);
 	}
 
@@ -121,7 +122,7 @@ public class CoordinateThrowExceptionTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testWrongLatitudeOversizedNegativeValue() {
-		coordinate = CoordinateFactory.getCoordinate(-91.0, 0.0);
+		coordinate = coordinateFactory.createCoordinate(-91.0, 0.0);
 	}
 
 	/**
@@ -131,7 +132,7 @@ public class CoordinateThrowExceptionTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testWrongLatitudeOversizedPositivValue() {
-		coordinate = CoordinateFactory.getCoordinate(100.0, 0.0);
+		coordinate = coordinateFactory.createCoordinate(100.0, 0.0);
 	}
 
 	/**
@@ -141,7 +142,7 @@ public class CoordinateThrowExceptionTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testWrongLongitudeOversizedNegativeValue() {
-		coordinate = CoordinateFactory.getCoordinate(0.0, -181.0);
+		coordinate = coordinateFactory.createCoordinate(0.0, -181.0);
 	}
 
 	/**
@@ -151,7 +152,9 @@ public class CoordinateThrowExceptionTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testWrongLongitudeOversizedPositiveValue() {
-		coordinate = CoordinateFactory.getCoordinate(0.0, 181.0);
+		coordinate = coordinateFactory.createCoordinate(0.0, 181.0);
 	}
+	
+
 
 }

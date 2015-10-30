@@ -38,7 +38,7 @@ import java.util.Map;
  * A photo represents a user-provided (uploaded) photo.
  */
 @Entity
-public class Photo extends DataObject {
+public abstract class Photo extends DataObject {
 
 	/**
 	 *
@@ -68,78 +68,64 @@ public class Photo extends DataObject {
 	public static final int MAX_THUMB_PHOTO_HEIGHT = 150;
 
 	protected PhotoId id = null;
-	
-	//added in the context of adap-hw03
-	protected AbstractCoordinate location;
-	
-	
-	public AbstractCoordinate getLocation() {
-		return location;
-	}
 
-	public void setLocation(AbstractCoordinate location) {
-		this.location = location;
-	}
-	//
-	
-	
 	/**
 	 *
 	 */
 	protected String ownerId;
-	
+
 	/**
-	 * Each photo can be viewed in different sizes (XS, S, M, L, XL)
-	 * Images are pre-computed in these sizes to optimize bandwidth when requested.
+	 * Each photo can be viewed in different sizes (XS, S, M, L, XL) Images are
+	 * pre-computed in these sizes to optimize bandwidth when requested.
 	 */
 	@Ignore
 	transient protected Map<PhotoSize, Image> images = new ArrayMap<PhotoSize, Image>();
-	
+
 	/**
 	 *
 	 */
 	protected boolean ownerNotifyAboutPraise = false;
 	protected EmailAddress ownerEmailAddress = EmailAddress.EMPTY;
 	protected Language ownerLanguage = Language.ENGLISH;
-	
+
 	/**
 	 *
 	 */
 	protected int width;
 	protected int height;
 	protected PhotoSize maxPhotoSize = PhotoSize.MEDIUM; // derived
-	
+
 	/**
 	 *
 	 */
 	protected Tags tags = Tags.EMPTY_TAGS;
-	
+
 	/**
 	 *
 	 */
 	protected PhotoStatus status = PhotoStatus.VISIBLE;
-	
+
 	/**
 	 *
 	 */
 	protected int praiseSum = 10;
 	protected int noVotes = 1;
 	protected int noVotesAtLastNotification = 1;
-	
+
 	/**
 	 *
 	 */
 	protected long creationTime = System.currentTimeMillis();
-	
+
 	/**
 	 * The default type is jpg
 	 */
 	protected String ending = "jpg";
-	
+
 	/**
 	 *
 	 */
-	//TODO: change it to a single long
+	// TODO: change it to a single long
 	@Id
 	Long idLong;
 	@Parent
@@ -147,10 +133,12 @@ public class Photo extends DataObject {
 
 	/**
 	 * changed in context of adap-hw03
+	 * 
+	 * @methodtype constructor
 	 */
 	public Photo() {
 		id = PhotoId.getNextId();
-		location=CoordinateFactory.getCoordinate(null, null);
+		location = CoordinateFactory.getInstance().createCoordinate(null, null);
 		incWriteCount();
 	}
 
@@ -161,28 +149,67 @@ public class Photo extends DataObject {
 	 */
 	public Photo(PhotoId myId) {
 		id = myId;
-		location=CoordinateFactory.getCoordinate(null, null);
-		incWriteCount();
-	}
-	
-	/**
-	 * added in context of adap-hw03
-	 */
-	public Photo(PhotoId myId, Double latitude, Double longitude) {
-		id = myId;
-		location=CoordinateFactory.getCoordinate(latitude, longitude);
+		location = CoordinateFactory.getInstance().createCoordinate(null, null);
 		incWriteCount();
 	}
 
 	/**
 	 * added in context of adap-hw03
+	 * 
+	 * @methodtype constructor
 	 */
-	public Photo(PhotoId myId, AbstractCoordinate location) {
+	public Photo(PhotoId myId, Double latitude, Double longitude) {
 		id = myId;
-		this.location=location;
+		location = CoordinateFactory.getInstance().createCoordinate(latitude, longitude);
+		incWriteCount();
+	}
+
+	/**
+	 * added in context of adap-hw03
+	 * 
+	 * @methodtype constructor
+	 */
+	public Photo(PhotoId myId, RealCoordinate location) {
+		id = myId;
+		this.location = location;
+		incWriteCount();
+	}
+
+	// added in the context of adap-hw03 + adap-hw04
+	protected Coordinate location;
+
+	/**
+	 * @return the location
+	 * @methodtype get
+	 */
+	public Coordinate getLocation() {
+		return location;
+	}
+
+	/**
+	 * @param location
+	 * @methodtype set
+	 */
+	public void setLocation(RealCoordinate location) {
+		this.location = checkLocationValue(location);
 		incWriteCount();
 	}
 	
+	/**
+	 * @param location
+	 * @return the location-object or a NullCoordinate-Object
+	 * @methodtype assertion
+	 */
+	private Coordinate checkLocationValue(RealCoordinate location) {
+		if(location==null){
+			return CoordinateFactory.getInstance().createCoordinate(null, null);
+		}else {
+			return location;
+		}
+	}
+
+	//
+
 	/**
 	 * @methodtype get
 	 */
@@ -430,7 +457,6 @@ public class Photo extends DataObject {
 		return creationTime;
 	}
 
-
 	public String getEnding() {
 		return ending;
 	}
@@ -453,6 +479,5 @@ public class Photo extends DataObject {
 		noVotesAtLastNotification = noVotes;
 		incWriteCount();
 	}
-	
-	
+
 }

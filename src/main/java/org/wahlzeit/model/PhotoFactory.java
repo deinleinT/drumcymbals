@@ -20,20 +20,20 @@
 
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.LogBuilder;
-
 import java.util.logging.Logger;
 
 /**
  * An Abstract Factory for creating photos and related objects.
  */
-public class PhotoFactory {
+public abstract class PhotoFactory {
 
-	private static final Logger log = Logger.getLogger(PhotoFactory.class.getName());
-	/**
-	 * Hidden singleton instance; needs to be initialized from the outside.
-	 */
-	private static PhotoFactory instance = null;
+	protected static final Logger log = Logger.getLogger(PhotoFactory.class.getName());
+	
+	//adap-hw04
+	// /** 
+	// * Hidden singleton instance; needs to be initialized from the outside.
+	// */
+	// private static PhotoFactory instance = null;
 
 	/**
 	 *
@@ -46,62 +46,74 @@ public class PhotoFactory {
 	 * Hidden singleton instance; needs to be initialized from the outside.
 	 */
 	public static void initialize() {
-		getInstance(); // drops result due to getInstance() side-effects
+		// getInstance(); // drops result due to getInstance() side-effects
+		DrumcymbalPhotoFactory.getInstance();
 	}
 
 	/**
-	 * Public singleton access method.
+	 * added during adap-hw04
+	 * 
+	 * @return PhotoFactory
 	 */
 	public static synchronized PhotoFactory getInstance() {
-		if (instance == null) {
-			log.config(LogBuilder.createSystemMessage().addAction("setting generic PhotoFactory").toString());
-			setInstance(new PhotoFactory());
-		}
-
-		return instance;
+		return DrumcymbalPhotoFactory.getInstance();
 	}
 
-	/**
-	 * Method to set the singleton instance of PhotoFactory.
-	 */
-	protected static synchronized void setInstance(PhotoFactory photoFactory) {
-		if (instance != null) {
-			throw new IllegalStateException("attempt to initalize PhotoFactory twice");
-		}
-
-		instance = photoFactory;
-	}
+	//adap-hw04
+	// /**
+	// * Public singleton access method.
+	// */
+	// public static synchronized PhotoFactory getInstance() {
+	// if (instance == null) {
+	// log.config(LogBuilder.createSystemMessage().addAction("setting generic
+	// PhotoFactory").toString());
+	// setInstance(new PhotoFactory());
+	// }
+	//
+	// return instance;
+	// }
+	//
+	// /**
+	// * Method to set the singleton instance of PhotoFactory.
+	// */
+	// protected static synchronized void setInstance(PhotoFactory photoFactory)
+	// {
+	// if (instance != null) {
+	// throw new IllegalStateException("attempt to initalize PhotoFactory
+	// twice");
+	// }
+	//
+	// instance = photoFactory;
+	// }
 
 	/**
 	 * @methodtype factory
 	 */
-	public Photo createPhoto() {
-		return new Photo();
-	}
+	public abstract Photo createPhoto();
 
 	/**
 	 * Creates a new photo with the specified id
 	 */
-	public Photo createPhoto(PhotoId id) {
-		return new Photo(id);
-	}
+	public abstract Photo createPhoto(PhotoId id);
 
 	/**
-	 * Loads a photo. The Java object is loaded from the Google Datastore, the Images in all sizes are loaded from the
-	 * Google Cloud storage.
+	 * Loads a photo. The Java object is loaded from the Google Datastore, the
+	 * Images in all sizes are loaded from the Google Cloud storage.
 	 */
 	public Photo loadPhoto(PhotoId id) {
-	   /* Photo result =
-                OfyService.ofy().load().type(Photo.class).ancestor(KeyFactory.createKey("Application", "Wahlzeit")).filter(Photo.ID, id).first().now();
-        for (PhotoSize size : PhotoSize.values()) {
-            GcsFilename gcsFilename = new GcsFilename("picturebucket", filename);
-
-
-
-        }*/
+		/*
+		 * Photo result =
+		 * OfyService.ofy().load().type(Photo.class).ancestor(KeyFactory.
+		 * createKey("Application", "Wahlzeit")).filter(Photo.ID,
+		 * id).first().now(); for (PhotoSize size : PhotoSize.values()) {
+		 * GcsFilename gcsFilename = new GcsFilename("picturebucket", filename);
+		 * 
+		 * 
+		 * 
+		 * }
+		 */
 		return null;
 	}
-
 
 	/**
 	 *

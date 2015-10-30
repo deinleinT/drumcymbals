@@ -7,6 +7,28 @@ package org.wahlzeit.model;
  *
  */
 public class CoordinateFactory {
+	
+	private static CoordinateFactory singleton = null;
+
+	/**
+	 * @methodtype private default-constructor for singleton-implementation
+	 */
+	private CoordinateFactory() {
+	}
+	
+	
+	/**
+	 * @return Singleton-Instance of CoordinateFactory
+	 * 
+	 * @methodtype factory
+	 */
+	public static synchronized CoordinateFactory getInstance(){
+		if(singleton==null){
+			singleton = new CoordinateFactory();
+		}
+		
+		return singleton;
+	}
 
 	/**
 	 * Factory-method
@@ -17,11 +39,11 @@ public class CoordinateFactory {
 	 *         returns a CoordinateNull-Object (NullObject), if both parameter
 	 *         are double-values, this method returns a Coordinate-Object
 	 */
-	public static AbstractCoordinate getCoordinate(Double latitude, Double longitude) {
+	public Coordinate createCoordinate(Double latitude, Double longitude) {
 		if (latitude == null || longitude == null) {
-			return CoordinateNull.getInstance();
+			return NullCoordinate.getInstance();
 		} else {
-			return new Coordinate(latitude, longitude);
+			return new RealCoordinate(latitude, longitude);
 		}
 	}
 

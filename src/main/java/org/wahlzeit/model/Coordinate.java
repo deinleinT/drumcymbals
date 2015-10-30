@@ -1,84 +1,141 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.services.DataObject;
+import org.wahlzeit.services.ObjectManager;
+
+import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Parent;
+
 /**
- * The Coordinates of a Photo, with Latitude and Longitude.
+ * Represents a Coordinate in decimal degree with latitude and longitude.
+ * 
  * 
  * @author ThomasDeinlein
  *
  */
-public class Coordinate extends AbstractCoordinate {
+@Entity
+public abstract class Coordinate extends DataObject {
 
+	//Values important for DataStore
+	@Id
+	private String idLong = "coordinate";
+	@Parent
+	Key parent = ObjectManager.applicationRootKey;
+	//
+
+	protected boolean isNull;
+	protected double latitude;
+	protected double longitude;
+
+	/**
+	 * @methodtype default-constructor
+	 */
+	public Coordinate() {
+	}
+
+	/**
+	 * Constructor to set the latitude and longitude. Checks, whether the values
+	 * have valid values.
+	 * 
+	 * @param latitude
+	 * @param longitude
+	 * @methodtype constructor
+	 */
 	public Coordinate(double latitude, double longitude) {
-		super(latitude, longitude);
+
+		assertIsLatitudeValueValid(latitude);
+		assertIsLongitudeValueValid(longitude);
+
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	/**
-	 * @param other
-	 *            the other Coordinate-Object
-	 * @return the calculated distance between the coordinates as a double-value
-	 * 
-	 *         Calculates the distance of two coordinates with the Pythagoras'
-	 *         theorem.
+	 * @return value of latitude
+	 * @throws NullCoordinateException
+	 *             if this method is executed on NullCoordinate-Object
+	 * @methodtype get
 	 */
-	public double getDistance(Coordinate other) throws CoordinateNullException {
-
-		double latitudeDistanceSquare = Math.pow(this.getLatitudinalDistance(other), 2);
-		double longitudeDistanceSquare = Math.pow(this.getLongitudinalDistance(other), 2);
-
-		return Math.sqrt((latitudeDistanceSquare + longitudeDistanceSquare));
+	public double getLatitude() throws NullCoordinateException {
+		return latitude;
 	}
 
 	/**
-	 * @param other
-	 *            the other Coordinate-Object
-	 * @return distance between the latitude-values of both coordinates as
-	 *         double-value
-	 * 
-	 *         Calculates other.latitude - this.latitude and returns the
-	 *         absolute value of this value.
-	 * 
+	 * @param latitude
+	 * @throws NullCoordinateException
+	 *             if this method is executed on NullCoordinate-Object
+	 * @methodtype set
 	 */
-	public double getLatitudinalDistance(Coordinate other) throws CoordinateNullException {
-		return Math.abs(other.getLatitude() - this.getLatitude());
+	public void setLatitude(double latitude) throws NullCoordinateException {
+		assertIsLatitudeValueValid(latitude);
+		this.latitude = latitude;
 	}
 
 	/**
-	 * @param other
-	 *            the other Coordinate-Object
-	 * @return distance between the latitude-values of both coordinates as
-	 *         double-value
-	 * 
-	 *         Calculates other.longitude - this.longitude and returns the
-	 *         absolute value of this value.
+	 * @return value of longitude
+	 * @throws NullCoordinateException
+	 *             if this method is executed on NullCoordinate-Object
+	 * @methodtype get
 	 * 
 	 */
-	public double getLongitudinalDistance(Coordinate other) throws CoordinateNullException {
-
-		return Math.abs(other.getLongitude() - this.getLongitude());
+	public double getLongitude() throws NullCoordinateException {
+		return longitude;
 	}
 
 	/**
-	 * @param other
-	 *            the other Coordinate-Object
-	 * @return the real distance in km as a double-value
-	 * 
-	 *         Calculates with the haversine-formula the real distance between
-	 *         the two coordinates.
-	 * 
+	 * @param longitude
+	 * @throws NullCoordinateException
+	 *             if this method is execute on NullCoordinate-Object
+	 * @methodtype set
 	 */
-	public double getRealDistance(Coordinate other) throws CoordinateNullException {
+	public void setLongitude(double longitude) throws NullCoordinateException {
+		assertIsLongitudeValueValid(longitude);
+		this.longitude = longitude;
+	}
 
-		int radius = 6371;
+	/**
+	 * @return flag the check, whether this instance is type of NullCoordinate
+	 *         or RealCoordinate
+	 * @methodtype boolean
+	 */
+	public boolean isNullObject() {
+		return isNull;
+	}
 
-		double lat = Math.toRadians(other.getLatitude() - this.getLatitude());
-		double lon = Math.toRadians(other.getLongitude() - this.getLongitude());
+	public abstract double getRealDistanceWithHaversineFormula(RealCoordinate other) throws NullCoordinateException;
 
-		double firstSum = Math.sin(lat / 2) * Math.sin(lat / 2) + Math.cos(Math.toRadians(this.getLatitude()))
-				* Math.cos(Math.toRadians(other.getLatitude())) * Math.sin(lon / 2) * Math.sin(lon / 2);
-		double secondeSum = 2 * Math.atan2(Math.sqrt(firstSum), Math.sqrt(1 - firstSum));
-		double realDistanceInKm = radius * secondeSum;
+	public abstract double getLongitudinalDistance(RealCoordinate other) throws NullCoordinateException;
 
-		return realDistanceInKm;
+	public abstract double getLatitudinalDistance(RealCoordinate other) throws NullCoordinateException;
+
+	public abstract double getDistance(RealCoordinate other) throws NullCoordinateException;
+
+	/**
+	 * Checks, whether the double-value for the longitude is valid. |
+	 * 
+	 * @param longitude
+	 * @methodtype assertion
+	 * @methodproperties primitive
+	 */
+	private void assertIsLongitudeValueValid(double longitude) {
+		if (longitude > 180.0 || longitude < -180.0) {
+			throw new IllegalArgumentException("Invalid Value. Latitue is between 0 - 180 or 0 - (-180) degrees.");
+		}
+	}
+
+	/**
+	 * Checks, whether the double-value for the latitude is valid. |
+	 * 
+	 * @param latitude
+	 * @methodtype assertion
+	 * @methodproperties primitive
+	 */
+	private void assertIsLatitudeValueValid(double latitude) {
+		if (latitude > 90.0 || latitude < -90.0) {
+			throw new IllegalArgumentException("Invalid Value. Latitue is between 0 - 90 or 0 - (-90) degrees.");
+		}
 	}
 
 }
