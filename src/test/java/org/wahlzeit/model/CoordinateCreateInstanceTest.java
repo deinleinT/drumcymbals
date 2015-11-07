@@ -23,8 +23,8 @@ public class CoordinateCreateInstanceTest {
 	 */
 	@Test
 	public void testCoordinateNullTwoNullParameters() {
-		coordinate = coordinateFactory.createCoordinate(null, null);
-		assertTrue(coordinate.isNullObject());
+		coordinate = coordinateFactory.createNullCoordinate();
+		assertTrue(coordinate instanceof NullCoordinate);
 	}
 
 	/**
@@ -32,32 +32,46 @@ public class CoordinateCreateInstanceTest {
 	 * NullCoordinate-Object.
 	 * 
 	 */
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testCoordinateNullLatitudeNullParameter() {
-		coordinate = coordinateFactory.createCoordinate(null, 45.23);
-		assertTrue(coordinate.isNullObject());
+		coordinate = coordinateFactory.createSphericCoordinate(null, 45.23);
+
 	}
 
+	
+	//all following tests added during adap-hw05
+	
 	/**
-	 * The FactoryMethod gets one null-Parameter. It has to return a
-	 * NullCoordinate-Object.
-	 * 
-	 */
-	@Test
-	public void testCoordinateNullLongitudeNullParameter() {
-		coordinate = coordinateFactory.createCoordinate(45.23, null);
-		assertTrue(coordinate.isNullObject());
-	}
-
-	/**
-	 * The FactoryMethod gets one null-Parameter. It has to return a
-	 * NullCoordinate-Object.
+	 * The FactoryMethod gets two double-values.
 	 * 
 	 */
 	@Test
 	public void testCoordinateObject() {
-		coordinate = coordinateFactory.createCoordinate(45.23, 23.23);
-		assertFalse(coordinate.isNullObject());
+		coordinate = coordinateFactory.createSphericCoordinate(45.23, 23.23);
+		assertFalse(coordinate instanceof NullCoordinate);
 	}
+	
+	
+	@Test
+	public void testSphericCoordinateObject() {
+		
+		coordinate = coordinateFactory.createSphericCoordinate(45.23, 23.23);
+		assertFalse(coordinate instanceof NullCoordinate);
+		
+		coordinate = coordinateFactory.createSphericCoordinate(12.2, 122.2, 6733.34);
+		assertTrue(coordinate instanceof SphericCoordinate);
+		assertEquals(6733.34, ((SphericCoordinate)coordinate).getRadius(), 0.0);
+		
+	}
+	
+	@Test
+	public void testCartesianCoordinate(){
+		coordinate = coordinateFactory.createCartesianCoordinate(3.3, 4.4, 4.4);
+		assertTrue(coordinate instanceof CartesianCoordinate);
+	}
+	
+	
+	
+	//
 
 }

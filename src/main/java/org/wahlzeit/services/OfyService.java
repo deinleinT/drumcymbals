@@ -4,8 +4,10 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import org.wahlzeit.model.Administrator;
+import org.wahlzeit.model.CartesianCoordinate;
 import org.wahlzeit.model.Client;
 import org.wahlzeit.model.Coordinate;
+import org.wahlzeit.model.AbstractCoordinate;
 import org.wahlzeit.model.DrumcymbalPhoto;
 import org.wahlzeit.model.Globals;
 import org.wahlzeit.model.Guest;
@@ -14,13 +16,14 @@ import org.wahlzeit.model.Moderator;
 import org.wahlzeit.model.NullCoordinate;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoCase;
-import org.wahlzeit.model.RealCoordinate;
+import org.wahlzeit.model.SphericCoordinate;
 import org.wahlzeit.model.Tag;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.persistence.DatastoreAdapter.ImageWrapper;
 
 /**
- * A badly named class, to be renamed to ObjectifyService first, something better later.
+ * A badly named class, to be renamed to ObjectifyService first, something
+ * better later.
  * 
  * @review
  */
@@ -30,6 +33,14 @@ public class OfyService {
 	 * Register all entities at startup
 	 */
 	static {
+
+		factory().register(AbstractCoordinate.class);
+		factory().register(NullCoordinate.class);
+		factory().register(SphericCoordinate.class);
+		factory().register(CartesianCoordinate.class);
+		factory().register(Coordinate.class);
+		factory().register(Location.class);
+
 		factory().register(Photo.class);
 		factory().register(DrumcymbalPhoto.class);
 		factory().register(Globals.class);
@@ -41,10 +52,7 @@ public class OfyService {
 		factory().register(Guest.class);
 		factory().register(PhotoCase.class);
 		factory().register(ImageWrapper.class);
-		factory().register(Coordinate.class);
-		factory().register(Location.class);
-		factory().register(NullCoordinate.class);
-		factory().register(RealCoordinate.class);
+
 	}
 
 	public static Objectify ofy() {

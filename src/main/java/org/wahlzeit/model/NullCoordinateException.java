@@ -12,4 +12,7 @@ public class NullCoordinateException extends Exception {
 		super("No Coordinates available. Use CoordinateFactory to get a new intance of a Coordinate-Object.");
 	}
 
+	public NullCoordinateException(String message) {
+		super(message);
+	}
 }

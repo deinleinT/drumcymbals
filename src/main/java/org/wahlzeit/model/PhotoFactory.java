@@ -54,6 +54,7 @@ public abstract class PhotoFactory {
 	 * added during adap-hw04
 	 * 
 	 * @return PhotoFactory
+	 * @methodtype get
 	 */
 	public static synchronized PhotoFactory getInstance() {
 		return DrumcymbalPhotoFactory.getInstance();

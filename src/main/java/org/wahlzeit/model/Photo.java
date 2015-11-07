@@ -132,57 +132,55 @@ public abstract class Photo extends DataObject {
 	Key parent = ObjectManager.applicationRootKey;
 
 	/**
-	 * changed in context of adap-hw03
+	 * changed in context of adap-hw03 + adap-hw05
 	 * 
 	 * @methodtype constructor
 	 */
 	public Photo() {
 		id = PhotoId.getNextId();
-		location = CoordinateFactory.getInstance().createCoordinate(null, null);
 		incWriteCount();
 	}
 
 	/**
-	 * changed in context of adap-hw03
+	 * changed in context of adap-hw03 + adap-hw05
 	 * 
 	 * @methodtype constructor
 	 */
 	public Photo(PhotoId myId) {
 		id = myId;
-		location = CoordinateFactory.getInstance().createCoordinate(null, null);
 		incWriteCount();
 	}
 
 	/**
-	 * added in context of adap-hw03
+	 * added in context of adap-hw03 + adap-hw05
 	 * 
 	 * @methodtype constructor
 	 */
-	public Photo(PhotoId myId, Double latitude, Double longitude) {
+	public Photo(PhotoId myId, String locationName, Double latitude, Double longitude) {
 		id = myId;
-		location = CoordinateFactory.getInstance().createCoordinate(latitude, longitude);
+		this.location = new Location(locationName, CoordinateFactory.getInstance().createSphericCoordinate(latitude, longitude));
 		incWriteCount();
 	}
 
 	/**
-	 * added in context of adap-hw03
+	 * added in context of adap-hw03 + adap-hw05
 	 * 
 	 * @methodtype constructor
 	 */
-	public Photo(PhotoId myId, RealCoordinate location) {
+	public Photo(PhotoId myId, Location location) {
 		id = myId;
 		this.location = location;
 		incWriteCount();
 	}
 
-	// added in the context of adap-hw03 + adap-hw04
-	protected Coordinate location;
+	// added in the context of adap-hw03 + adap-hw04 + adap-hw05
+	protected Location location = new Location(null,null);
 
 	/**
 	 * @return the location
 	 * @methodtype get
 	 */
-	public Coordinate getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
@@ -190,24 +188,10 @@ public abstract class Photo extends DataObject {
 	 * @param location
 	 * @methodtype set
 	 */
-	public void setLocation(RealCoordinate location) {
-		this.location = checkLocationValue(location);
+	public void setLocation(Location location) {
+		this.location = location;
 		incWriteCount();
 	}
-	
-	/**
-	 * @param location
-	 * @return the location-object or a NullCoordinate-Object
-	 * @methodtype assertion
-	 */
-	private Coordinate checkLocationValue(RealCoordinate location) {
-		if(location==null){
-			return CoordinateFactory.getInstance().createCoordinate(null, null);
-		}else {
-			return location;
-		}
-	}
-
 	//
 
 	/**

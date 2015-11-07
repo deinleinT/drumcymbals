@@ -8,14 +8,11 @@ import com.googlecode.objectify.annotation.Subclass;
  * @author ThomasDeinlein
  *
  */
-@Subclass
+@Subclass(index=true)
 public class DrumcymbalPhoto extends Photo {
 
 	private String name = "";
 	private int size;
-
-	static {
-	}
 
 	/**
 	 * @methodtype constructor

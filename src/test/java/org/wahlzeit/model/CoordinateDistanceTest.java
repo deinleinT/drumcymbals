@@ -12,13 +12,13 @@ import org.junit.Test;
  */
 public class CoordinateDistanceTest {
 
-	private RealCoordinate location;
-	private RealCoordinate testCoordinate;
+	private SphericCoordinate sphericCoordinate1;
+	private SphericCoordinate sphericCoordinate2;	
 
 	@Before
 	public void setUp() throws Exception {
-		location = new RealCoordinate(0.0, 0.0);
-		testCoordinate = new RealCoordinate(0.0, 0.0);
+		sphericCoordinate1 = new SphericCoordinate(0.0, 0.0);
+		sphericCoordinate2 = new SphericCoordinate(0.0, 0.0);
 	}
 
 	/**
@@ -32,21 +32,21 @@ public class CoordinateDistanceTest {
 		 * result has to be 1.0
 		 * 
 		 */
-		location.setLatitude(1.0);
-		location.setLongitude(1.0);
+		sphericCoordinate1.setLatitude(1.0);
+		sphericCoordinate1.setLongitude(1.0);
 
-		assertEquals(1.0, location.getLatitudinalDistance(testCoordinate), 0.0);
+		assertEquals(1.0, sphericCoordinate1.getLatitudinalDistance(sphericCoordinate2), 0.0);
 
 		/*
 		 * location gets new coordinates (-1.0, 0.0) testCoordinate (-5.0,5.0)
 		 * result has to be 4.0
 		 */
-		location.setLatitude(-1.0);
-		location.setLongitude(0.0);
-		testCoordinate.setLatitude(-5.0);
-		testCoordinate.setLongitude(5.0);
+		sphericCoordinate1.setLatitude(-1.0);
+		sphericCoordinate1.setLongitude(0.0);
+		sphericCoordinate2.setLatitude(-5.0);
+		sphericCoordinate2.setLongitude(5.0);
 
-		assertEquals(4.0, location.getLatitudinalDistance(testCoordinate), 0.0);
+		assertEquals(4.0, sphericCoordinate1.getLatitudinalDistance(sphericCoordinate2), 0.0);
 	}
 
 	/**
@@ -60,21 +60,21 @@ public class CoordinateDistanceTest {
 		 * result has to be 1.0
 		 * 
 		 */
-		location.setLatitude(1.0);
-		location.setLongitude(1.0);
+		sphericCoordinate1.setLatitude(1.0);
+		sphericCoordinate1.setLongitude(1.0);
 
-		assertEquals(1.0, location.getLongitudinalDistance(testCoordinate), 1.0);
+		assertEquals(1.0, sphericCoordinate1.getLongitudinalDistance(sphericCoordinate2), 0.0);
 
 		/*
 		 * location gets new coordinates (4.0, -1.0) testCoordinate (-5.0,-3.0)
 		 * result has to be 2.0
 		 */
-		location.setLatitude(4.0);
-		location.setLongitude(-1.0);
-		testCoordinate.setLatitude(-5.0);
-		testCoordinate.setLongitude(-3.0);
+		sphericCoordinate1.setLatitude(4.0);
+		sphericCoordinate1.setLongitude(-1.0);
+		sphericCoordinate2.setLatitude(-5.0);
+		sphericCoordinate2.setLongitude(-3.0);
 
-		assertEquals(2.0, location.getLongitudinalDistance(testCoordinate), 0.0);
+		assertEquals(2.0, sphericCoordinate1.getLongitudinalDistance(sphericCoordinate2), 0.0);
 
 	}
 
@@ -90,12 +90,12 @@ public class CoordinateDistanceTest {
 		 * 
 		 * result determined via google maps, it has to be about 9305.376 km
 		 */
-		location.setLatitude(49.572680);
-		location.setLongitude(11.028427);
-		testCoordinate.setLatitude(37.427994);
-		testCoordinate.setLongitude(-122.170255);
+		sphericCoordinate1.setLatitude(49.572680);
+		sphericCoordinate1.setLongitude(11.028427);
+		sphericCoordinate2.setLatitude(37.427994);
+		sphericCoordinate2.setLongitude(-122.170255);
 
-		assertEquals(9305.376, location.getDistance(testCoordinate), 1.5);
+		assertEquals(9305.376, sphericCoordinate1.getDistance(sphericCoordinate2), 1.5);
 
 		/**
 		 * Calculates the real distance between the coordinates
@@ -103,45 +103,12 @@ public class CoordinateDistanceTest {
 		 * 
 		 * result determined via google maps, it has to be about 345.100 km
 		 */
-		location.setLatitude(49.460894);
-		location.setLongitude(11.132840);
-		testCoordinate.setLatitude(51.497557);
-		testCoordinate.setLongitude(7.454901);
+		sphericCoordinate1.setLatitude(49.460894);
+		sphericCoordinate1.setLongitude(11.132840);
+		sphericCoordinate2.setLatitude(51.497557);
+		sphericCoordinate2.setLongitude(7.454901);
 
-		assertEquals(345.100, location.getDistance(testCoordinate), 1.5);
-
-	}
-
-	/**
-	 * TestMethod for the getRealDistance-Method of RealCoordinate-Class
-	 */
-	@Test
-	public void testGetRealDistance() throws NullCoordinateException {
-		/**
-		 * Calculates the real distance between the coordinates
-		 * (49.460894,11.132840) and (51.497557,7.454901).
-		 * 
-		 * result determined via google maps, it has to be about 345.100 km
-		 */
-		location.setLatitude(49.460894);
-		location.setLongitude(11.132840);
-		testCoordinate.setLatitude(51.497557);
-		testCoordinate.setLongitude(7.454901);
-
-		assertEquals(345.100, location.getRealDistanceWithHaversineFormula(testCoordinate), 0.2);
-
-		/**
-		 * Calculates the real distance between the coordinates
-		 * (49.572680,11.028427) and (37.427994,-122.170255).
-		 * 
-		 * result determined via google maps, it has to be about 9305.376 km
-		 */
-		location.setLatitude(49.572680);
-		location.setLongitude(11.028427);
-		testCoordinate.setLatitude(37.427994);
-		testCoordinate.setLongitude(-122.170255);
-
-		assertEquals(9305.376, location.getRealDistanceWithHaversineFormula(testCoordinate), 2.5);
+		assertEquals(345.100, sphericCoordinate1.getDistance(sphericCoordinate2), 1.5);
 
 	}
 
@@ -151,11 +118,11 @@ public class CoordinateDistanceTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullParameter() throws NullCoordinateException {
-		location.getDistance(null);
-		location.getLatitudinalDistance(null);
-		location.getLongitudinalDistance(null);
-		location.setLatitude(-91.2);
-		location.setLongitude(-190.2);
+		sphericCoordinate1.getDistance(null);
+		sphericCoordinate1.getLatitudinalDistance(null);
+		sphericCoordinate1.getLongitudinalDistance(null);
+		sphericCoordinate1.setLatitude(-91.2);
+		sphericCoordinate1.setLongitude(-190.2);
 
 	}
 
