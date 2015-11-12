@@ -34,13 +34,6 @@ public class OfyService {
 	 */
 	static {
 
-		factory().register(AbstractCoordinate.class);
-		factory().register(NullCoordinate.class);
-		factory().register(SphericCoordinate.class);
-		factory().register(CartesianCoordinate.class);
-		factory().register(Coordinate.class);
-		factory().register(Location.class);
-
 		factory().register(Photo.class);
 		factory().register(DrumcymbalPhoto.class);
 		factory().register(Globals.class);

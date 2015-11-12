@@ -1,7 +1,5 @@
 package org.wahlzeit.model;
 
-import com.googlecode.objectify.annotation.Subclass;
-
 /**
  * 
  * NullObject of a Coordinate is part of NullObject-Pattern cooperates with
@@ -12,7 +10,7 @@ import com.googlecode.objectify.annotation.Subclass;
  * @author ThomasDeinlein
  * 
  */
-@Subclass(index=true)
+
 public class NullCoordinate extends AbstractCoordinate {
 
 	private static NullCoordinate singleton;
@@ -40,7 +38,22 @@ public class NullCoordinate extends AbstractCoordinate {
 
 	@Override
 	public boolean isEqual(Coordinate other) throws NullCoordinateException {
-		throw new NullCoordinateException("Coordinates aren't set. Comparison not possible.");
+		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Comparison not possible.");
+	}
+
+	@Override
+	protected double calculateDistance(Coordinate one) throws IllegalArgumentException, NullCoordinateException {
+		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Calculating the Distance not possible.");
+	}
+
+	@Override
+	protected CartesianCoordinate asCartesianCoordinate() throws NullCoordinateException {
+		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Calculating the Distance not possible.");
+	}
+
+	@Override
+	protected boolean compareValues(Coordinate other) throws NullCoordinateException {
+		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate.");
 	}
 
 }

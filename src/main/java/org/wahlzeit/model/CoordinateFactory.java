@@ -32,7 +32,7 @@ public class CoordinateFactory {
 	/**
 	 * @methodtype initialization
 	 */
-	public static void initialize() {
+	public static synchronized void initialize() {
 		getInstance();
 	}
 
@@ -75,8 +75,8 @@ public class CoordinateFactory {
 	 * @param x xValue
 	 * @param y yValue
 	 * @param z zValue
-	 * @return
-	 * @methodtype factory
+	 * @return CartesianCoordinate
+	 * @methodtype factory Helper
 	 */
 	public CartesianCoordinate createCartesianCoordinate(double x, double y, double z){
 		return new CartesianCoordinate(x, y, z);
@@ -96,7 +96,7 @@ public class CoordinateFactory {
 	/**
 	 * @param other
 	 *            the parameter, which shall be null-checked
-	 * @methodtype assertion
+	 * @methodtype assertion Helper
 	 * @methodproperty primitive
 	 */
 	protected void assertIsParameterNull(Object other) {

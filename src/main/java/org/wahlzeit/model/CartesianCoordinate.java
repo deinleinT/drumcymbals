@@ -1,8 +1,12 @@
 package org.wahlzeit.model;
 
-import com.googlecode.objectify.annotation.Subclass;
+/**
+ * Class that represents a Cartesian Coordinate with x-, y- and z-value.
+ * 
+ * @author ThomasDeinlein
+ *
+ */
 
-@Subclass(index = true)
 public class CartesianCoordinate extends AbstractCoordinate {
 
 	private double xValue;
@@ -69,35 +73,21 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.zValue = zValue;
 	}
 
-	@Override
-	public boolean isEqual(Coordinate other) {
-
-		if (other instanceof NullCoordinate) {
-			return false;
-		} else if (other == null) {
-			return false;
-		} else if (other instanceof SphericCoordinate) {
-			CartesianCoordinate otherCoordinate = ((SphericCoordinate) other).asCartesianCoordinate();
-			return compareValues(this, otherCoordinate);
-		} else if (other instanceof CartesianCoordinate) {
-			return compareValues(this, (CartesianCoordinate) other);
-		} else {
-			return false;
-		}
-
-	}
-
 	/**
+	 * @throws NullCoordinateException
 	 * @methodtype comparison
 	 * @methodproperties primitive
 	 */
-	private boolean compareValues(CartesianCoordinate cartesianCoordinate, CartesianCoordinate otherCoordinate) {
+	@Override
+	protected boolean compareValues(Coordinate otherCoordinate) throws NullCoordinateException {
+
+		CartesianCoordinate other = ((AbstractCoordinate) otherCoordinate).asCartesianCoordinate();
 
 		double delta = 0.3;
 
-		if (Math.abs(this.getXValue() - otherCoordinate.getXValue()) < delta
-				&& Math.abs(this.getYValue() - otherCoordinate.getYValue()) < delta
-				&& Math.abs(this.getZValue() - otherCoordinate.getZValue()) < delta) {
+		if (Math.abs(this.getXValue() - other.getXValue()) < delta
+				&& Math.abs(this.getYValue() - other.getYValue()) < delta
+				&& Math.abs(this.getZValue() - other.getZValue()) < delta) {
 			return true;
 		} else {
 			return false;
@@ -136,6 +126,38 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 		return CoordinateFactory.getInstance().createSphericCoordinate(lat, lon, radius);
 
+	}
+
+	/**
+	 * @return the distance between two sphericCoordinates in km
+	 * @methodtype helper
+	 * @methodtye primitive
+	 */
+	public double calculateDistanceBetweenTwoCartesianCoordinates(CartesianCoordinate other) {
+
+		double differenceOfXPow2 = Math.pow((this.getXValue() - other.getXValue()), 2);
+		double differenceOfYPow2 = Math.pow((this.getYValue() - other.getYValue()), 2);
+		double differenceOfZPow2 = Math.pow((this.getZValue() - other.getZValue()), 2);
+
+		return Math.sqrt(differenceOfXPow2 + differenceOfYPow2 + differenceOfZPow2);
+	}
+
+	/**
+	 * @methodtype helper
+	 * @methodproperties hook
+	 */
+	@Override
+	protected double calculateDistance(Coordinate othercoordinate)
+			throws IllegalArgumentException, NullCoordinateException {
+
+		CartesianCoordinate other = ((AbstractCoordinate) othercoordinate).asCartesianCoordinate();
+
+		return this.calculateDistanceBetweenTwoCartesianCoordinates(other);
+	}
+
+	@Override
+	protected CartesianCoordinate asCartesianCoordinate() {
+		return this;
 	}
 
 }

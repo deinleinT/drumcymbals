@@ -12,9 +12,11 @@ public class CoordinateSphericCartesianTest {
 	/**
 	 * Tests to check the isEqual-Method between spheric and cartesian
 	 * coordinates.
+	 * 
+	 * @throws NullCoordinateException
 	 */
 	@Test
-	public void testIsEqual() {
+	public void testIsEqual() throws NullCoordinateException {
 		CartesianCoordinate cartesian = coordinateFactory.createCartesianCoordinate(3, 4, 5);
 		SphericCoordinate spheric = coordinateFactory.createSphericCoordinate(53.120102354156, 45.0, 7.0710678118655);
 		assertTrue(cartesian.isEqual(spheric));
@@ -157,15 +159,38 @@ public class CoordinateSphericCartesianTest {
 
 		coordinate1 = coordinateFactory.createSphericCoordinate(49.572680, 11.028427, 6371.0);
 		coordinate2 = coordinateFactory.createSphericCoordinate(37.427994, -122.170255, 6371.0);
-		assertEquals(9305.376, coordinate1.getDistance(coordinate2), 1.5);
+		assertEquals(11680, coordinate1.getDistance(coordinate2), 1.5);
+		assertEquals(9305, coordinate1.calculateDistanceBetweenTwoSphericCoordinates(coordinate2), 1);
 
 		coordinate1 = coordinateFactory.createSphericCoordinate(49.460894, 11.132840, 6371.0);
 		coordinate2 = coordinateFactory.createSphericCoordinate(51.497557, 7.454901, 6371.0);
-		assertEquals(345.100, coordinate1.getDistance(coordinate2), 1.5);
+		assertEquals(410.10, coordinate1.getDistance(coordinate2), 1.5);
 
 		coordinate1 = coordinateFactory.createSphericCoordinate(49.460894, 11.132840);
 		coordinate2 = coordinateFactory.createSphericCoordinate(51.497557, 7.454901);
-		assertEquals(345.100, coordinate1.getDistance(coordinate2), 1.5);
+		assertEquals(410.10, coordinate1.getDistance(coordinate2), 1.5);
+	}
+
+	/**
+	 * Test to check the distance between spheric and cartesian coordinates
+	 * 
+	 * @throws NullCoordinateException
+	 */
+	@Test
+	public void testDistanceBetweenSphericAndCartesianCoordinates() throws NullCoordinateException {
+
+		SphericCoordinate spheric = coordinateFactory.createSphericCoordinate(49.460894, 11.132840);
+		CartesianCoordinate cartesian = coordinateFactory.createCartesianCoordinate(514.6045533210526268148,
+				646.889971655839811607, 6317.147815135589073912);
+		assertEquals(410, spheric.getDistance(cartesian), 5);
+		assertEquals(410, cartesian.getDistance(spheric), 5);
+
+		// Distance between Berlin (spheric) and London (caresian)
+		spheric = coordinateFactory.createSphericCoordinate(52.536577, 13.308628);
+		cartesian = coordinateFactory.createCartesianCoordinate(-8.792891929053, -11.057243052549, 6370.9843370101);
+		assertEquals(1500, spheric.getDistance(cartesian), 200);
+		assertEquals(1500, cartesian.getDistance(spheric), 200);
+
 	}
 
 	/**
@@ -236,28 +261,6 @@ public class CoordinateSphericCartesianTest {
 	public void testNullCoordinateIsEqual() throws NullCoordinateException {
 		Coordinate coordinate = CoordinateFactory.getInstance().createNullCoordinate();
 		coordinate.isEqual(coordinate);
-	}
-
-	/**
-	 * Test to check the distance between spheric and cartesian coordinates
-	 * 
-	 * @throws NullCoordinateException
-	 */
-	@Test
-	public void testDistanceBetweenSphericAndCartesianCoordinates() throws NullCoordinateException {
-
-		SphericCoordinate spheric = coordinateFactory.createSphericCoordinate(49.460894, 11.132840);
-		CartesianCoordinate cartesian = coordinateFactory.createCartesianCoordinate(514.6045533210526268148,
-				646.889971655839811607, 6317.147815135589073912);
-		assertEquals(345, spheric.getDistance(cartesian), 5);
-		assertEquals(345, cartesian.getDistance(spheric), 5);
-
-		// Distance between Berlin (spheric) and London (caresian)
-		spheric = coordinateFactory.createSphericCoordinate(52.536577, 13.308628);
-		cartesian = coordinateFactory.createCartesianCoordinate(-8.792891929053, -11.057243052549, 6370.9843370101);
-		assertEquals(1000, spheric.getDistance(cartesian), 200);
-		assertEquals(1000, cartesian.getDistance(spheric), 200);
-
 	}
 
 }

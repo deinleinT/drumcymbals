@@ -1,7 +1,5 @@
 package org.wahlzeit.model;
 
-import com.googlecode.objectify.annotation.Subclass;
-
 /**
  * The Coordinates of a Photo, with Latitude and Longitude.
  * 
@@ -9,7 +7,6 @@ import com.googlecode.objectify.annotation.Subclass;
  *
  */
 
-@Subclass(index=true)
 public class SphericCoordinate extends AbstractCoordinate {
 
 	private static final double EARTH_RADIUS_IN_KM = 6371.0;
@@ -150,7 +147,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * 
 	 * @return this SphericCoordinate represented as a CartesianCoordiante
 	 * 
-	 * @methodtype converter
+	 * @methodtype converter Query
 	 */
 	public CartesianCoordinate asCartesianCoordinate() {
 
@@ -162,6 +159,62 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double z = this.getRadius() * Math.cos(lon);
 
 		return CoordinateFactory.getInstance().createCartesianCoordinate(x, y, z);
+	}
+
+	/**
+	 * 
+	 * 
+	 * @throws NullCoordinateException
+	 * @methodtype comparison
+	 * @methodproperties primitive
+	 */
+	protected boolean compareValues(Coordinate other) throws NullCoordinateException {
+
+		CartesianCoordinate thisCoordinate = this.asCartesianCoordinate();
+		CartesianCoordinate otherCoordinate = ((AbstractCoordinate) other).asCartesianCoordinate();
+
+		return thisCoordinate.compareValues(otherCoordinate);
+
+	}
+
+	/**
+	 * @return the distance between two sphericCoordinates in km
+	 * @methodtype helper
+	 * @methodtye primitive
+	 */
+	public double calculateDistanceBetweenTwoSphericCoordinates(SphericCoordinate other) {
+
+		double lat1AsRadiant = Math.toRadians(this.getLatitude());
+		double lat2AsRadiant = Math.toRadians(other.getLatitude());
+		double deltaLongAsRadiant = Math.toRadians(this.getLongitudinalDistance(other));
+
+		double distance = Math.sin(lat1AsRadiant) * Math.sin(lat2AsRadiant)
+				+ Math.cos(lat1AsRadiant) * Math.cos(lat2AsRadiant) * Math.cos(deltaLongAsRadiant);
+
+		double returnValue = this.getRadius() * Math.acos(distance);
+
+		return returnValue;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.wahlzeit.model.AbstractCoordinate#calculateDistance(org.wahlzeit.
+	 * model.Coordinate)
+	 * 
+	 * @methodtype helper
+	 * 
+	 * @methodproperties hook
+	 */
+	@Override
+	protected double calculateDistance(Coordinate othercoordinate)
+			throws IllegalArgumentException, NullCoordinateException {
+
+		CartesianCoordinate thisCoordinate = this.asCartesianCoordinate();
+		CartesianCoordinate other = ((AbstractCoordinate) othercoordinate).asCartesianCoordinate();
+
+		return thisCoordinate.calculateDistanceBetweenTwoCartesianCoordinates(other);
 	}
 
 	/**
@@ -201,46 +254,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * @methodtype assertion * @methodproperies primitive
+	 * @methodtype assertion
+	 * @methodproperies primitive
 	 */
 	private void assertRadiusIsPositive(double radius) {
 		if (radius < 0.0) {
 			throw new IllegalArgumentException("Value of Radius not valid. Only positive Values are allowed.");
-		}
-	}
-
-	@Override
-	public boolean isEqual(Coordinate other) {
-
-		if (other instanceof NullCoordinate) {
-			return false;
-		} else if (other == null) {
-			return false;
-		} else if (other instanceof CartesianCoordinate) {
-			SphericCoordinate otherCoordinate = ((CartesianCoordinate) other).asSphericCoordinate();
-			return compareValues(this, otherCoordinate);
-		} else if (other instanceof SphericCoordinate) {
-			return compareValues(this, (SphericCoordinate) other);
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * @methodtype comparison
-	 * @methodproperties primitive
-	 */
-	private boolean compareValues(SphericCoordinate sphericCoordinate, SphericCoordinate otherCoordinate) {
-
-		double deltaRadius = 300;
-		double delta = 0.5;
-
-		if (Math.abs(this.getLatitude() - otherCoordinate.getLatitude()) < delta
-				&& Math.abs(this.getLongitude() - otherCoordinate.getLongitude()) < delta
-				&& Math.abs(this.getRadius() - otherCoordinate.getRadius()) < deltaRadius) {
-			return true;
-		} else {
-			return false;
 		}
 	}
 

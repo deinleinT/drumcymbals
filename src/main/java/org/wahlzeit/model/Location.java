@@ -1,32 +1,21 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.services.DataObject;
-import org.wahlzeit.services.ObjectManager;
-
-import com.google.appengine.api.datastore.Key;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Parent;
+import com.googlecode.objectify.annotation.Container;
 
 /**
- * Location Class
+ * Encapsulates a Location with a name and a Coordinate.
  * 
  * @author ThomasDeinlein
  *
  */
-@Entity
-public class Location extends DataObject {
 
-	// Datastore values
-	@Id
-	private String id = "locationId";
-	@Parent
-	Key parent = ObjectManager.applicationRootKey;
-	//
+public class Location extends DataObject {
 
 	private static final String NAME_NOT_SET = "Name not set";
 
 	protected String name = NAME_NOT_SET;
+	@Container
 	protected Coordinate coordinate = CoordinateFactory.getInstance().createNullCoordinate();
 
 	/**
@@ -41,7 +30,7 @@ public class Location extends DataObject {
 	 */
 	public Location(String name, Coordinate coordinate) {
 		this.name = checkName(name);
-		this.setCoordinate(checkCoordinate(coordinate));
+		this.coordinate = checkCoordinate(coordinate);
 	}
 
 	/**
@@ -64,20 +53,24 @@ public class Location extends DataObject {
 	}
 
 	/**
-	 * If name is null, the String "Name not set" will be returned.
-	 * 
-	 * @param name
-	 * @return "Name not set" if name is null
-	 * 
-	 * @methodtype assertion
+	 * @return
+	 * @methodtype get
 	 */
-	private String checkName(String name) {
-		return (name == null) ? (this.name = NAME_NOT_SET) : (this.name = name);
+	public Coordinate getCoordinate() {
+		return coordinate;
+	}
+
+	/**
+	 * @param coordinate
+	 * @methodtype set
+	 */
+	public void setCoordinate(Coordinate coordinate) {
+		this.coordinate = checkCoordinate(coordinate);
 	}
 
 	/**
 	 * Returns true, if name and coordinate of otherLocation are equals to this
-	 * location, otherwise false.
+	 * location, otherwise false. Uses isEqual-Method from Coordinate-Classes.
 	 * 
 	 * @param otherLocation
 	 *            the location to compare with
@@ -107,6 +100,18 @@ public class Location extends DataObject {
 	}
 
 	/**
+	 * If name is null, the String "Name not set" will be returned.
+	 * 
+	 * @param name
+	 * @return "Name not set" if name is null
+	 * 
+	 * @methodtype assertion
+	 */
+	private String checkName(String name) {
+		return (name == null) ? (this.name = NAME_NOT_SET) : (this.name = name);
+	}
+
+	/**
 	 * @param otherLocation
 	 * @methodtype assertion
 	 * @methodproperties primitive
@@ -118,22 +123,9 @@ public class Location extends DataObject {
 	}
 
 	/**
-	 * @return
-	 * @methodtype get
-	 */
-	public Coordinate getCoordinate() {
-		return coordinate;
-	}
-
-	/**
-	 * @param coordinate
-	 * @methodtype set
-	 */
-	public void setCoordinate(Coordinate coordinate) {
-		this.coordinate = checkCoordinate(coordinate);
-	}
-
-	/**
+	 * Checks whether the parameter coordinate is null. If it is null, a
+	 * NullCoordinate-Object will be returned.
+	 * 
 	 * @param coordinate
 	 * @return correct instance of Coordinate
 	 * @methodtype assertion

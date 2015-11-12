@@ -95,7 +95,8 @@ public class CoordinateDistanceTest {
 		sphericCoordinate2.setLatitude(37.427994);
 		sphericCoordinate2.setLongitude(-122.170255);
 
-		assertEquals(9305.376, sphericCoordinate1.getDistance(sphericCoordinate2), 1.5);
+		assertEquals(11680, sphericCoordinate1.getDistance(sphericCoordinate2), 1.5);
+		assertEquals(9305, sphericCoordinate1.calculateDistanceBetweenTwoSphericCoordinates(sphericCoordinate2), 1.5);
 
 		/**
 		 * Calculates the real distance between the coordinates
@@ -108,7 +109,8 @@ public class CoordinateDistanceTest {
 		sphericCoordinate2.setLatitude(51.497557);
 		sphericCoordinate2.setLongitude(7.454901);
 
-		assertEquals(345.100, sphericCoordinate1.getDistance(sphericCoordinate2), 1.5);
+		assertEquals(410, sphericCoordinate1.getDistance(sphericCoordinate2), 1.5);
+		assertEquals(345.100, sphericCoordinate1.calculateDistanceBetweenTwoSphericCoordinates(sphericCoordinate2), 1.5);
 
 	}
 

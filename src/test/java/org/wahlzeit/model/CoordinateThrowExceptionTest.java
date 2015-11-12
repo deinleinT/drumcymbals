@@ -2,6 +2,12 @@ package org.wahlzeit.model;
 
 import org.junit.Test;
 
+/**
+ * Test-Class for testing several Exception-Behavior.
+ * 
+ * @author ThomasDeinlein
+ *
+ */
 public class CoordinateThrowExceptionTest {
 
 	Coordinate coordinate;
