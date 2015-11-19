@@ -47,26 +47,13 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 */
 	public double getDistance(Coordinate other) throws NullCoordinateException {
 		assertIsParameterNull(other);
-		return calculateDistance(other);
+
+		double differenceOfXPow2 = Math.pow((this.getXValue() - other.getXValue()), 2);
+		double differenceOfYPow2 = Math.pow((this.getYValue() - other.getYValue()), 2);
+		double differenceOfZPow2 = Math.pow((this.getZValue() - other.getZValue()), 2);
+
+		return Math.sqrt(differenceOfXPow2 + differenceOfYPow2 + differenceOfZPow2);
 	};
-
-	/**
-	 * Calculates the distance between two coordinates. Every Coordinate will be
-	 * transformed to a CartesianCoordinate and then the distance will be
-	 * calculated.
-	 * 
-	 * @methodtype helper
-	 * @methodproperties hook
-	 */
-	protected abstract double calculateDistance(Coordinate one)
-			throws IllegalArgumentException, NullCoordinateException;
-
-	/**
-	 * @return the Coordinate represented as CartesianCoordinate
-	 * @throws NullCoordinateException
-	 * @methodtype conversion Query
-	 */
-	protected abstract CartesianCoordinate asCartesianCoordinate() throws NullCoordinateException;
 
 	/**
 	 * @param other
@@ -80,26 +67,18 @@ public abstract class AbstractCoordinate implements Coordinate {
 		}
 	}
 
-	/**
-	 * Compares two coordinates. SphericCoordinate will be transformed to a
-	 * CartesianCoordinate. If the x-, y-, z-values of both Coordinates are
-	 * equal, the method returns true, else false.
-	 * 
-	 * @param other
-	 * @return true, if both coordinates are equal by values, false otherwise
-	 * @throws NullCoordinateException
-	 * @methodtype comparison
-	 * @methodproperties hook
-	 */
-	protected abstract boolean compareValues(Coordinate other) throws NullCoordinateException;
-
 	@Override
 	public boolean isEqual(Coordinate other) throws NullCoordinateException {
 
-		AbstractCoordinate thisCoordinate = (AbstractCoordinate) this;
-		AbstractCoordinate otherCoordinate = (AbstractCoordinate) other;
+		double delta = 0.3;
 
-		return thisCoordinate.compareValues(otherCoordinate);
+		if (Math.abs(this.getXValue() - other.getXValue()) < delta
+				&& Math.abs(this.getYValue() - other.getYValue()) < delta
+				&& Math.abs(this.getZValue() - other.getZValue()) < delta) {
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 }

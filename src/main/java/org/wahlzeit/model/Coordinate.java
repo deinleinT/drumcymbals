@@ -24,4 +24,10 @@ public interface Coordinate extends Serializable {
 	 */
 	public boolean isEqual(Coordinate coordinate) throws NullCoordinateException;
 
+	public double getXValue() throws NullCoordinateException;
+
+	public double getYValue() throws NullCoordinateException;
+
+	public double getZValue() throws NullCoordinateException;
+
 }

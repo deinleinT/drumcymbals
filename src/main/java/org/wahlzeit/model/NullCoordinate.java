@@ -42,18 +42,22 @@ public class NullCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	protected double calculateDistance(Coordinate one) throws IllegalArgumentException, NullCoordinateException {
-		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Calculating the Distance not possible.");
+	public double getXValue() throws NullCoordinateException{
+		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Comparison not possible.");
+		
 	}
 
 	@Override
-	protected CartesianCoordinate asCartesianCoordinate() throws NullCoordinateException {
-		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Calculating the Distance not possible.");
+	public double getYValue() throws NullCoordinateException{
+		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Comparison not possible.");
+		
 	}
 
 	@Override
-	protected boolean compareValues(Coordinate other) throws NullCoordinateException {
-		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate.");
+	public double getZValue()throws NullCoordinateException {
+		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Comparison not possible.");
 	}
+
+	
 
 }

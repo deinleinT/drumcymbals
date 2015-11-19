@@ -162,22 +162,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * 
-	 * 
-	 * @throws NullCoordinateException
-	 * @methodtype comparison
-	 * @methodproperties primitive
-	 */
-	protected boolean compareValues(Coordinate other) throws NullCoordinateException {
-
-		CartesianCoordinate thisCoordinate = this.asCartesianCoordinate();
-		CartesianCoordinate otherCoordinate = ((AbstractCoordinate) other).asCartesianCoordinate();
-
-		return thisCoordinate.compareValues(otherCoordinate);
-
-	}
-
-	/**
 	 * @return the distance between two sphericCoordinates in km
 	 * @methodtype helper
 	 * @methodtye primitive
@@ -194,27 +178,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double returnValue = this.getRadius() * Math.acos(distance);
 
 		return returnValue;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.wahlzeit.model.AbstractCoordinate#calculateDistance(org.wahlzeit.
-	 * model.Coordinate)
-	 * 
-	 * @methodtype helper
-	 * 
-	 * @methodproperties hook
-	 */
-	@Override
-	protected double calculateDistance(Coordinate othercoordinate)
-			throws IllegalArgumentException, NullCoordinateException {
-
-		CartesianCoordinate thisCoordinate = this.asCartesianCoordinate();
-		CartesianCoordinate other = ((AbstractCoordinate) othercoordinate).asCartesianCoordinate();
-
-		return thisCoordinate.calculateDistanceBetweenTwoCartesianCoordinates(other);
 	}
 
 	/**
@@ -261,6 +224,52 @@ public class SphericCoordinate extends AbstractCoordinate {
 		if (radius < 0.0) {
 			throw new IllegalArgumentException("Value of Radius not valid. Only positive Values are allowed.");
 		}
+	}
+
+	/**
+	 * Converts SphericCoordinates to xValue of CartesianCoordinate
+	 * 
+	 * return xValue
+	 * 
+	 * @methodtype conversion
+	 * 
+	 */
+	@Override
+	public double getXValue() {
+
+		double x = this.getRadius() * Math.sin(Math.toRadians(this.getLongitude()))
+				* Math.cos(Math.toRadians(this.getLatitude()));
+		return x;
+
+	}
+
+	/**
+	 * Converts SphericCoordinates to yValue of CartesianCoordinate
+	 * 
+	 * return yValue
+	 * 
+	 * @methodtype conversion
+	 * 
+	 */
+	@Override
+	public double getYValue() {
+		double y = this.getRadius() * Math.sin(Math.toRadians(this.getLongitude()))
+				* Math.sin(Math.toRadians(this.getLatitude()));
+		return y;
+	}
+
+	/**
+	 * Converts SphericCoordinates to zValue of CartesianCoordinate
+	 * 
+	 * return zValue
+	 * 
+	 * @methodtype conversion
+	 * 
+	 */
+	@Override
+	public double getZValue() {
+		double z = this.getRadius() * Math.cos(Math.toRadians(this.getLongitude()));
+		return z;
 	}
 
 }
