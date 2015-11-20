@@ -26,18 +26,6 @@ public class CoordinateCreateInstanceTest {
 		coordinate = coordinateFactory.createNullCoordinate();
 		assertTrue(coordinate instanceof NullCoordinate);
 	}
-
-	/**
-	 * The FactoryMethod gets one null-Parameter. It has to return a
-	 * NullCoordinate-Object.
-	 * 
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testCoordinateNullLatitudeNullParameter() {
-		coordinate = coordinateFactory.createSphericCoordinate(null, 45.23);
-
-	}
-
 	
 	//all following tests added during adap-hw05
 	

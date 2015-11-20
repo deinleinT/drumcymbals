@@ -14,12 +14,14 @@ package org.wahlzeit.model;
 public class NullCoordinate extends AbstractCoordinate {
 
 	private static NullCoordinate singleton;
+	private static String ERROR_STRING = "One of the Coordinates is a NullCoordinate.";
 
 	/**
 	 * @methodtype constructor
 	 */
 	private NullCoordinate() {
-		this.setNullFlag(true);
+		//unnecessary to execute assertClassInvariants
+		//because of private constructor
 	}
 
 	/**
@@ -30,34 +32,63 @@ public class NullCoordinate extends AbstractCoordinate {
 	 * @methodtype get
 	 */
 	public static synchronized NullCoordinate getInstance() {
+
+		// Preconditions
+		// none
+
 		if (singleton == null) {
 			singleton = new NullCoordinate();
 		}
+
+		// Postconditions
+		assertSingletonState(singleton);
+
 		return singleton;
 	}
 
 	@Override
 	public boolean isEqual(Coordinate other) throws NullCoordinateException {
-		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Comparison not possible.");
+		throw new NullCoordinateException(ERROR_STRING);
 	}
 
 	@Override
-	public double getXValue() throws NullCoordinateException{
-		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Comparison not possible.");
-		
+	public double getDistance(Coordinate other) throws NullCoordinateException {
+		throw new NullCoordinateException(ERROR_STRING);
 	}
-
-	@Override
-	public double getYValue() throws NullCoordinateException{
-		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Comparison not possible.");
-		
-	}
-
-	@Override
-	public double getZValue()throws NullCoordinateException {
-		throw new NullCoordinateException("One of the Coordinate is a NullCoordinate. Comparison not possible.");
-	}
-
 	
+	@Override
+	public double getXValue() throws NullCoordinateException {
+		throw new NullCoordinateException(ERROR_STRING);
+	}
+
+	@Override
+	public double getYValue() throws NullCoordinateException {
+		throw new NullCoordinateException(ERROR_STRING);
+	}
+
+	@Override
+	public double getZValue() throws NullCoordinateException {
+		throw new NullCoordinateException(ERROR_STRING);
+	}	
+
+	/**
+	 * @methodtype assertion
+	 * @methodproperty primitive
+	 */
+	@Override
+	public void assertClassInvariants() throws IllegalStateException {
+		//none
+	}
+
+	/**
+	 * @methodtype assertion
+	 * @methodproperty primitive
+	 */
+	protected static void assertSingletonState(NullCoordinate singleton) {
+		singleton.assertClassInvariants();
+		if (!(singleton instanceof NullCoordinate)) {
+			throw new IllegalStateException("Error while creating NullCoordinate.");
+		}
+	}
 
 }

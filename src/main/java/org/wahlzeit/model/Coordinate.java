@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 /**
  * 
- * Interface for SphericCoordinate, CartesianCoordinate, NullCoordinate
+ * Interface for SphericCoordinate, CartesianCoordinate, NullCoordinate all
+ * coordinates are represented as cartesiancoordinate
+ * 
  * 
  * @author ThomasDeinlein
  *
@@ -21,13 +23,38 @@ public interface Coordinate extends Serializable {
 	 * @param coordinate
 	 * @return
 	 * @throws NullCoordinateException
+	 * @methodtype boolean query
 	 */
 	public boolean isEqual(Coordinate coordinate) throws NullCoordinateException;
 
+	/**
+	 * @return the x-Value of a coordinate
+	 * @throws NullCoordinateException
+	 *             if executed on a NullCoordinate-Object
+	 */
 	public double getXValue() throws NullCoordinateException;
 
+	/**
+	 * @return they y-Value of a coordinate
+	 * @throws NullCoordinateException
+	 *             if executed on a NullCoordinate-Object
+	 */
 	public double getYValue() throws NullCoordinateException;
 
+	/**
+	 * @return the z-Value of a coordinate
+	 * @throws NullCoordinateException
+	 *             if executed on a NullCoordinate-Object
+	 */
 	public double getZValue() throws NullCoordinateException;
+
+	/**
+	 * Checks ClassInvariants throws an IllegalStateException if Invariants are
+	 * invalid
+	 * 
+	 * @methodtype assert
+	 * @methodproperty primitive
+	 */
+	void assertClassInvariants() throws IllegalStateException;
 
 }

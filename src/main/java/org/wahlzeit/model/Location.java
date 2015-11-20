@@ -23,6 +23,7 @@ public class Location extends DataObject {
 	 */
 	public Location() {
 		coordinate = CoordinateFactory.getInstance().createNullCoordinate();
+		assertClassInvariants();
 	}
 
 	/**
@@ -31,6 +32,7 @@ public class Location extends DataObject {
 	public Location(String name, Coordinate coordinate) {
 		this.name = checkName(name);
 		this.coordinate = checkCoordinate(coordinate);
+		assertClassInvariants();
 	}
 
 	/**
@@ -40,6 +42,13 @@ public class Location extends DataObject {
 	 * @methodtype get
 	 */
 	public String getName() {
+
+		// Preconditions
+		// none
+
+		// Postconditions
+		assertClassInvariants();
+
 		return name;
 	}
 
@@ -49,7 +58,14 @@ public class Location extends DataObject {
 	 * @methodtype set
 	 */
 	public void setName(String name) {
+
+		// Preconditions
+		assertParameterNotNull(name);
+
 		this.name = checkName(name);
+
+		// Postconditions
+		assertClassInvariants();
 	}
 
 	/**
@@ -57,15 +73,32 @@ public class Location extends DataObject {
 	 * @methodtype get
 	 */
 	public Coordinate getCoordinate() {
+
+		// Preconditions
+		// none
+
+		// Postconditions
+		assertClassInvariants();
+
 		return coordinate;
 	}
 
 	/**
 	 * @param coordinate
+	 *            null is allowed, the coordinate will be set to
+	 *            NullCoordinate-Object
 	 * @methodtype set
 	 */
 	public void setCoordinate(Coordinate coordinate) {
+
+		// Preconditions
+		// assertParameterNotNull --> not necessary, see method checkCoordinate
+		assertParameterInstanceOfCoordinate(coordinate);
+
 		this.coordinate = checkCoordinate(coordinate);
+
+		// Postconditions
+		assertClassInvariants();
 	}
 
 	/**
@@ -82,7 +115,12 @@ public class Location extends DataObject {
 	 * @methodproperties regular
 	 */
 	public boolean isEqual(Location otherLocation) throws NullCoordinateException {
-		assertIsParameterNull(otherLocation);
+
+		// Preconditions
+		assertParameterNotNull(otherLocation);
+		assertParameterInstanceOfLocation(otherLocation);
+
+		boolean result = false;
 
 		if (this.equals(otherLocation)) {
 			return true;
@@ -90,25 +128,32 @@ public class Location extends DataObject {
 
 		if (this.getName().equals(otherLocation.getName())) {
 			if (this.getCoordinate().isEqual(otherLocation.getCoordinate())) {
-				return true;
+				result = true;
+
 			} else {
-				return false;
+				result = false;
 			}
 		} else {
-			return false;
+			result = false;
 		}
+
+		// Postconditions
+		assertClassInvariants();
+
+		return result;
 	}
 
 	/**
 	 * If name is null, the String "Name not set" will be returned.
 	 * 
 	 * @param name
-	 * @return "Name not set" if name is null
+	 * @return "Name not set" if name is emptyString
 	 * 
-	 * @methodtype assertion
+	 * @methodtype command
+	 * @methodproperty primitive
 	 */
 	private String checkName(String name) {
-		return (name == null) ? (this.name = NAME_NOT_SET) : (this.name = name);
+		return (name.isEmpty()) ? (this.name = NAME_NOT_SET) : (this.name = name);
 	}
 
 	/**
@@ -116,9 +161,31 @@ public class Location extends DataObject {
 	 * @methodtype assertion
 	 * @methodproperties primitive
 	 */
-	private void assertIsParameterNull(Location otherLocation) throws IllegalArgumentException {
+	private void assertParameterNotNull(Object otherLocation) throws IllegalArgumentException {
 		if (otherLocation == null) {
 			throw new IllegalArgumentException("Error. Null-Parameter is not allowed in this context.");
+		}
+	}
+
+	/**
+	 * @param otherLocation
+	 * @methodtype assertion
+	 * @methodproperty primitive
+	 */
+	protected void assertParameterInstanceOfLocation(Location otherLocation) {
+		if (!(otherLocation instanceof Location)) {
+			throw new IllegalArgumentException("Parameter is not a Location-Object.");
+		}
+	}
+
+	/**
+	 * @param otherLocation
+	 * @methodtype assertion
+	 * @methodproperty primitive
+	 */
+	protected void assertParameterInstanceOfCoordinate(Coordinate coordinate) {
+		if (!(coordinate instanceof Coordinate)) {
+			throw new IllegalArgumentException("Parameter is not a Coordinate-Object.");
 		}
 	}
 
@@ -128,7 +195,8 @@ public class Location extends DataObject {
 	 * 
 	 * @param coordinate
 	 * @return correct instance of Coordinate
-	 * @methodtype assertion
+	 * @methodtype command
+	 * @methodproperty primitve
 	 */
 	private Coordinate checkCoordinate(Coordinate coordinate) {
 		if (coordinate == null) {
@@ -136,5 +204,14 @@ public class Location extends DataObject {
 		} else {
 			return coordinate;
 		}
+	}
+
+	/**
+	 * @methodtype assertion
+	 * @methodproperty primitive
+	 */
+	protected void assertClassInvariants() {
+		assertParameterNotNull(this.name);
+		assertParameterInstanceOfCoordinate(this.coordinate);
 	}
 }
