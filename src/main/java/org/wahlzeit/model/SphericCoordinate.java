@@ -324,7 +324,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodproperty primitive
 	 */
 	@Override
-	public void assertClassInvariants() throws IllegalStateException {
+	protected void assertClassInvariants() throws IllegalStateException {
 		assertIsLatitudeValueValid(this.latitude);
 		assertIsLongitudeValueValid(this.longitude);
 		assertIsRadiusValueValid(this.radius);

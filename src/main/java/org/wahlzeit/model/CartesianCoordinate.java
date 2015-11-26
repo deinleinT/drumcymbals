@@ -158,7 +158,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodproperty primitve
 	 */
 	@Override
-	public void assertClassInvariants() throws IllegalStateException {
+	protected void assertClassInvariants() throws IllegalStateException {
 		// None
 	}
 

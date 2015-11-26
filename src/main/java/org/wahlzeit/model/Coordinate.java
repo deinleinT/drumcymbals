@@ -48,13 +48,4 @@ public interface Coordinate extends Serializable {
 	 */
 	public double getZValue() throws NullCoordinateException;
 
-	/**
-	 * Checks ClassInvariants throws an IllegalStateException if Invariants are
-	 * invalid
-	 * 
-	 * @methodtype assert
-	 * @methodproperty primitive
-	 */
-	void assertClassInvariants() throws IllegalStateException;
-
 }

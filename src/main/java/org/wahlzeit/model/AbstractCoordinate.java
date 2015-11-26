@@ -5,7 +5,8 @@ package org.wahlzeit.model;
  * 
  * 
  * @author ThomasDeinlein
- *
+ * @version: 3.0
+ * 
  */
 
 public abstract class AbstractCoordinate implements Coordinate {
@@ -62,6 +63,15 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return result;
 
 	}
+	
+	/**
+	 * Checks ClassInvariants throws an IllegalStateException if Invariants are
+	 * invalid
+	 * 
+	 * @methodtype assert
+	 * @methodproperty primitive
+	 */
+	protected abstract void assertClassInvariants() throws IllegalStateException;
 
 	/**
 	 * @param other
