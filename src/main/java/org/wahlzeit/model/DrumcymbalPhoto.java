@@ -6,6 +6,12 @@ import com.googlecode.objectify.annotation.Subclass;
  * Class for a Photo of a drumcymbal
  * 
  * @author ThomasDeinlein
+ * 
+ * @Pattern (
+ *   name = “Abstract Factory”
+ *   participants = {
+ *      “AbstractProduct”, 
+ *     “ConcreteProduct”   } )
  *
  */
 @Subclass(index=true)

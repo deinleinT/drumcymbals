@@ -23,14 +23,20 @@ package org.wahlzeit.model;
 import java.util.logging.Logger;
 
 /**
- * An Abstract Factory for creating photos and related objects.
+ * An Abstract Factory for creating photos and related objects. 
+ * 
+ * @Pattern (
+ *   name = “Abstract Factory”
+ *   participants = {
+ *      “AbstractFactory”, 
+ *     “ConcreteFactory”   } )
  */
 public abstract class PhotoFactory {
 
 	protected static final Logger log = Logger.getLogger(PhotoFactory.class.getName());
-	
-	//adap-hw04
-	// /** 
+
+	// adap-hw04
+	// /**
 	// * Hidden singleton instance; needs to be initialized from the outside.
 	// */
 	// private static PhotoFactory instance = null;
@@ -60,7 +66,7 @@ public abstract class PhotoFactory {
 		return DrumcymbalPhotoFactory.getInstance();
 	}
 
-	//adap-hw04
+	// adap-hw04
 	// /**
 	// * Public singleton access method.
 	// */

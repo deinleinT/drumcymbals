@@ -9,6 +9,15 @@ package org.wahlzeit.model;
  * 
  * @author ThomasDeinlein
  * 
+ *
+ * @Pattern (
+ *   name = “Abstract Factory”
+ *   participants = {
+ *      “AbstractProduct”, 
+ *     “ConcreteProduct”   } )
+ * 
+ * @Pattern (
+ *   name = "Singleton" )
  */
 
 public class NullCoordinate extends AbstractCoordinate {

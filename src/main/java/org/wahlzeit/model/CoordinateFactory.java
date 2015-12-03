@@ -4,6 +4,12 @@ package org.wahlzeit.model;
  * Factory to get a correct instance of a Coordinate
  * 
  * @author ThomasDeinlein
+ * 
+ * * @Pattern (
+ *   name = “Abstract Factory and Factory Method ”
+ *   participants = {
+ *      “AbstractFactory”, 
+ *     “ConcreteFactory”   } )
  *
  */
 public class CoordinateFactory {

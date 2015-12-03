@@ -36,9 +36,6 @@ public class Location extends DataObject {
 	}
 
 	/**
-	 * @return value of coordinates name
-	 * @throws NullCoordinateException
-	 *             if this method is executed on NullCoordinate-Object
 	 * @methodtype get
 	 */
 	public String getName() {
@@ -118,7 +115,6 @@ public class Location extends DataObject {
 
 		// Preconditions
 		assertParameterNotNull(otherLocation);
-		assertParameterInstanceOfLocation(otherLocation);
 
 		boolean result = false;
 
@@ -164,17 +160,6 @@ public class Location extends DataObject {
 	private void assertParameterNotNull(Object otherLocation) throws IllegalArgumentException {
 		if (otherLocation == null) {
 			throw new IllegalArgumentException("Error. Null-Parameter is not allowed in this context.");
-		}
-	}
-
-	/**
-	 * @param otherLocation
-	 * @methodtype assertion
-	 * @methodproperty primitive
-	 */
-	protected void assertParameterInstanceOfLocation(Location otherLocation) {
-		if (!(otherLocation instanceof Location)) {
-			throw new IllegalArgumentException("Parameter is not a Location-Object.");
 		}
 	}
 

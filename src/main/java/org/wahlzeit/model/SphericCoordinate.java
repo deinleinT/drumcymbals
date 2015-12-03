@@ -4,6 +4,13 @@ package org.wahlzeit.model;
  * The Coordinates of a Photo, with Latitude and Longitude.
  * 
  * @author ThomasDeinlein
+ * 
+ * * @Pattern (
+ *   name = “Abstract Factory”
+ *   participants = {
+ *      “AbstractProduct”, 
+ *     “ConcreteProduct”   } )
+ * 
  *
  */
 
@@ -25,9 +32,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype constructor
 	 */
 	public SphericCoordinate(double latitude, double longitude, double radius) {
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.radius = radius;
+
+		// Using setter Methods, preconditions will be checked automatically
+		setLatitude(latitude);
+		setLongitude(longitude);
+		setRadius(radius);
+
 		assertClassInvariants();
 	}
 
@@ -40,9 +50,13 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype constructor
 	 */
 	public SphericCoordinate(double latitude, double longitude) {
-		this.latitude = latitude;
-		this.longitude = longitude;
+
+		// Using setter Methods, preconditions will be checked automatically
+		setLatitude(latitude);
+		setLongitude(longitude);
+
 		this.radius = EARTH_RADIUS_IN_KM;
+
 		assertClassInvariants();
 	}
 
@@ -72,6 +86,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	public void setLatitude(double latitude) {
 
 		// Preconditions
+		assertDoubleNaN(latitude);
 		assertIsLatitudeValueValid(latitude);
 
 		this.latitude = latitude;
@@ -105,13 +120,14 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setLongitude(double longitude) {
-		
-		//Preconditions
+
+		// Preconditions
+		assertDoubleNaN(longitude);
 		assertIsLongitudeValueValid(longitude);
-		
+
 		this.longitude = longitude;
-		
-		//Postconditions
+
+		// Postconditions
 		assertClassInvariants();
 	}
 
@@ -135,13 +151,14 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setRadius(double radius) {
-		
-		//Preconditions
+
+		// Preconditions
+		assertDoubleNaN(radius);
 		assertRadiusIsPositive(radius);
-		
+
 		this.radius = radius;
-		
-		//Postconditions
+
+		// Postconditions
 		assertClassInvariants();
 	}
 
@@ -163,6 +180,8 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double result = Math.abs(other.getLatitude() - this.getLatitude());
 
 		// Postcondition
+		assertDistanceIsPositive(result);
+		assertDoubleNaN(result);
 		assertClassInvariants();
 
 		return result;
@@ -186,6 +205,8 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double result = Math.abs(other.getLongitude() - this.getLongitude());
 
 		// Postcondition
+		assertDistanceIsPositive(result);
+		assertDoubleNaN(result);
 		assertClassInvariants();
 
 		return result;
@@ -246,8 +267,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 		return returnValue;
 	}
-
-	
 
 	/**
 	 * Converts SphericCoordinates to xValue of CartesianCoordinate
@@ -318,7 +337,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return z;
 	}
 
-	
 	/**
 	 * @methodtype assertion
 	 * @methodproperty primitive
@@ -328,6 +346,9 @@ public class SphericCoordinate extends AbstractCoordinate {
 		assertIsLatitudeValueValid(this.latitude);
 		assertIsLongitudeValueValid(this.longitude);
 		assertIsRadiusValueValid(this.radius);
+		assertDoubleNaN(this.latitude);
+		assertDoubleNaN(this.longitude);
+		assertDoubleNaN(this.radius);
 	}
 
 	/**
@@ -386,7 +407,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 			throw new IllegalArgumentException("Not an Instance of Cartesian Coordinate.");
 		}
 	}
-	
+
 	/**
 	 * @param result
 	 * @methodtype assertion
@@ -398,4 +419,5 @@ public class SphericCoordinate extends AbstractCoordinate {
 			throw new IllegalArgumentException("Not an Instance of Cartesian Coordinate.");
 		}
 	}
+
 }

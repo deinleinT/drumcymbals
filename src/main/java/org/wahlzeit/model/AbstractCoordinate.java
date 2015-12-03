@@ -28,7 +28,6 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 		// Preconditions
 		assertParameterNotNull(other);
-		assertParameterIsInstanceOfCoordinate(other);
 
 		double differenceOfXPow2 = Math.pow((this.getXValue() - other.getXValue()), 2);
 		double differenceOfYPow2 = Math.pow((this.getYValue() - other.getYValue()), 2);
@@ -36,6 +35,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double result = Math.sqrt(differenceOfXPow2 + differenceOfYPow2 + differenceOfZPow2);
 
 		// Postconditions
+		assertDistanceIsPositive(result);
 		assertClassInvariants();
 
 		return result;
@@ -46,7 +46,6 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 		// preconditions
 		assertParameterNotNull(other);
-		assertParameterIsInstanceOfCoordinate(other);
 
 		double delta = 0.3;
 		boolean result = false;
@@ -63,7 +62,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return result;
 
 	}
-	
+
 	/**
 	 * Checks ClassInvariants throws an IllegalStateException if Invariants are
 	 * invalid
@@ -75,16 +74,6 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 	/**
 	 * @param other
-	 * @methodtype assertion
-	 */
-	protected void assertParameterIsInstanceOfCoordinate(Coordinate other) {
-		if (!(other instanceof Coordinate)) {
-			throw new IllegalArgumentException("Parameter is not an Instance of Coordinate.");
-		}
-	}
-
-	/**
-	 * @param other
 	 *            the parameter, which shall be null-checked
 	 * @methodtype assertion
 	 * @methodproperty primitive
@@ -92,6 +81,26 @@ public abstract class AbstractCoordinate implements Coordinate {
 	protected void assertParameterNotNull(Coordinate other) {
 		if (other == null) {
 			throw new IllegalArgumentException("Parameter is null. Invalid value.");
+		}
+	}
+
+	/**
+	 * @Methodtype assertion
+	 * @Methoproperty primitive
+	 */
+	protected void assertDistanceIsPositive(double result) {
+		if (result < 0) {
+			throw new IllegalArgumentException("Error. Calculated Distance is negativ.");
+		}
+	}
+
+	/**
+	 * @Methodtype assertion
+	 * @Methoproperty primitive
+	 */
+	protected void assertDoubleNaN(double value) {
+		if (Double.isNaN(value)) {
+			throw new NumberFormatException("Error. Not a doubleValue. The Value is NaN.");
 		}
 	}
 }

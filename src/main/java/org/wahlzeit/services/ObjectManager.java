@@ -30,6 +30,9 @@ import java.util.logging.Logger;
 /**
  * An ObjectManager creates/reads/updates/deletes Persistent (objects) from Google Datastore.
  * It is an abstract superclass that relies on an inheritance interface and the Persistent interface.
+ * 
+ * 
+ * 
  */
 public abstract class ObjectManager {
 

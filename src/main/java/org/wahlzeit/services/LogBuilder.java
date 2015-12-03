@@ -16,6 +16,12 @@ import java.io.StringWriter;
  * (see https://stackoverflow.com/questions/30345665/how-to-customize-logging-for-google-app-engine-java).
  * 
  * @review
+ * 
+ * @Pattern (
+ *   name = "Builder" )
+ *   
+ *   
+ * 
  */
 public class LogBuilder {
 

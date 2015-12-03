@@ -4,6 +4,12 @@ package org.wahlzeit.model;
  * Class that represents a Cartesian Coordinate with x-, y- and z-value.
  * 
  * @author ThomasDeinlein
+ * 
+ * * @Pattern (
+ *   name = “Abstract Factory”
+ *   participants = {
+ *      “AbstractProduct”, 
+ *     “ConcreteProduct”   } )
  *
  */
 
@@ -20,9 +26,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype constructor
 	 */
 	public CartesianCoordinate(double xValue, double yValue, double zValue) {
-		this.xValue = xValue;
-		this.yValue = yValue;
-		this.zValue = zValue;
+		
+		//Using setter, preconditions will be checked automatically
+		setXValue(xValue);
+		setYValue(yValue);
+		setZValue(zValue);
+		
 		assertClassInvariants();
 	}
 
@@ -46,7 +55,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	public void setXValue(double xValue) {
 
 		// Preconditions
-		// none
+		assertDoubleNaN(xValue);
 
 		this.xValue = xValue;
 
@@ -74,7 +83,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	public void setYValue(double yValue) {
 
 		// Preconditions
-		// none
+		assertDoubleNaN(yValue);
 
 		this.yValue = yValue;
 
@@ -88,7 +97,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	public double getZValue() {
 
 		// Preconditions
-		// none
+		//none
 
 		// Postconditions
 		assertClassInvariants();
@@ -102,7 +111,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	public void setZValue(double zValue) {
 
 		// Preconditions
-		// none
+		assertDoubleNaN(zValue);
 
 		this.zValue = zValue;
 
@@ -117,7 +126,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * 
 	 * @return this CartesianCoordinate represented as a SphericCoordinate
 	 * 
-	 * @methodtype helper
+	 * @methodtype convenience
 	 * @methodproperties hook, convenience
 	 */
 	public SphericCoordinate asSphericCoordinate() {
@@ -159,7 +168,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 */
 	@Override
 	protected void assertClassInvariants() throws IllegalStateException {
-		// None
+		assertDoubleNaN(this.xValue);
+		assertDoubleNaN(this.yValue);
+		assertDoubleNaN(this.zValue);
 	}
 
 	/**
@@ -170,7 +181,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 */
 	protected void assertParameterIsInstanceOfSphericCoordinate(SphericCoordinate other) {
 		if (!(other instanceof SphericCoordinate)) {
-			throw new IllegalArgumentException("Not an Instance of Cartesian Coordinate.");
+			throw new IllegalArgumentException("Not an Instance of Speric Coordinate.");
 		}
 	}
 

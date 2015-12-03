@@ -6,6 +6,14 @@ import org.wahlzeit.services.LogBuilder;
  * Factory to create DrumcymbalPhotos
  * 
  * @author ThomasDeinlein
+ * @Pattern (
+ *   name = “Abstract Factory”
+ *   participants = {
+ *      “AbstractFactory”, 
+ *     “ConcreteFactory”   } )
+ * 
+ * @Pattern (
+ *   name = "Singleton")
  *
  */
 public class DrumcymbalPhotoFactory extends PhotoFactory {

@@ -12,6 +12,14 @@ import java.util.logging.Logger;
  * Abstract super class that offers a convenient interface for all kinds of storage types to store images.
  * 
  * @review
+ * 
+ * @Pattern (
+ *   name = "Adapter",
+ *   participants = "AbstractAdapter, ConcreteAdapter",
+ *   part = AbstractAdapter )
+ * 
+ * @Pattern (
+ *   name = "TemplateMethod" (doWriteImageMethod))
  */
 public abstract class ImageStorage {
 
