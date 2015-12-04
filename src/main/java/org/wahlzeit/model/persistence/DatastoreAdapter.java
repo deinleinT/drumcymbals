@@ -121,8 +121,6 @@ public class DatastoreAdapter extends ImageStorage {
 	 * 
  	 * @review
  	 * 
- 	 * @Pattern (
- 	 *   name  = "Adapter")
 	 */
 	@Entity
 	public static class ImageWrapper {

@@ -61,18 +61,13 @@ public class CoordinateFactory {
 	 * Factory-Method to create a SphericCoordinate with default-value for
 	 * earth-radius (6371 km).
 	 * 
-	 * @param latitude
-	 * @param longitude
-	 * @return a SphericCoordinate
-	 * @throws IllegalArgumentException
-	 *             if one parameter is null
 	 * @methodtype factory
 	 */
 	public SphericCoordinate createSphericCoordinate(double latitude, double longitude) {
 
 		// Preconditions
-		// none, values of latitude and longitude will be checked through
-		// instantiation in SphericCoordinate class
+		assertDoubleNaN(latitude);
+		assertDoubleNaN(longitude);
 
 		SphericCoordinate result = new SphericCoordinate(latitude, longitude);
 
@@ -86,19 +81,14 @@ public class CoordinateFactory {
 	/**
 	 * Factory-Method to create a SphericCoordinate
 	 * 
-	 * @param latitude
-	 * @param longitude
-	 * @return a SphericCoordinate
-	 * @throws IllegalArgumentException
-	 *             if one parameter is null
 	 * @methodtype factory
 	 */
 	public SphericCoordinate createSphericCoordinate(double latitude, double longitude, double radius) {
 
 		// Preconditions
-		// none, values of latitude, longitude and radius will be checked
-		// through
-		// instantiation in SphericCoordinate class
+		assertDoubleNaN(latitude);
+		assertDoubleNaN(longitude);
+		assertDoubleNaN(radius);
 
 		SphericCoordinate result = new SphericCoordinate(latitude, longitude, radius);
 
@@ -111,24 +101,19 @@ public class CoordinateFactory {
 	}
 
 	/**
-	 * @param x
-	 *            xValue
-	 * @param y
-	 *            yValue
-	 * @param z
-	 *            zValue
-	 * @return CartesianCoordinate
 	 * @methodtype factory Helper
 	 */
-	public CartesianCoordinate createCartesianCoordinate(double x, double y, double z) {
+	public CartesianCoordinate createCartesianCoordinate(double xValue, double yValue, double zValue) {
 
 		// Preconditions
-		// none
+		assertDoubleNaN(xValue);
+		assertDoubleNaN(yValue);
+		assertDoubleNaN(zValue);
 
-		CartesianCoordinate result = new CartesianCoordinate(x, y, z);
+		CartesianCoordinate result = new CartesianCoordinate(xValue, yValue, zValue);
 
 		// Postconditions
-		assertCreatedCartesianCoordinate(result, x, y, z);
+		assertCreatedCartesianCoordinate(result, xValue, yValue, zValue);
 		assertClassInvariants();
 
 		return result;
@@ -208,23 +193,33 @@ public class CoordinateFactory {
 	 * @methodtype assertion
 	 * @methodproperty primitive
 	 */
-	protected void assertCreatedCartesianCoordinate(CartesianCoordinate result, double x, double y, double z) {
-		if (result.getXValue() != x) {
+	protected void assertCreatedCartesianCoordinate(CartesianCoordinate result, double xValue, double yValue, double zValue) {
+		if (result.getXValue() != xValue) {
 			throw new IllegalStateException(
 					"Error while creating CartesianCoordinate. The X-Value in the Coordinate is " + result.getXValue()
-							+ ", the original X-Value as parameter is " + x + ".");
+							+ ", the original X-Value as parameter is " + xValue + ".");
 		}
 
-		if (result.getYValue() != y) {
+		if (result.getYValue() != yValue) {
 			throw new IllegalStateException(
 					"Error while creating CartesianCoordinate. The Y-Value in the Coordinate is " + result.getYValue()
-							+ ", the original Y-Value as parameter is " + y + ".");
+							+ ", the original Y-Value as parameter is " + yValue + ".");
 		}
 
-		if (result.getZValue() != z) {
+		if (result.getZValue() != zValue) {
 			throw new IllegalStateException(
 					"Error while creating CartesianCoordinate. The Z-Value in the Coordinate is " + result.getZValue()
-							+ ", the original Z-Value as parameter is " + z + ".");
+							+ ", the original Z-Value as parameter is " + zValue + ".");
+		}
+	}
+	
+	/**
+	 * @Methodtype assertion
+	 * @Methoproperty primitive
+	 */
+	protected void assertDoubleNaN(double value) {
+		if (Double.isNaN(value)) {
+			throw new NumberFormatException("Error. Not a doubleValue. The Value is NaN.");
 		}
 	}
 
