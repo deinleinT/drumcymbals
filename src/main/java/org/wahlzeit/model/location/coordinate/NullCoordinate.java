@@ -5,56 +5,60 @@ import org.wahlzeit.model.NullCoordinateException;
 /**
  * 
  * NullObject of a Coordinate is part of NullObject-Pattern cooperates with
- * RealObject, Coordinate and CoordinateFactory
  * 
- * implemented as a singleton
+ * implemented as Multiton
  * 
  * @author ThomasDeinlein
- * 
+ * @version: 3.0
  *
- * @Pattern (
- *   name = “Abstract Factory”
- *   participants = {
- *      “AbstractProduct”, 
- *     “ConcreteProduct”   } )
+ * 			@Pattern (   name = “Abstract Factory”   participants = {
+ *               “AbstractProduct”,      “ConcreteProduct”   } )
  * 
- * @Pattern (
- *   name = "Singleton" )
+ * @Pattern ( name = "Singleton" )
  */
 
 public class NullCoordinate extends AbstractCoordinate {
 
-	private static NullCoordinate singleton;
 	private static String ERROR_STRING = "One of the Coordinates is a NullCoordinate.";
 
 	/**
 	 * @methodtype constructor
 	 */
 	private NullCoordinate() {
-		//unnecessary to execute assertClassInvariants
-		//because of private constructor
+		// unnecessary to execute assertClassInvariants
+		// because of private constructor
 	}
 
 	/**
-	 * Returns the instance of the singleton NullCoordinate-object
+	 * Factory-Method to get an Instance of NullCoordinate. In
+	 * AbstractCoordinate is an attribute INSTANCES defined. This HashMap
+	 * manages all created Coordinate Instances. This method checks first,
+	 * whether a coordinate-Instance with the parameter-values has been already
+	 * created. If it has been created, the Instance from the HashMap will be
+	 * returned. Otherwise the privat Constructor will be executed an the new
+	 * Instance will be saved in INSTANCES.
 	 * 
-	 * @return singleton of NullCoordinate
-	 * 
-	 * @methodtype get
+	 * @methodtype factory
 	 */
-	public static synchronized NullCoordinate getInstance() {
+	static synchronized Coordinate getInstance() {
 
-		// Preconditions
-		// none
+		String keyString = NullCoordinate.class.getCanonicalName();
+		NullCoordinate result = (NullCoordinate) INSTANCES.get(keyString);
+		if (result == null) {
 
-		if (singleton == null) {
-			singleton = new NullCoordinate();
+			result = (NullCoordinate) INSTANCES.get(keyString);
+			if (result == null) {
+				result = new NullCoordinate();
+				INSTANCES.put(keyString, result);
+			}
+
 		}
 
 		// Postconditions
-		assertSingletonState(singleton);
+		assertParameterNotNull(result);
+		assertNullCoordinateInstance(result);
 
-		return singleton;
+		return result;
 	}
 
 	@Override
@@ -66,7 +70,7 @@ public class NullCoordinate extends AbstractCoordinate {
 	public double getDistance(Coordinate other) throws NullCoordinateException {
 		throw new NullCoordinateException(ERROR_STRING);
 	}
-	
+
 	@Override
 	public double getXValue() throws NullCoordinateException {
 		throw new NullCoordinateException(ERROR_STRING);
@@ -80,7 +84,7 @@ public class NullCoordinate extends AbstractCoordinate {
 	@Override
 	public double getZValue() throws NullCoordinateException {
 		throw new NullCoordinateException(ERROR_STRING);
-	}	
+	}
 
 	/**
 	 * @methodtype assertion
@@ -88,15 +92,14 @@ public class NullCoordinate extends AbstractCoordinate {
 	 */
 	@Override
 	public void assertClassInvariants() throws IllegalStateException {
-		//none
+		// none
 	}
 
 	/**
 	 * @methodtype assertion
 	 * @methodproperty primitive
 	 */
-	protected static void assertSingletonState(NullCoordinate singleton) {
-		singleton.assertClassInvariants();
+	protected static void assertNullCoordinateInstance(Coordinate singleton) {
 		if (!(singleton instanceof NullCoordinate)) {
 			throw new IllegalStateException("Error while creating NullCoordinate.");
 		}

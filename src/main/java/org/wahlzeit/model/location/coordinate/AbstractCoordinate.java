@@ -7,9 +7,11 @@ import org.wahlzeit.model.NullCoordinateException;
 /**
  * Represents a Coordinate in decimal degree with latitude and longitude.
  * 
+ * Implemented as Multiton-Pattern
+ * 
  * 
  * @author ThomasDeinlein
- * @version: 4.0
+ * @version: 5.0
  * 
  */
 
@@ -18,28 +20,37 @@ public abstract class AbstractCoordinate implements Coordinate {
 	protected static final HashMap<String, Coordinate> INSTANCES = new HashMap<String, Coordinate>();
 
 	/**
-	 * @methodtype default-constructor
+	 * Method to get Coordinate-Instances from the INSTANCES-Hashmap. If this
+	 * method is not overwritten in subclasses, an Exception will be thrown.
+	 * 
+	 * @methodtype command
 	 */
-	protected AbstractCoordinate() {
+	static synchronized Coordinate getInstance(double paramOne, double paramTwo, double paramThree) {
+		throw new IllegalStateException("GetInstance Method not implemented yet.");
 	}
 
 	/**
+	 * Is used in subclasse within the getInstance-method to create an unique
+	 * keyString. The keyString is used to save a coordinate-instance in
+	 * INSTANCES HashMap.
 	 * 
+	 * @methodtype helper
+	 * @methodproperty primitive
 	 */
-	static Coordinate getInstance(double paramOne, double paramTwo, double paramThree) {
-		throw new IllegalStateException("GetInstance Method not implemented yet.");
-	}
-	
-	protected static String doCreateKeyString(double paramOne, double paramTwo, double paramThree,String className){
-		
-		//Preconditions
+	protected static String doCreateKeyString(double paramOne, double paramTwo, double paramThree, String className) {
+
+		// Preconditions
 		assertDoubleNaN(paramOne);
 		assertDoubleNaN(paramTwo);
 		assertDoubleNaN(paramThree);
 		assertParameterNotNull(className);
-		
-		String result = ""+paramOne+" "+paramTwo+" "+paramThree+" "+className;
-		
+
+		String result = "" + paramOne + " " + paramTwo + " " + paramThree + " " + className;
+
+		// Postconditions
+		assertParameterNotNull(result);
+		assertStringNotEmpty(result);
+
 		return result;
 	}
 
@@ -67,6 +78,10 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return result;
 	};
 
+	// checks the equality with comparing all values(e.g. xValues)
+	// with each other (e.g. this.xvalue - other.xvalue)
+	// if all values do not differ about 0.3 from each other, true
+	// will be returned
 	@Override
 	public boolean isEqual(Coordinate other) throws NullCoordinateException {
 
@@ -75,17 +90,16 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 		double delta = 0.3;
 		boolean result = false;
-		
-		double thisXValue=this.getXValue();
+
+		double thisXValue = this.getXValue();
 		double thisYValue = this.getYValue();
 		double thisZValue = this.getZValue();
-		
-		double otherXValue=other.getXValue();
-		double otherYValue=other.getYValue();
-		double otherZValue =other.getZValue();
 
-		if (Math.abs(thisXValue - otherXValue) < delta
-				&& Math.abs(thisYValue - otherYValue) < delta
+		double otherXValue = other.getXValue();
+		double otherYValue = other.getYValue();
+		double otherZValue = other.getZValue();
+
+		if (Math.abs(thisXValue - otherXValue) < delta && Math.abs(thisYValue - otherYValue) < delta
 				&& Math.abs(thisZValue - otherZValue) < delta) {
 			result = true;
 		}
@@ -97,7 +111,11 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 	}
 
-	// TODO
+	/**
+	 * Checks if this == other
+	 * 
+	 * @return true, if both objects references same object
+	 */
 	public boolean isSame(Object other) {
 
 		// preconditions
@@ -112,21 +130,23 @@ public abstract class AbstractCoordinate implements Coordinate {
 		assertClassInvariants();
 
 		return result;
-
 	}
-	
-	//TODO
+
 	@Override
 	public boolean equals(Object obj) {
-		if(this.isSame(obj)){
+		
+		//Preconditions
+		assertParameterNotNull(obj);
+		
+		if (this.isSame(obj)) {
 			return true;
-		}else if(obj instanceof Coordinate){
+		} else if (obj instanceof Coordinate) {
 			try {
-				return this.isEqual((Coordinate)obj);
+				return this.isEqual((Coordinate) obj);
 			} catch (NullCoordinateException e) {
 				return false;
 			}
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -169,6 +189,26 @@ public abstract class AbstractCoordinate implements Coordinate {
 	protected static void assertDoubleNaN(double value) {
 		if (Double.isNaN(value)) {
 			throw new NumberFormatException("Error. Not a doubleValue. The Value is NaN.");
+		}
+	}
+
+	/**
+	 * @Methodtype assertion
+	 * @Methoproperty primitive
+	 */
+	protected static void assertStringNotEmpty(String string) {
+		if (string.isEmpty()) {
+			throw new IllegalArgumentException("String may not be empty.");
+		}
+	}
+	
+	/**
+	 * @methodtype assertion
+	 * @methodproperty primitive
+	 */
+	protected static void assertINSTANCESNotEmpty(HashMap<String, Coordinate> instances) {
+		if (INSTANCES.isEmpty()) {
+			throw new IllegalStateException("There are no Coordinates in INSTANCES saved! Wrong state.");
 		}
 	}
 }

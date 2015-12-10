@@ -1,16 +1,15 @@
 package org.wahlzeit.model.location.coordinate;
 
-import java.util.HashMap;
-
-import org.wahlzeit.model.NullCoordinateException;
-
 /**
  * Class that represents a Cartesian Coordinate with x-, y- and z-value.
  * 
- * @author ThomasDeinlein
+ * Implemented as Multiton-Pattern
  * 
- *@Pattern (   name = “Abstract Factory”   
- *    participants = {“AbstractProduct”,      “ConcreteProduct”   } )
+ * @author ThomasDeinlein
+ * @version: 5.0
+ * 
+ * 			@Pattern (   name = “Abstract Factory”   
+ *           participants = {“AbstractProduct”,      “ConcreteProduct”   } )
  *
  */
 
@@ -19,8 +18,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	private double xValue;
 	private double yValue;
 	private double zValue;
-
-//	protected static final HashMap<String, CartesianCoordinate> INSTANCES = new HashMap<String, CartesianCoordinate>();
 
 	/**
 	 * @param xValue
@@ -33,10 +30,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		assertDoubleNaN(xValue);
 		assertDoubleNaN(yValue);
 		assertDoubleNaN(zValue);
-		
-		this.xValue=xValue;
-		this.yValue=yValue;
-		this.zValue=zValue;
+
+		this.xValue = xValue;
+		this.yValue = yValue;
+		this.zValue = zValue;
 
 		assertClassInvariants();
 	}
@@ -56,7 +53,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * @throws Exception 
+	 * Returns new CartesianCoordinate with previous y and z value and new
+	 * xvalue
+	 * 
 	 * @methodtype set
 	 */
 	public CartesianCoordinate setXValue(double xValue) {
@@ -64,12 +63,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		// Preconditions
 		assertDoubleNaN(xValue);
 
-		CartesianCoordinate result = (CartesianCoordinate)getInstance(xValue, getYValue(), getZValue());
+		CartesianCoordinate result = (CartesianCoordinate) getInstance(xValue, getYValue(), getZValue());
 
 		// Postconditions
 		assertParameterNotNull(result);
 		assertClassInvariants();
-		
+
 		return result;
 	}
 
@@ -88,7 +87,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * @throws Exception 
+	 * 
+	 * Returns new CartesianCoordinate with previous x and z value and new
+	 * yvalue
+	 * 
 	 * @methodtype set
 	 */
 	public CartesianCoordinate setYValue(double yValue) {
@@ -96,12 +98,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		// Preconditions
 		assertDoubleNaN(yValue);
 
-		CartesianCoordinate result = (CartesianCoordinate)getInstance(getXValue(), yValue, getZValue());
-		
+		CartesianCoordinate result = (CartesianCoordinate) getInstance(getXValue(), yValue, getZValue());
+
 		// Postconditions
 		assertParameterNotNull(result);
 		assertClassInvariants();
-		
+
 		return result;
 	}
 
@@ -120,52 +122,59 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * @throws Exception 
+	 * Returns new CartesianCoordinate with previous x and y value and new
+	 * zvalue
+	 * 
 	 * @methodtype set
 	 */
-	public CartesianCoordinate setZValue(double zValue) throws IllegalStateException,NullCoordinateException {
+	public CartesianCoordinate setZValue(double zValue) {
 
 		// Preconditions
 		assertDoubleNaN(zValue);
 
-		CartesianCoordinate result = (CartesianCoordinate)getInstance(getXValue(), getYValue(), zValue);
+		CartesianCoordinate result = (CartesianCoordinate) getInstance(getXValue(), getYValue(), zValue);
 
 		// Postconditions
 		assertParameterNotNull(result);
 		assertClassInvariants();
-		
+
 		return result;
 	}
 
-	// TODO
 	/**
-	 *@Methodtype
-	 *@Methodproperty
+	 * Factory-Method to get an Instance of CartesianCoordinate. In
+	 * AbstractCoordinate is an attribute INSTANCES defined. This HashMap
+	 * manages all created Coordinate Instances. This method checks first,
+	 * whether a coordinate-Instance with the parameter-values has been already
+	 * created. If it has been created, the Instance from the HashMap will be
+	 * returned. Otherwise the privat Constructor will be executed an the new
+	 * Instance will be saved in INSTANCES.
+	 * 
+	 * @methodtype factory
 	 */
-	static Coordinate getInstance(double xValue, double yValue, double zValue) {
-		
-		//preconditions
+	static synchronized Coordinate getInstance(double xValue, double yValue, double zValue) {
+
+		// preconditions
 		assertDoubleNaN(xValue);
 		assertDoubleNaN(yValue);
 		assertDoubleNaN(zValue);
-		
-		String keyString = doCreateKeyString(xValue,yValue,zValue,CartesianCoordinate.class.getCanonicalName());
-		CartesianCoordinate result = (CartesianCoordinate)INSTANCES.get(keyString);
+
+		String keyString = doCreateKeyString(xValue, yValue, zValue, CartesianCoordinate.class.getCanonicalName());
+		CartesianCoordinate result = (CartesianCoordinate) INSTANCES.get(keyString);
 		if (result == null) {
-			synchronized (INSTANCES) {
-				result = (CartesianCoordinate)INSTANCES.get(keyString);
-				if (result == null) {
-					result = new CartesianCoordinate(xValue, yValue, zValue);
-					INSTANCES.put(keyString, result);
-				}
+
+			result = (CartesianCoordinate) INSTANCES.get(keyString);
+			if (result == null) {
+				result = new CartesianCoordinate(xValue, yValue, zValue);
+				INSTANCES.put(keyString, result);
 			}
+
 		}
-		
-		//Postconditions
+
+		// Postconditions
 		assertParameterNotNull(result);
-		
-		
-		
+		assertINSTANCESNotEmpty(INSTANCES);
+
 		return result;
 	}
 
@@ -175,12 +184,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * {@link http://keisan.casio.com/exec/system/1359533867}
 	 * 
 	 * @return this CartesianCoordinate represented as a SphericCoordinate
-	 * @throws Exception 
 	 * 
 	 * @methodtype convenience
-	 * @methodproperties hook, convenience
 	 */
-	public SphericCoordinate asSphericCoordinate()  {
+	public SphericCoordinate asSphericCoordinate() {
 
 		// Preconditions
 		// none
@@ -225,6 +232,8 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		assertParameterNotNull(INSTANCES);
 	}
 
+	
+
 	/**
 	 * @methodtype assertion
 	 * @methodproperty primitive
@@ -235,7 +244,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 			throw new IllegalArgumentException("Not an Instance of Spheric Coordinate.");
 		}
 	}
-	
+
 	/**
 	 * @methodtype assertion
 	 * @methodproperty primitive
@@ -247,17 +256,24 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		}
 	}
 
-	
 	/**
-	 * TODO
+	 * @methodtype conversion
+	 * @methodproperty primitive
 	 */
 	protected String asString() {
 
-		String result = ""+getXValue()+" "+getYValue()+" "+getYValue();
-		
+		// preconditons
+		// none
+
+		String result = "" + getXValue() + " " + getYValue() + " " + getYValue();
+
+		// postconditions
+		assertParameterNotNull(result);
+		assertStringNotEmpty(result);
+
 		return result;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return asString().hashCode();

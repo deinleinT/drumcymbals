@@ -1,7 +1,5 @@
 package org.wahlzeit.model.location.coordinate;
 
-import org.wahlzeit.model.NullCoordinateException;
-
 /**
  * Factory to get a correct instance of a Coordinate
  * 
@@ -104,7 +102,7 @@ public class CoordinateFactory {
 	}
 
 	/**
-	 * @throws Exception 
+	 * Factory-Method to create a CartesianCoordinate
 	 * @methodtype factory Helper
 	 */
 	public CartesianCoordinate getCartesianCoordinate(double xValue, double yValue, double zValue)  {
@@ -126,16 +124,13 @@ public class CoordinateFactory {
 	/**
 	 * Factory-method to create NullCoordinate
 	 * 
-	 * @return AbstractCoordinate-Object, if one parameter is null, this method
-	 *         returns a CoordinateNull-Object (NullObject), if both parameter
-	 *         are double-values, this method returns a Coordinate-Object
 	 */
 	public NullCoordinate getNullCoordinate() {
 
 		// Preconditions
 		// none
 
-		NullCoordinate result = NullCoordinate.getInstance();
+		NullCoordinate result = (NullCoordinate)NullCoordinate.getInstance();
 
 		// Postconditions
 		assertCreatedNullCoordinate(result);
