@@ -1,22 +1,23 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.location.coordinate;
+
+import java.util.HashMap;
+
+import org.wahlzeit.model.NullCoordinateException;
 
 /**
  * The Coordinates of a Photo, with Latitude and Longitude.
  * 
  * @author ThomasDeinlein
  * 
- * * @Pattern (
- *   name = “Abstract Factory”
- *   participants = {
- *      “AbstractProduct”, 
- *     “ConcreteProduct”   } )
+ *         * @Pattern (   name = “Abstract Factory”   participants = {
+ *             “AbstractProduct”,      “ConcreteProduct”   } )
  * 
  *
  */
 
 public class SphericCoordinate extends AbstractCoordinate {
 
-	private static final double EARTH_RADIUS_IN_KM = 6371.0;
+	public static final double EARTH_RADIUS_IN_KM = 6371.0;
 
 	private double radius = EARTH_RADIUS_IN_KM;
 	private double latitude;
@@ -31,31 +32,15 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @param longitude
 	 * @methodtype constructor
 	 */
-	public SphericCoordinate(double latitude, double longitude, double radius) {
+	protected SphericCoordinate(double latitude, double longitude, double radius) {
 
-		// Using setter Methods, preconditions will be checked automatically
-		setLatitude(latitude);
-		setLongitude(longitude);
-		setRadius(radius);
+		assertDoubleNaN(latitude);
+		assertDoubleNaN(longitude);
+		assertDoubleNaN(radius);
 
-		assertClassInvariants();
-	}
-
-	/**
-	 * Constructor to set latitude and longitude in decimal-degree. The Radius
-	 * will be set to default-value of 6371 km (earth radius).
-	 * 
-	 * @param latitude
-	 * @param longitude
-	 * @methodtype constructor
-	 */
-	public SphericCoordinate(double latitude, double longitude) {
-
-		// Using setter Methods, preconditions will be checked automatically
-		setLatitude(latitude);
-		setLongitude(longitude);
-
-		this.radius = EARTH_RADIUS_IN_KM;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.radius = radius;
 
 		assertClassInvariants();
 	}
@@ -79,20 +64,24 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	/**
 	 * @param latitude
+	 * @throws Exception
 	 * @throws NullCoordinateException
 	 *             if this method is executed on NullCoordinate-Object
 	 * @methodtype set
 	 */
-	public void setLatitude(double latitude) {
+	public SphericCoordinate setLatitude(double latitude) {
 
 		// Preconditions
 		assertDoubleNaN(latitude);
 		assertIsLatitudeValueValid(latitude);
 
-		this.latitude = latitude;
+		SphericCoordinate result = (SphericCoordinate) getInstance(latitude, getLongitude(), getRadius());
 
 		// Postconditions
+		assertParameterNotNull(result);
 		assertClassInvariants();
+
+		return result;
 	}
 
 	/**
@@ -114,25 +103,26 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * @param longitude
 	 * @throws NullCoordinateException
-	 *             if this method is execute on NullCoordinate-Object
+	 *             if this method is executed on NullCoordinate-Object
 	 * @methodtype set
 	 */
-	public void setLongitude(double longitude) {
+	public SphericCoordinate setLongitude(double longitude) {
 
 		// Preconditions
 		assertDoubleNaN(longitude);
 		assertIsLongitudeValueValid(longitude);
 
-		this.longitude = longitude;
+		SphericCoordinate result = (SphericCoordinate) getInstance(getLatitude(), longitude, getRadius());
 
 		// Postconditions
+		assertParameterNotNull(result);
 		assertClassInvariants();
+
+		return result;
 	}
 
 	/**
-	 * @return radius
 	 * @methodtype get
 	 */
 	public double getRadius() {
@@ -147,19 +137,21 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * @param radius
 	 * @methodtype set
 	 */
-	public void setRadius(double radius) {
+	public SphericCoordinate setRadius(double radius) {
 
 		// Preconditions
 		assertDoubleNaN(radius);
 		assertRadiusIsPositive(radius);
 
-		this.radius = radius;
+		SphericCoordinate result = (SphericCoordinate) getInstance(getLatitude(), getLongitude(), radius);
 
 		// Postconditions
+		assertParameterNotNull(result);
 		assertClassInvariants();
+
+		return result;
 	}
 
 	/**
@@ -212,6 +204,36 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return result;
 	}
 
+	// TODO
+	/**
+	 * @Methodtype command
+	 * @Methodproperty
+	 */
+	static Coordinate getInstance(double latitude, double longitude, double radius) {
+
+		// preconditions
+		assertDoubleNaN(latitude);
+		assertDoubleNaN(longitude);
+		assertDoubleNaN(radius);
+
+		String keyString = doCreateKeyString(latitude, longitude, radius, SphericCoordinate.class.getCanonicalName());
+		SphericCoordinate result = (SphericCoordinate) INSTANCES.get(keyString);
+		if (result == null) {
+			synchronized (INSTANCES) {
+				result = (SphericCoordinate) INSTANCES.get(keyString);
+				if (result == null) {
+					result = new SphericCoordinate(latitude, longitude, radius);
+					INSTANCES.put(keyString, result);
+				}
+			}
+		}
+
+		// Postconditions
+		assertParameterNotNull(result);
+
+		return result;
+	}
+
 	/**
 	 * Returns this SphericCoordinate represented as a CartesianCoordinate.
 	 * Formula adapted from
@@ -233,7 +255,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double y = this.getRadius() * Math.sin(lon) * Math.sin(lat);
 		double z = this.getRadius() * Math.cos(lon);
 
-		CartesianCoordinate result = CoordinateFactory.getInstance().createCartesianCoordinate(x, y, z);
+		CartesianCoordinate result = CoordinateFactory.getInstance().getCartesianCoordinate(x, y, z);
 
 		// Postconditions
 		assertParameterIsInstanceOfCartesianCoordinate(result);
@@ -418,6 +440,18 @@ public class SphericCoordinate extends AbstractCoordinate {
 		if (!(other instanceof SphericCoordinate)) {
 			throw new IllegalArgumentException("Not an Instance of Cartesian Coordinate.");
 		}
+	}
+		
+	protected String asString() {
+
+		String result = "" + getLatitude() + " " + getLongitude() + " " + getRadius();
+
+		return result;
+	}
+
+	@Override
+	public int hashCode() {
+		return asString().hashCode();
 	}
 
 }

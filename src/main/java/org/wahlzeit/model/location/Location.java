@@ -1,5 +1,8 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.location;
 
+import org.wahlzeit.model.NullCoordinateException;
+import org.wahlzeit.model.location.coordinate.Coordinate;
+import org.wahlzeit.model.location.coordinate.CoordinateFactory;
 import org.wahlzeit.services.DataObject;
 import com.googlecode.objectify.annotation.Container;
 
@@ -16,13 +19,13 @@ public class Location extends DataObject {
 
 	protected String name = NAME_NOT_SET;
 	@Container
-	protected Coordinate coordinate = CoordinateFactory.getInstance().createNullCoordinate();
+	protected Coordinate coordinate = CoordinateFactory.getInstance().getNullCoordinate();
 
 	/**
 	 * @methodtype constructor
 	 */
 	public Location() {
-		coordinate = CoordinateFactory.getInstance().createNullCoordinate();
+		coordinate = CoordinateFactory.getInstance().getNullCoordinate();
 		assertClassInvariants();
 	}
 
@@ -149,6 +152,11 @@ public class Location extends DataObject {
 	 * @methodproperty primitive
 	 */
 	private String checkName(String name) {
+		
+		if(name==null){
+			name="";
+		}
+		
 		return (name.isEmpty()) ? (this.name = NAME_NOT_SET) : (this.name = name);
 	}
 
@@ -185,7 +193,7 @@ public class Location extends DataObject {
 	 */
 	private Coordinate checkCoordinate(Coordinate coordinate) {
 		if (coordinate == null) {
-			return CoordinateFactory.getInstance().createNullCoordinate();
+			return CoordinateFactory.getInstance().getNullCoordinate();
 		} else {
 			return coordinate;
 		}

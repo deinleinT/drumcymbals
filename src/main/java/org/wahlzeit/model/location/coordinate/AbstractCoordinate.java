@@ -1,20 +1,46 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.location.coordinate;
+
+import java.util.HashMap;
+
+import org.wahlzeit.model.NullCoordinateException;
 
 /**
  * Represents a Coordinate in decimal degree with latitude and longitude.
  * 
  * 
  * @author ThomasDeinlein
- * @version: 3.0
+ * @version: 4.0
  * 
  */
 
 public abstract class AbstractCoordinate implements Coordinate {
 
+	protected static final HashMap<String, Coordinate> INSTANCES = new HashMap<String, Coordinate>();
+
 	/**
 	 * @methodtype default-constructor
 	 */
-	public AbstractCoordinate() {
+	protected AbstractCoordinate() {
+	}
+
+	/**
+	 * 
+	 */
+	static Coordinate getInstance(double paramOne, double paramTwo, double paramThree) {
+		throw new IllegalStateException("GetInstance Method not implemented yet.");
+	}
+	
+	protected static String doCreateKeyString(double paramOne, double paramTwo, double paramThree,String className){
+		
+		//Preconditions
+		assertDoubleNaN(paramOne);
+		assertDoubleNaN(paramTwo);
+		assertDoubleNaN(paramThree);
+		assertParameterNotNull(className);
+		
+		String result = ""+paramOne+" "+paramTwo+" "+paramThree+" "+className;
+		
+		return result;
 	}
 
 	/**
@@ -49,10 +75,18 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 		double delta = 0.3;
 		boolean result = false;
+		
+		double thisXValue=this.getXValue();
+		double thisYValue = this.getYValue();
+		double thisZValue = this.getZValue();
+		
+		double otherXValue=other.getXValue();
+		double otherYValue=other.getYValue();
+		double otherZValue =other.getZValue();
 
-		if (Math.abs(this.getXValue() - other.getXValue()) < delta
-				&& Math.abs(this.getYValue() - other.getYValue()) < delta
-				&& Math.abs(this.getZValue() - other.getZValue()) < delta) {
+		if (Math.abs(thisXValue - otherXValue) < delta
+				&& Math.abs(thisYValue - otherYValue) < delta
+				&& Math.abs(thisZValue - otherZValue) < delta) {
 			result = true;
 		}
 
@@ -61,6 +95,40 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 		return result;
 
+	}
+
+	// TODO
+	public boolean isSame(Object other) {
+
+		// preconditions
+		assertParameterNotNull(other);
+
+		boolean result = false;
+		if (this == other) {
+			result = true;
+		}
+
+		// Postconditions
+		assertClassInvariants();
+
+		return result;
+
+	}
+	
+	//TODO
+	@Override
+	public boolean equals(Object obj) {
+		if(this.isSame(obj)){
+			return true;
+		}else if(obj instanceof Coordinate){
+			try {
+				return this.isEqual((Coordinate)obj);
+			} catch (NullCoordinateException e) {
+				return false;
+			}
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -78,7 +146,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 * @methodtype assertion
 	 * @methodproperty primitive
 	 */
-	protected void assertParameterNotNull(Coordinate other) {
+	protected static void assertParameterNotNull(Object other) {
 		if (other == null) {
 			throw new IllegalArgumentException("Parameter is null. Invalid value.");
 		}
@@ -98,7 +166,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 * @Methodtype assertion
 	 * @Methoproperty primitive
 	 */
-	protected void assertDoubleNaN(double value) {
+	protected static void assertDoubleNaN(double value) {
 		if (Double.isNaN(value)) {
 			throw new NumberFormatException("Error. Not a doubleValue. The Value is NaN.");
 		}

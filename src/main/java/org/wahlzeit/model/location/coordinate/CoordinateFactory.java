@@ -1,4 +1,6 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.location.coordinate;
+
+import org.wahlzeit.model.NullCoordinateException;
 
 /**
  * Factory to get a correct instance of a Coordinate
@@ -14,7 +16,7 @@ package org.wahlzeit.model;
  */
 public class CoordinateFactory {
 
-	private static CoordinateFactory singleton = new CoordinateFactory();
+	private static CoordinateFactory singleton = null;
 
 	/**
 	 * @methodtype private default-constructor for singleton-implementation
@@ -60,16 +62,17 @@ public class CoordinateFactory {
 	/**
 	 * Factory-Method to create a SphericCoordinate with default-value for
 	 * earth-radius (6371 km).
+	 * @throws Exception 
 	 * 
 	 * @methodtype factory
 	 */
-	public SphericCoordinate createSphericCoordinate(double latitude, double longitude) {
+	public SphericCoordinate getSphericCoordinate(double latitude, double longitude) {
 
 		// Preconditions
 		assertDoubleNaN(latitude);
 		assertDoubleNaN(longitude);
 
-		SphericCoordinate result = new SphericCoordinate(latitude, longitude);
+		SphericCoordinate result = (SphericCoordinate)SphericCoordinate.getInstance(latitude, longitude, SphericCoordinate.EARTH_RADIUS_IN_KM);
 
 		// Postcondition
 		assertCreatedSphericCoordinate(result, latitude, longitude);
@@ -83,14 +86,14 @@ public class CoordinateFactory {
 	 * 
 	 * @methodtype factory
 	 */
-	public SphericCoordinate createSphericCoordinate(double latitude, double longitude, double radius) {
+	public SphericCoordinate getSphericCoordinate(double latitude, double longitude, double radius) {
 
 		// Preconditions
 		assertDoubleNaN(latitude);
 		assertDoubleNaN(longitude);
 		assertDoubleNaN(radius);
 
-		SphericCoordinate result = new SphericCoordinate(latitude, longitude, radius);
+		SphericCoordinate result = (SphericCoordinate)SphericCoordinate.getInstance(latitude, longitude, radius);
 
 		// postconditions
 		assertCreatedSphericCoordinate(result, latitude, longitude);
@@ -101,16 +104,17 @@ public class CoordinateFactory {
 	}
 
 	/**
+	 * @throws Exception 
 	 * @methodtype factory Helper
 	 */
-	public CartesianCoordinate createCartesianCoordinate(double xValue, double yValue, double zValue) {
+	public CartesianCoordinate getCartesianCoordinate(double xValue, double yValue, double zValue)  {
 
 		// Preconditions
 		assertDoubleNaN(xValue);
 		assertDoubleNaN(yValue);
 		assertDoubleNaN(zValue);
 
-		CartesianCoordinate result = new CartesianCoordinate(xValue, yValue, zValue);
+		CartesianCoordinate result = (CartesianCoordinate)CartesianCoordinate.getInstance(xValue, yValue, zValue);
 
 		// Postconditions
 		assertCreatedCartesianCoordinate(result, xValue, yValue, zValue);
@@ -126,7 +130,7 @@ public class CoordinateFactory {
 	 *         returns a CoordinateNull-Object (NullObject), if both parameter
 	 *         are double-values, this method returns a Coordinate-Object
 	 */
-	public NullCoordinate createNullCoordinate() {
+	public NullCoordinate getNullCoordinate() {
 
 		// Preconditions
 		// none

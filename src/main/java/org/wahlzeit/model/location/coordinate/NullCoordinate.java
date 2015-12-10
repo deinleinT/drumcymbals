@@ -1,4 +1,6 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.location.coordinate;
+
+import org.wahlzeit.model.NullCoordinateException;
 
 /**
  * 

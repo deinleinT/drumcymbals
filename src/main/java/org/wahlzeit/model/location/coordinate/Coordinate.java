@@ -1,6 +1,8 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.location.coordinate;
 
 import java.io.Serializable;
+
+import org.wahlzeit.model.NullCoordinateException;
 
 /**
  * 

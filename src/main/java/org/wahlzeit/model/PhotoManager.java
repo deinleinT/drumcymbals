@@ -44,7 +44,8 @@ import java.util.logging.Logger;
  * A photo manager provides access to and manages photos.
  * 
  * @Pattern (
- *   name = "Facade")
+ *   name = "Facade",
+ *   participants = "Facade")
  *   
  * @Pattern (
  *   name = "Singleton")

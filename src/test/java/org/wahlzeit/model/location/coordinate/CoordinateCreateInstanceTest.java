@@ -1,8 +1,13 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.location.coordinate;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.wahlzeit.model.NullCoordinateException;
+import org.wahlzeit.model.location.coordinate.CartesianCoordinate;
+import org.wahlzeit.model.location.coordinate.CoordinateFactory;
+import org.wahlzeit.model.location.coordinate.NullCoordinate;
+import org.wahlzeit.model.location.coordinate.SphericCoordinate;
 
 /**
  * TestClass to check the correct behavior of the FactoryMethod
@@ -23,7 +28,7 @@ public class CoordinateCreateInstanceTest {
 	 */
 	@Test
 	public void testCoordinateNullTwoNullParameters() {
-		coordinate = coordinateFactory.createNullCoordinate();
+		coordinate = coordinateFactory.getNullCoordinate();
 		assertTrue(coordinate instanceof NullCoordinate);
 	}
 	
@@ -31,30 +36,31 @@ public class CoordinateCreateInstanceTest {
 	
 	/**
 	 * The FactoryMethod gets two double-values.
+	 * @throws Exception 
 	 * 
 	 */
 	@Test
-	public void testCoordinateObject() {
-		coordinate = coordinateFactory.createSphericCoordinate(45.23, 23.23);
+	public void testCoordinateObject() throws IllegalStateException,NullCoordinateException {
+		coordinate = coordinateFactory.getSphericCoordinate(45.23, 23.23);
 		assertFalse(coordinate instanceof NullCoordinate);
 	}
 	
 	
 	@Test
-	public void testSphericCoordinateObject() {
+	public void testSphericCoordinateObject() throws IllegalStateException,NullCoordinateException {
 		
-		coordinate = coordinateFactory.createSphericCoordinate(45.23, 23.23);
+		coordinate = coordinateFactory.getSphericCoordinate(45.23, 23.23);
 		assertFalse(coordinate instanceof NullCoordinate);
 		
-		coordinate = coordinateFactory.createSphericCoordinate(12.2, 122.2, 6733.34);
+		coordinate = coordinateFactory.getSphericCoordinate(12.2, 122.2, 6733.34);
 		assertTrue(coordinate instanceof SphericCoordinate);
 		assertEquals(6733.34, ((SphericCoordinate)coordinate).getRadius(), 0.0);
 		
 	}
 	
 	@Test
-	public void testCartesianCoordinate(){
-		coordinate = coordinateFactory.createCartesianCoordinate(3.3, 4.4, 4.4);
+	public void testCartesianCoordinate() throws IllegalStateException,NullCoordinateException{
+		coordinate = coordinateFactory.getCartesianCoordinate(3.3, 4.4, 4.4);
 		assertTrue(coordinate instanceof CartesianCoordinate);
 	}
 	

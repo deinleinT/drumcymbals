@@ -28,6 +28,9 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Parent;
+
+import org.wahlzeit.model.location.Location;
+import org.wahlzeit.model.location.coordinate.CoordinateFactory;
 import org.wahlzeit.services.DataObject;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.Language;
@@ -160,12 +163,14 @@ public abstract class Photo extends DataObject {
 
 	/**
 	 * added in context of adap-hw03 + adap-hw05
+	 * @throws NullCoordinateException 
+	 * @throws IllegalStateException 
 	 * 
 	 * @methodtype constructor
 	 */
-	public Photo(PhotoId myId, String locationName, Double latitude, Double longitude) {
+	public Photo(PhotoId myId, String locationName, Double latitude, Double longitude) throws IllegalStateException, NullCoordinateException {
 		id = myId;
-		this.location = new Location(locationName, CoordinateFactory.getInstance().createSphericCoordinate(latitude, longitude));
+		this.location = new Location(locationName, CoordinateFactory.getInstance().getSphericCoordinate(latitude, longitude));
 		incWriteCount();
 	}
 
