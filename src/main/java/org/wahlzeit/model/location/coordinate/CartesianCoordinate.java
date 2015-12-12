@@ -8,9 +8,10 @@ package org.wahlzeit.model.location.coordinate;
  * @author ThomasDeinlein
  * @version: 5.0
  * 
- * 			@Pattern (   name = “Abstract Factory”   
- *           participants = {“AbstractProduct”,      “ConcreteProduct”   } )
+ * @Pattern (name = “Abstract Factory”  
+ *     participants = {“AbstractProduct”, “ConcreteProduct”   } )
  *
+ * @Pattern ( name = "Multiton" )
  */
 
 public class CartesianCoordinate extends AbstractCoordinate {
@@ -232,8 +233,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		assertParameterNotNull(INSTANCES);
 	}
 
-	
-
 	/**
 	 * @methodtype assertion
 	 * @methodproperty primitive
@@ -265,7 +264,8 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		// preconditons
 		// none
 
-		String result = "" + getXValue() + " " + getYValue() + " " + getYValue();
+		String result = "CartesianCoordinate with xValue: " + getXValue() + ", yValue: " + getYValue()
+				+ " and  zValue: " + getZValue() + ".";
 
 		// postconditions
 		assertParameterNotNull(result);

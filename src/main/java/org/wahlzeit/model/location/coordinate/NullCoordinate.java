@@ -11,10 +11,10 @@ import org.wahlzeit.model.NullCoordinateException;
  * @author ThomasDeinlein
  * @version: 3.0
  *
- * 			@Pattern (   name = “Abstract Factory”   participants = {
- *               “AbstractProduct”,      “ConcreteProduct”   } )
+ * @Pattern (name = “Abstract Factory”   
+ *           participants = { “AbstractProduct”, “ConcreteProduct”   } )
  * 
- * @Pattern ( name = "Singleton" )
+ * @Pattern ( name = "Multiton / Singleton" )
  */
 
 public class NullCoordinate extends AbstractCoordinate {
@@ -33,16 +33,19 @@ public class NullCoordinate extends AbstractCoordinate {
 	 * Factory-Method to get an Instance of NullCoordinate. In
 	 * AbstractCoordinate is an attribute INSTANCES defined. This HashMap
 	 * manages all created Coordinate Instances. This method checks first,
-	 * whether a coordinate-Instance with the parameter-values has been already
-	 * created. If it has been created, the Instance from the HashMap will be
-	 * returned. Otherwise the privat Constructor will be executed an the new
-	 * Instance will be saved in INSTANCES.
+	 * whether a NullCoordinate-Instance has been already created. If it has
+	 * been created, the Instance from the HashMap will be returned. Otherwise
+	 * the private Constructor will be executed an the new Instance will be
+	 * saved in INSTANCES.
 	 * 
 	 * @methodtype factory
 	 */
 	static synchronized Coordinate getInstance() {
+		
+		//Preconditions
+		//none
 
-		String keyString = NullCoordinate.class.getCanonicalName();
+		String keyString = doCreateKeyString(0, 0, 0, NullCoordinate.class.getCanonicalName());
 		NullCoordinate result = (NullCoordinate) INSTANCES.get(keyString);
 		if (result == null) {
 
@@ -63,7 +66,11 @@ public class NullCoordinate extends AbstractCoordinate {
 
 	@Override
 	public boolean isEqual(Coordinate other) throws NullCoordinateException {
-		throw new NullCoordinateException(ERROR_STRING);
+		if (this.isSame(other)) {
+			return true;
+		} else {
+			throw new NullCoordinateException(ERROR_STRING);
+		}
 	}
 
 	@Override
@@ -84,6 +91,24 @@ public class NullCoordinate extends AbstractCoordinate {
 	@Override
 	public double getZValue() throws NullCoordinateException {
 		throw new NullCoordinateException(ERROR_STRING);
+	}
+
+	/**
+	 * @methodtype conversion
+	 * @methodproperty primitive
+	 */
+	protected String asString() {
+
+		// Preconditons
+		// none
+
+		String result = "NullCoordinate! No coordinates setted.";
+
+		// postconditions
+		assertStringNotEmpty(result);
+		assertParameterNotNull(result);
+
+		return result;
 	}
 
 	/**

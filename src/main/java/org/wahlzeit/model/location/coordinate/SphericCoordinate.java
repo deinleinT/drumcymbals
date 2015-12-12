@@ -10,10 +10,11 @@ import org.wahlzeit.model.NullCoordinateException;
  * @author ThomasDeinlein
  * @version: 5.0
  * 
- * 			@Pattern (   name = “Abstract Factory”   participants = {
- *           “AbstractProduct”,      “ConcreteProduct”   } )
+ * @Pattern (name = “Abstract Factory”   
+ *           participants = { “AbstractProduct”, “ConcreteProduct”   } )
+ *           
+ * @Pattern ( name = "Multiton" )
  */
-
 public class SphericCoordinate extends AbstractCoordinate {
 
 	public static final double EARTH_RADIUS_IN_KM = 6371.0;
@@ -485,9 +486,17 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodproperty primitive
 	 */
 	protected String asString() {
+		
+		//Preconditions
+		//none
 
-		String result = "" + getLatitude() + " " + getLongitude() + " " + getRadius();
+		String result = "SphericCoordinate with latitude: " + getLatitude() + ", longitude: " + getLongitude()
+				+ " and radius: " + getRadius() + ".";
 
+		//postconditions
+		assertStringNotEmpty(result);
+		assertParameterNotNull(result);
+		
 		return result;
 	}
 

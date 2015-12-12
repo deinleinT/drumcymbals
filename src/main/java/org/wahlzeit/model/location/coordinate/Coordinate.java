@@ -11,6 +11,7 @@ import org.wahlzeit.model.NullCoordinateException;
  * 
  * 
  * @author ThomasDeinlein
+ * @version: 3.0
  *
  */
 
@@ -20,11 +21,8 @@ public interface Coordinate extends Serializable {
 
 	/**
 	 * Checks whether two Coordinates are equal. Converts first both Coordinates
-	 * to CartesianCoordinate and then check the values.
+	 * to CartesianCoordinate and then checks the values.
 	 * 
-	 * @param coordinate
-	 * @return
-	 * @throws NullCoordinateException
 	 * @methodtype boolean query
 	 */
 	public boolean isEqual(Coordinate coordinate) throws NullCoordinateException;

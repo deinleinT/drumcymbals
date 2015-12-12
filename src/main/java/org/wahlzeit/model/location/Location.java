@@ -10,7 +10,7 @@ import com.googlecode.objectify.annotation.Container;
  * Encapsulates a Location with a name and a Coordinate.
  * 
  * @author ThomasDeinlein
- *
+ * @version 2.0
  */
 
 public class Location extends DataObject {
@@ -137,7 +137,7 @@ public class Location extends DataObject {
 		}
 
 		// Postconditions
-		assertClassInvariants();
+		assertClassInvariants(); 
 
 		return result;
 	}
@@ -151,7 +151,7 @@ public class Location extends DataObject {
 	 * @methodtype command
 	 * @methodproperty primitive
 	 */
-	private String checkName(String name) {
+	protected String checkName(String name) {
 		
 		if(name==null){
 			name="";
@@ -165,7 +165,7 @@ public class Location extends DataObject {
 	 * @methodtype assertion
 	 * @methodproperties primitive
 	 */
-	private void assertParameterNotNull(Object otherLocation) throws IllegalArgumentException {
+	protected void assertParameterNotNull(Object otherLocation) throws IllegalArgumentException {
 		if (otherLocation == null) {
 			throw new IllegalArgumentException("Error. Null-Parameter is not allowed in this context.");
 		}
@@ -191,7 +191,7 @@ public class Location extends DataObject {
 	 * @methodtype command
 	 * @methodproperty primitve
 	 */
-	private Coordinate checkCoordinate(Coordinate coordinate) {
+	protected Coordinate checkCoordinate(Coordinate coordinate) {
 		if (coordinate == null) {
 			return CoordinateFactory.getInstance().getNullCoordinate();
 		} else {

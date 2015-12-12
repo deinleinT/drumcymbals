@@ -4,6 +4,7 @@ package org.wahlzeit.model.location.coordinate;
  * Factory to get a correct instance of a Coordinate
  * 
  * @author ThomasDeinlein
+ * @version 3.0
  * 
  * * @Pattern (
  *   name = “Abstract Factory and Factory Method ”
