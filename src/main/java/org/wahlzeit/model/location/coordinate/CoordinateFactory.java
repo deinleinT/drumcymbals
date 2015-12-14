@@ -71,7 +71,7 @@ public class CoordinateFactory {
 		assertDoubleNaN(latitude);
 		assertDoubleNaN(longitude);
 
-		SphericCoordinate result = (SphericCoordinate)SphericCoordinate.getInstance(latitude, longitude, SphericCoordinate.EARTH_RADIUS_IN_KM);
+		SphericCoordinate result = SphericCoordinate.getInstance(latitude, longitude, SphericCoordinate.EARTH_RADIUS_IN_KM);
 
 		// Postcondition
 		assertCreatedSphericCoordinate(result, latitude, longitude);
@@ -92,7 +92,7 @@ public class CoordinateFactory {
 		assertDoubleNaN(longitude);
 		assertDoubleNaN(radius);
 
-		SphericCoordinate result = (SphericCoordinate)SphericCoordinate.getInstance(latitude, longitude, radius);
+		SphericCoordinate result = SphericCoordinate.getInstance(latitude, longitude, radius);
 
 		// postconditions
 		assertCreatedSphericCoordinate(result, latitude, longitude);
@@ -113,7 +113,7 @@ public class CoordinateFactory {
 		assertDoubleNaN(yValue);
 		assertDoubleNaN(zValue);
 
-		CartesianCoordinate result = (CartesianCoordinate)CartesianCoordinate.getInstance(xValue, yValue, zValue);
+		CartesianCoordinate result = CartesianCoordinate.getInstance(xValue, yValue, zValue);
 
 		// Postconditions
 		assertCreatedCartesianCoordinate(result, xValue, yValue, zValue);

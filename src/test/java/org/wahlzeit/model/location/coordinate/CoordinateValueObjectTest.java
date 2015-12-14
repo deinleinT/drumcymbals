@@ -89,7 +89,7 @@ public class CoordinateValueObjectTest {
 	}
 
 	@Test
-	public void TestIsSameMethod() throws NullCoordinateException {
+	public void TestIsSameMethod() {
 		/*
 		 * Two seperate objects, both have same coordinates. This test shall
 		 * prove, that both objects are same
@@ -128,6 +128,14 @@ public class CoordinateValueObjectTest {
 
 		cartesianSix = cartesianSix.setZValue(3);
 
+		assertTrue(cartesianSix.isSame(cartesianFive));
+		assertTrue(cartesianSix.isSame(cartesianFive));
+
+		/*
+		 * Test with method chaining
+		 */
+		cartesianSix = cartesianSix.setXValue(5).setYValue(5).setZValue(5);
+		cartesianFive = cartesianFive.setXValue(5).setYValue(5).setZValue(5);
 		assertTrue(cartesianSix.isSame(cartesianFive));
 		assertTrue(cartesianSix.isSame(cartesianFive));
 
@@ -213,6 +221,17 @@ public class CoordinateValueObjectTest {
 
 		assertTrue(cartesianFour.isEqual(cartesianFive));
 		assertTrue(cartesianFive.isEqual(cartesianFour));
+		
+		/*
+		 * checks NullCoordinateBehaviour
+		 */
+		nullCoordinateOne = coordinateFactory.getNullCoordinate();
+		nullCoordinateTwo = coordinateFactory.getNullCoordinate();
+
+		assertTrue(nullCoordinateOne.isEqual(nullCoordinateTwo));
+		assertTrue(nullCoordinateTwo.isEqual(nullCoordinateOne));
+
+		
 	}
 
 	@Test
@@ -276,7 +295,7 @@ public class CoordinateValueObjectTest {
 		nullCoordinateTwo = coordinateFactory.getNullCoordinate();
 
 		assertTrue(nullCoordinateOne.isEqual(nullCoordinateTwo));
-		assertTrue(nullCoordinateOne.isEqual(nullCoordinateTwo));
+		assertTrue(nullCoordinateTwo.isEqual(nullCoordinateOne));
 
 		/*
 		 * comparing other coordinate with nullcoordinate throws Exception
@@ -287,7 +306,7 @@ public class CoordinateValueObjectTest {
 	}
 
 	/**
-	 * Test behaviour when getInstance-Method is called but not implemented, an
+	 * Test behavior when getInstance-Method is called but not implemented, an
 	 * IllegalStateException must be thrown
 	 */
 	@Test(expected = IllegalStateException.class)

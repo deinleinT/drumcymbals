@@ -74,7 +74,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		assertDoubleNaN(latitude);
 		assertIsLatitudeValueValid(latitude);
 
-		SphericCoordinate result = (SphericCoordinate) getInstance(latitude, getLongitude(), getRadius());
+		SphericCoordinate result = getInstance(latitude, getLongitude(), getRadius());
 
 		// Postconditions
 		assertParameterNotNull(result);
@@ -113,7 +113,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		assertDoubleNaN(longitude);
 		assertIsLongitudeValueValid(longitude);
 
-		SphericCoordinate result = (SphericCoordinate) getInstance(getLatitude(), longitude, getRadius());
+		SphericCoordinate result = getInstance(getLatitude(), longitude, getRadius());
 
 		// Postconditions
 		assertParameterNotNull(result);
@@ -146,7 +146,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		assertDoubleNaN(radius);
 		assertRadiusIsPositive(radius);
 
-		SphericCoordinate result = (SphericCoordinate) getInstance(getLatitude(), getLongitude(), radius);
+		SphericCoordinate result = getInstance(getLatitude(), getLongitude(), radius);
 
 		// Postconditions
 		assertParameterNotNull(result);
@@ -285,7 +285,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * 
 	 * @methodtype factory
 	 */
-	static synchronized Coordinate getInstance(double latitude, double longitude, double radius) {
+	static synchronized SphericCoordinate getInstance(double latitude, double longitude, double radius) {
 
 		// preconditions
 		assertDoubleNaN(latitude);
@@ -306,6 +306,8 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 		// Postconditions
 		assertParameterNotNull(result);
+		assertCreatedSphericCoordinate(result, latitude, longitude);
+		assertRadiusOfCreatedSphericCoordinate(result, radius);
 		assertINSTANCESNotEmpty(INSTANCES);
 
 		return result;

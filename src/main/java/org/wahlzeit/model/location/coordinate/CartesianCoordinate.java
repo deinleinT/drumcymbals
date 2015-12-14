@@ -64,10 +64,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		// Preconditions
 		assertDoubleNaN(xValue);
 
-		CartesianCoordinate result = (CartesianCoordinate) getInstance(xValue, getYValue(), getZValue());
+		CartesianCoordinate result = getInstance(xValue, getYValue(), getZValue());
 
 		// Postconditions
 		assertParameterNotNull(result);
+		assertCreatedCartesianCoordinate(result, xValue, getYValue(), getZValue());
 		assertClassInvariants();
 
 		return result;
@@ -99,10 +100,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		// Preconditions
 		assertDoubleNaN(yValue);
 
-		CartesianCoordinate result = (CartesianCoordinate) getInstance(getXValue(), yValue, getZValue());
+		CartesianCoordinate result = getInstance(getXValue(), yValue, getZValue());
 
 		// Postconditions
 		assertParameterNotNull(result);
+		assertCreatedCartesianCoordinate(result, getXValue(), yValue, getZValue());
 		assertClassInvariants();
 
 		return result;
@@ -133,10 +135,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		// Preconditions
 		assertDoubleNaN(zValue);
 
-		CartesianCoordinate result = (CartesianCoordinate) getInstance(getXValue(), getYValue(), zValue);
+		CartesianCoordinate result = getInstance(getXValue(), getYValue(), zValue);
 
 		// Postconditions
 		assertParameterNotNull(result);
+		assertCreatedCartesianCoordinate(result, getXValue(), getYValue(), zValue);
 		assertClassInvariants();
 
 		return result;
@@ -153,7 +156,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * 
 	 * @methodtype factory
 	 */
-	static synchronized Coordinate getInstance(double xValue, double yValue, double zValue) {
+	static synchronized CartesianCoordinate getInstance(double xValue, double yValue, double zValue) {
 
 		// preconditions
 		assertDoubleNaN(xValue);
@@ -174,6 +177,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 		// Postconditions
 		assertParameterNotNull(result);
+		assertCreatedCartesianCoordinate(result, xValue, yValue, zValue);
 		assertINSTANCESNotEmpty(INSTANCES);
 
 		return result;
@@ -252,6 +256,30 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	protected static void assertParameterIsInstanceOfCartesianCoordinate(CartesianCoordinate other) {
 		if (!(other instanceof CartesianCoordinate)) {
 			throw new IllegalArgumentException("Not an Instance of Cartesian Coordinate.");
+		}
+	}
+	
+	/**
+	 * @methodtype assertion
+	 * @methodproperty primitive
+	 */
+	protected static void assertCreatedCartesianCoordinate(CartesianCoordinate result, double xValue, double yValue, double zValue) {
+		if (result.getXValue() != xValue) {
+			throw new IllegalStateException(
+					"Error while creating CartesianCoordinate. The X-Value in the Coordinate is " + result.getXValue()
+							+ ", the original X-Value as parameter is " + xValue + ".");
+		}
+
+		if (result.getYValue() != yValue) {
+			throw new IllegalStateException(
+					"Error while creating CartesianCoordinate. The Y-Value in the Coordinate is " + result.getYValue()
+							+ ", the original Y-Value as parameter is " + yValue + ".");
+		}
+
+		if (result.getZValue() != zValue) {
+			throw new IllegalStateException(
+					"Error while creating CartesianCoordinate. The Z-Value in the Coordinate is " + result.getZValue()
+							+ ", the original Z-Value as parameter is " + zValue + ".");
 		}
 	}
 

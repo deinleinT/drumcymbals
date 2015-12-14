@@ -21,7 +21,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 	/**
 	 * Method to get Coordinate-Instances from the INSTANCES-Hashmap. If this
-	 * method is not overwritten in subclasses, an Exception will be thrown.
+	 * method is not overwritten in subclasses and executed, an Exception will be thrown.
 	 * 
 	 * @methodtype command
 	 */
