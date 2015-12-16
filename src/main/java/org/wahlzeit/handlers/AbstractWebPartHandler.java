@@ -21,6 +21,7 @@
 package org.wahlzeit.handlers;
 
 import org.wahlzeit.model.AccessRights;
+import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.ModelConfig;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoManager;
@@ -144,7 +145,8 @@ public abstract class AbstractWebPartHandler implements WebPartHandler {
 	 */
 	protected boolean isSavedPhotoVisible(UserSession us) {
 		String id = us.getAsString(us.getSavedArgs(), Photo.ID);
-		Photo photo = PhotoManager.getInstance().getPhoto(id);
+//		Photo photo = PhotoManager.getInstance().getPhoto(id);
+		Photo photo = DrumcymbalPhotoManager.getInstance().getPhoto(id);
 		return photo.isVisible();
 	}
 

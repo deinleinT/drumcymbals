@@ -23,13 +23,10 @@ package org.wahlzeit.model;
 import java.util.logging.Logger;
 
 /**
- * An Abstract Factory for creating photos and related objects. 
+ * An Abstract Factory for creating photos and related objects.
  * 
- * @Pattern (
- *   name = “Abstract Factory”
- *   participants = {
- *      “AbstractFactory”, 
- *     “ConcreteFactory”   } )
+ * @Pattern (   name = “Abstract Factory”   participants = {
+ *     “AbstractFactory”,      “ConcreteFactory”   } )
  */
 public abstract class PhotoFactory {
 
@@ -48,23 +45,23 @@ public abstract class PhotoFactory {
 		// do nothing
 	}
 
-	/**
-	 * Hidden singleton instance; needs to be initialized from the outside.
-	 */
-	public static void initialize() {
-		// getInstance(); // drops result due to getInstance() side-effects
-		DrumcymbalPhotoFactory.getInstance();
-	}
+	// /**
+	// * Hidden singleton instance; needs to be initialized from the outside.
+	// */
+	// public static void initialize() {
+	// // getInstance(); // drops result due to getInstance() side-effects
+	// DrumcymbalPhotoFactory.getInstance();
+	// }
 
-	/**
-	 * added during adap-hw04
-	 * 
-	 * @return PhotoFactory
-	 * @methodtype get
-	 */
-	public static synchronized PhotoFactory getInstance() {
-		return DrumcymbalPhotoFactory.getInstance();
-	}
+	// /**
+	// * added during adap-hw04
+	// *
+	// * @return PhotoFactory
+	// * @methodtype get
+	// */
+	// public static synchronized PhotoFactory getInstance() {
+	// return DrumcymbalPhotoFactory.getInstance();
+	// }
 
 	// adap-hw04
 	// /**

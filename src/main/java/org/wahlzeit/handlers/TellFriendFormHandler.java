@@ -20,10 +20,13 @@
 
 package org.wahlzeit.handlers;
 
+import java.util.Map;
+import java.util.logging.Logger;
+
 import org.wahlzeit.model.AccessRights;
+import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.ModelConfig;
 import org.wahlzeit.model.Photo;
-import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.UserSession;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.LogBuilder;
@@ -31,9 +34,6 @@ import org.wahlzeit.services.mailing.EmailService;
 import org.wahlzeit.services.mailing.EmailServiceManager;
 import org.wahlzeit.utils.StringUtil;
 import org.wahlzeit.webparts.WebPart;
-
-import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * A handler class for a specific web form.
@@ -71,12 +71,15 @@ public class TellFriendFormHandler extends AbstractWebFormHandler {
 		String emailText = config.getTellFriendEmailWebsite() + "\n\n" + us.getSiteUrl() + "\n\n";
 
 		String id = us.getAsString(args, Photo.ID);
-		if (!StringUtil.isNullOrEmptyString(id) && PhotoManager.getInstance().hasPhoto(id)) {
+		// if (!StringUtil.isNullOrEmptyString(id) &&
+		// PhotoManager.getInstance().hasPhoto(id)) {
+		if (!StringUtil.isNullOrEmptyString(id) && DrumcymbalPhotoManager.getInstance().hasPhoto(id)) {
 			emailText += (config.getTellFriendEmailPhoto() + "\n\n" + us.getSiteUrl() + id + ".html" + "\n\n");
 		}
 
 		part.addString(Photo.ID, id);
-		Photo photo = PhotoManager.getInstance().getPhoto(id);
+		// Photo photo = PhotoManager.getInstance().getPhoto(id);
+		Photo photo = DrumcymbalPhotoManager.getInstance().getPhoto(id);
 		part.addString(Photo.THUMB, getPhotoThumb(us, photo));
 
 		part.maskAndAddStringFromArgsWithDefault(args, EMAIL_BODY, emailText);
@@ -108,10 +111,8 @@ public class TellFriendFormHandler extends AbstractWebFormHandler {
 		EmailService emailService = EmailServiceManager.getDefaultService();
 		emailService.sendEmailIgnoreException(to, config.getAuditEmailAddress(), emailSubject, emailBody);
 
-		log.info(LogBuilder.createUserMessage().
-				addAction("TellFriend").
-				addParameter("recipient", to.asString()).toString());
-
+		log.info(LogBuilder.createUserMessage().addAction("TellFriend").addParameter("recipient", to.asString())
+				.toString());
 
 		us.setTwoLineMessage(config.getEmailWasSent() + friendsEmailAddress + "! ", config.getKeepGoing());
 

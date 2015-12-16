@@ -75,6 +75,7 @@ public class CoordinateFactory {
 
 		// Postcondition
 		assertCreatedSphericCoordinate(result, latitude, longitude);
+		assertRadiusOfCreatedSphericCoordinate(result, SphericCoordinate.EARTH_RADIUS_IN_KM);
 		assertClassInvariants();
 
 		return result;

@@ -20,9 +20,6 @@
 
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.LogBuilder;
-import org.wahlzeit.utils.StringUtil;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,9 +28,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import org.wahlzeit.services.LogBuilder;
+import org.wahlzeit.utils.StringUtil;
+
 /**
- * A class to specify a photo filter.
- * A photo filter captures selection ("filtering") criteria for photos.
+ * A class to specify a photo filter. A photo filter captures selection
+ * ("filtering") criteria for photos.
  */
 public class PhotoFilter implements Serializable {
 
@@ -144,7 +144,8 @@ public class PhotoFilter implements Serializable {
 	}
 
 	/**
-	 * Get a random photo that has not been rated. If possible avoid skipped photos.
+	 * Get a random photo that has not been rated. If possible avoid skipped
+	 * photos.
 	 */
 	public PhotoId getRandomDisplayablePhotoId() {
 		if (!displayablePhotoIds.isEmpty()) {
@@ -207,7 +208,6 @@ public class PhotoFilter implements Serializable {
 		}
 	}
 
-
 	/**
 	 * @methodtype get
 	 */
@@ -238,17 +238,20 @@ public class PhotoFilter implements Serializable {
 		// get all tags that match the filter conditions
 		List<PhotoId> result = new LinkedList<PhotoId>();
 		int noFilterConditions = getFilterConditions().size();
-		log.config(LogBuilder.createSystemMessage().
-				addParameter("Number of filter conditions", String.valueOf(noFilterConditions)).toString());
+		log.config(LogBuilder.createSystemMessage()
+				.addParameter("Number of filter conditions", String.valueOf(noFilterConditions)).toString());
 
 		Collection<PhotoId> candidates;
 		if (noFilterConditions == 0) {
-			candidates = PhotoManager.getInstance().getPhotoCache().keySet();
+			// candidates = PhotoManager.getInstance().getPhotoCache().keySet();
+			candidates = DrumcymbalPhotoManager.getInstance().getPhotoCache().keySet();
 		} else {
 			List<Tag> tags = new LinkedList<Tag>();
 			candidates = new LinkedList<PhotoId>();
 			for (String condition : getFilterConditions()) {
-				PhotoManager.getInstance().addTagsThatMatchCondition(tags, condition);
+				// PhotoManager.getInstance().addTagsThatMatchCondition(tags,
+				// condition);
+				DrumcymbalPhotoManager.getInstance().addTagsThatMatchCondition(tags, condition);
 			}
 			// get the list of all photo ids that correspond to the tags
 			for (Tag tag : tags) {
@@ -258,9 +261,11 @@ public class PhotoFilter implements Serializable {
 
 		int newPhotos = 0;
 		for (PhotoId candidateId : candidates) {
-			Photo photoCandidate = PhotoManager.getInstance().getPhoto(candidateId);
-			if (!processedPhotoIds.contains(candidateId) && !skippedPhotoIds.contains(candidateId) &&
-					photoCandidate.isVisible()) {
+			// Photo photoCandidate =
+			// PhotoManager.getInstance().getPhoto(candidateId);
+			Photo photoCandidate = DrumcymbalPhotoManager.getInstance().getPhoto(candidateId);
+			if (!processedPhotoIds.contains(candidateId) && !skippedPhotoIds.contains(candidateId)
+					&& photoCandidate.isVisible()) {
 				result.add(candidateId);
 				++newPhotos;
 			}
@@ -271,8 +276,7 @@ public class PhotoFilter implements Serializable {
 			newPhotos = skippedPhotos;
 		}
 
-		log.config(LogBuilder.createSystemMessage().addParameter("Number of photos to show", newPhotos)
-				.toString());
+		log.config(LogBuilder.createSystemMessage().addParameter("Number of photos to show", newPhotos).toString());
 
 		return result;
 	}

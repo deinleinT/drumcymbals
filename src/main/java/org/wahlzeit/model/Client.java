@@ -20,23 +20,24 @@
 
 package org.wahlzeit.model;
 
-import com.google.appengine.api.datastore.Key;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
-import com.googlecode.objectify.annotation.Parent;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.Language;
 import org.wahlzeit.services.ObjectManager;
 import org.wahlzeit.services.Persistent;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
+import com.googlecode.objectify.annotation.Parent;
 
 /**
- * A Client uses the system. It is an abstract superclass. This package defines guest, user, moderator, and
- * administrator clients.
+ * A Client uses the system. It is an abstract superclass. This package defines
+ * guest, user, moderator, and administrator clients.
  */
 @Entity
 public abstract class Client implements Serializable, Persistent {
@@ -76,7 +77,6 @@ public abstract class Client implements Serializable, Persistent {
 
 	protected List<PhotoId> skippedPhotoIds = new ArrayList<PhotoId>();
 
-
 	/**
 	 *
 	 */
@@ -88,7 +88,7 @@ public abstract class Client implements Serializable, Persistent {
 	 * @methodtype initialization
 	 */
 	protected void initialize(String id, String nickName, EmailAddress emailAddress, AccessRights accessRights,
-							  Client previousClient) {
+			Client previousClient) {
 		this.id = id;
 		this.nickName = nickName;
 		this.accessRights = accessRights;
@@ -301,7 +301,8 @@ public abstract class Client implements Serializable, Persistent {
 		Photo result = null;
 		while (indexOfLastPraisedPhoto >= 0 && result == null) {
 			PhotoId lastPraisedPhotoId = praisedPhotoIds.get(indexOfLastPraisedPhoto);
-			result = PhotoManager.getInstance().getPhoto(lastPraisedPhotoId);
+			// result = PhotoManager.getInstance().getPhoto(lastPraisedPhotoId);
+			result = DrumcymbalPhotoManager.getInstance().getPhoto(lastPraisedPhotoId);
 			if (!result.isVisible()) {
 				result = null;
 				indexOfLastPraisedPhoto--;

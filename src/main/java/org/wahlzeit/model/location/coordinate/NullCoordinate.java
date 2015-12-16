@@ -66,6 +66,10 @@ public class NullCoordinate extends AbstractCoordinate {
 
 	@Override
 	public boolean isEqual(Coordinate other) throws NullCoordinateException {
+		
+		//preconditons
+		assertParameterNotNull(other);
+		
 		if (this.isSame(other)) {
 			return true;
 		} else {
@@ -124,8 +128,8 @@ public class NullCoordinate extends AbstractCoordinate {
 	 * @methodtype assertion
 	 * @methodproperty primitive
 	 */
-	protected static void assertNullCoordinateInstance(Coordinate singleton) {
-		if (!(singleton instanceof NullCoordinate)) {
+	protected static void assertNullCoordinateInstance(Coordinate coordinate) {
+		if (!(coordinate instanceof NullCoordinate)) {
 			throw new IllegalStateException("Error while creating NullCoordinate.");
 		}
 	}

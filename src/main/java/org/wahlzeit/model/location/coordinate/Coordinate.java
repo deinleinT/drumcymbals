@@ -23,7 +23,7 @@ public interface Coordinate extends Serializable {
 	 * Checks whether two Coordinates are equal. Converts first both Coordinates
 	 * to CartesianCoordinate and then checks the values.
 	 * 
-	 * @methodtype boolean query
+	 * @methodtype comparison
 	 */
 	public boolean isEqual(Coordinate coordinate) throws NullCoordinateException;
 

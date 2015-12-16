@@ -20,9 +20,12 @@
 
 package org.wahlzeit.handlers;
 
-import com.google.appengine.api.images.Image;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import org.wahlzeit.agents.AsyncTaskExecutor;
 import org.wahlzeit.model.AccessRights;
+import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.ModelConfig;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoManager;
@@ -33,8 +36,7 @@ import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.utils.StringUtil;
 import org.wahlzeit.webparts.WebPart;
 
-import java.util.Map;
-import java.util.logging.Logger;
+import com.google.appengine.api.images.Image;
 
 /**
  * A handler class for a specific web form.
@@ -73,7 +75,8 @@ public class UploadPhotoFormHandler extends AbstractWebFormHandler {
 		}
 
 		try {
-			PhotoManager pm = PhotoManager.getInstance();
+			// PhotoManager pm = PhotoManager.getInstance();
+			PhotoManager pm = DrumcymbalPhotoManager.getInstance();
 			String fileName = us.getAsString(args, "fileName");
 			User user = (User) us.getClient();
 			Image uploadedImage = user.getUploadedImage();
@@ -83,15 +86,13 @@ public class UploadPhotoFormHandler extends AbstractWebFormHandler {
 
 			photo.setTags(new Tags(tags));
 
-			log.config(LogBuilder.createUserMessage().
-					addAction("Upload Photo").
-					addParameter("Photo", photo.getId().asString()).
-					addParameter("tags", photo.getTags().asString()).toString());
+			log.config(LogBuilder.createUserMessage().addAction("Upload Photo")
+					.addParameter("Photo", photo.getId().asString()).addParameter("tags", photo.getTags().asString())
+					.toString());
 
 			us.setTwoLineMessage(config.getPhotoUploadSucceeded(), config.getKeepGoing());
-			log.config(LogBuilder.createSystemMessage().
-					addAction("Calling async task to save Photo").
-					addParameter("ID", photo.getId().asString()).toString());
+			log.config(LogBuilder.createSystemMessage().addAction("Calling async task to save Photo")
+					.addParameter("ID", photo.getId().asString()).toString());
 
 			AsyncTaskExecutor.savePhotoAsync(photo.getId().asString());
 		} catch (Exception ex) {

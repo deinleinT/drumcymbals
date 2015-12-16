@@ -20,9 +20,15 @@
 
 package org.wahlzeit.main;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.logging.Logger;
+
+import org.wahlzeit.model.DrumcymbalPhotoFactory;
+import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.GlobalsManager;
 import org.wahlzeit.model.PhotoCaseManager;
-import org.wahlzeit.model.PhotoFactory;
 import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserManager;
@@ -31,13 +37,9 @@ import org.wahlzeit.model.persistence.DatastoreAdapter;
 import org.wahlzeit.model.persistence.ImageStorage;
 import org.wahlzeit.services.LogBuilder;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.logging.Logger;
-
 /**
- * A single-threaded Main class with database connection. Can be used by tools that don't want to start a server.
+ * A single-threaded Main class with database connection. Can be used by tools
+ * that don't want to start a server.
  */
 public abstract class ModelMain extends AbstractMain {
 
@@ -51,7 +53,7 @@ public abstract class ModelMain extends AbstractMain {
 		log.info("AbstractMain.startUp completed");
 
 		log.config(LogBuilder.createSystemMessage().addAction("load image storage").toString());
-		//GcsAdapter.Builder gcsAdapterBuilder = new GcsAdapter.Builder();
+		// GcsAdapter.Builder gcsAdapterBuilder = new GcsAdapter.Builder();
 		ImageStorage.setInstance(new DatastoreAdapter());
 
 		log.config(LogBuilder.createSystemMessage().addAction("load globals").toString());
@@ -61,13 +63,13 @@ public abstract class ModelMain extends AbstractMain {
 		UserManager.getInstance().init();
 
 		log.config(LogBuilder.createSystemMessage().addAction("init PhotoFactory").toString());
-		PhotoFactory.initialize();
+		DrumcymbalPhotoFactory.initialize();
 		CoordinateFactory.initialize();
 
 		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
-		PhotoManager.getInstance().init();
+		// PhotoManager.getInstance().init();
+		DrumcymbalPhotoManager.getInstance().init();
 	}
-
 
 	/**
 	 *
@@ -81,9 +83,10 @@ public abstract class ModelMain extends AbstractMain {
 	/**
 	 *
 	 */
-	public void saveAll() throws IOException{
+	public void saveAll() throws IOException {
 		PhotoCaseManager.getInstance().savePhotoCases();
-		PhotoManager.getInstance().savePhotos();
+		// PhotoManager.getInstance().savePhotos();
+		DrumcymbalPhotoManager.getInstance().savePhotos();
 		UserManager.getInstance().saveClients();
 		GlobalsManager.getInstance().saveGlobals();
 	}
@@ -95,20 +98,21 @@ public abstract class ModelMain extends AbstractMain {
 		UserManager userManager = UserManager.getInstance();
 		new User(userId, nickName, emailAddress);
 
-		PhotoManager photoManager = PhotoManager.getInstance();
+		// PhotoManager photoManager = PhotoManager.getInstance();
+		PhotoManager photoManager = DrumcymbalPhotoManager.getInstance();
 		File photoDirFile = new File(photoDir);
 		FileFilter photoFileFilter = new FileFilter() {
 			public boolean accept(File file) {
-				//TODO: check and change
+				// TODO: check and change
 				return file.getName().endsWith(".jpg");
 			}
 		};
 
 		File[] photoFiles = photoDirFile.listFiles(photoFileFilter);
 		for (int i = 0; i < photoFiles.length; i++) {
-			//TODO: change to datastore/cloud storage
-			//Photo newPhoto = photoManager.createPhoto(photoFiles[i]);
-			//user.addPhoto(newPhoto);
+			// TODO: change to datastore/cloud storage
+			// Photo newPhoto = photoManager.createPhoto(photoFiles[i]);
+			// user.addPhoto(newPhoto);
 		}
 	}
 }

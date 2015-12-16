@@ -5,15 +5,11 @@ import org.wahlzeit.services.LogBuilder;
 /**
  * Factory to create DrumcymbalPhotos
  * 
- * @author ThomasDeinlein
- * @Pattern (
- *   name = “Abstract Factory”
- *   participants = {
- *      “AbstractFactory”, 
- *     “ConcreteFactory”   } )
+ * @author ThomasDeinlein @Pattern (   name = “Abstract Factory”
+ *           participants = {     “AbstractFactory”,      “ConcreteFactory”   }
+ *         )
  * 
- * @Pattern (
- *   name = "Singleton")
+ * @Pattern ( name = "Singleton")
  *
  */
 public class DrumcymbalPhotoFactory extends PhotoFactory {
@@ -38,7 +34,16 @@ public class DrumcymbalPhotoFactory extends PhotoFactory {
 	}
 
 	/**
+	 * @methodtype initialize
+	 */
+	public static void initialize() {
+		// getInstance(); // drops result due to getInstance() side-effects
+		DrumcymbalPhotoFactory.getInstance();
+	}
+
+	/**
 	 * Method to set the singleton instance of PhotoFactory.
+	 * 
 	 * @methodtype assertion
 	 */
 	protected static synchronized void setInstance(PhotoFactory photoFactory) {

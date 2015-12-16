@@ -20,11 +20,6 @@
 
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.Language;
-import org.wahlzeit.services.Session;
-import org.wahlzeit.utils.HtmlUtil;
-
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,8 +27,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpSession;
+
+import org.wahlzeit.services.Language;
+import org.wahlzeit.services.Session;
+import org.wahlzeit.utils.HtmlUtil;
+
 /**
- * Wrapper class for {@link HttpSession} to provide a readable interface for Wahlzeit.
+ * Wrapper class for {@link HttpSession} to provide a readable interface for
+ * Wahlzeit.
  *
  * {@link HttpSession}s are managed automatically by Google App Engine.
  */
@@ -53,7 +55,6 @@ public class UserSession extends Session implements Serializable {
 	public static final String INITIALIZED = "initialized";
 	public static final String ANONYMOUS_CLIENT = "anon";
 
-
 	private static Logger log = Logger.getLogger(UserSession.class.getName());
 
 	protected HttpSession httpSession;
@@ -66,7 +67,9 @@ public class UserSession extends Session implements Serializable {
 		initialize(myName);
 		if (httpSession.getAttribute(INITIALIZED) == null) {
 			httpSession.setAttribute(SITE_URL, mySiteUrl);
-			httpSession.setAttribute(PHOTO_FILTER, PhotoFactory.getInstance().createPhotoFilter());
+			// httpSession.setAttribute(PHOTO_FILTER,
+			// PhotoFactory.getInstance().createPhotoFilter());
+			httpSession.setAttribute(PHOTO_FILTER, DrumcymbalPhotoFactory.getInstance().createPhotoFilter());
 
 			setClient(new Guest());
 			try {

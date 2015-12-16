@@ -20,11 +20,14 @@
 
 package org.wahlzeit.handlers;
 
+import java.util.Map;
+import java.util.logging.Logger;
+
 import org.wahlzeit.model.AccessRights;
+import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.ModelConfig;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoId;
-import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserManager;
 import org.wahlzeit.model.UserSession;
@@ -33,16 +36,12 @@ import org.wahlzeit.utils.HtmlUtil;
 import org.wahlzeit.utils.StringUtil;
 import org.wahlzeit.webparts.WebPart;
 
-import java.util.Map;
-import java.util.logging.Logger;
-
 /**
  * A handler class for a specific web form.
  */
 public class ShowUserPhotoFormHandler extends AbstractWebFormHandler {
 
 	private static final Logger log = Logger.getLogger(ShowUserPhotoFormHandler.class.getName());
-
 
 	/**
 	 *
@@ -56,7 +55,8 @@ public class ShowUserPhotoFormHandler extends AbstractWebFormHandler {
 	 */
 	protected void doMakeWebPart(UserSession us, WebPart part) {
 		PhotoId photoId = us.getPhotoId();
-		Photo photo = PhotoManager.getInstance().getPhoto(photoId);
+		// Photo photo = PhotoManager.getInstance().getPhoto(photoId);
+		Photo photo = DrumcymbalPhotoManager.getInstance().getPhoto(photoId);
 		String id = photo.getId().asString();
 		ModelConfig config = us.getClient().getLanguageConfiguration();
 		part.addString(Photo.ID, id);
@@ -80,7 +80,8 @@ public class ShowUserPhotoFormHandler extends AbstractWebFormHandler {
 	 */
 	protected boolean isWellFormedPost(UserSession us, Map args) {
 		String id = us.getAsString(args, Photo.ID);
-		Photo photo = PhotoManager.getInstance().getPhoto(id);
+		// Photo photo = PhotoManager.getInstance().getPhoto(id);
+		Photo photo = DrumcymbalPhotoManager.getInstance().getPhoto(id);
 		return (photo != null) && us.isPhotoOwner(photo);
 	}
 
@@ -91,7 +92,8 @@ public class ShowUserPhotoFormHandler extends AbstractWebFormHandler {
 		String result = PartUtil.SHOW_USER_HOME_PAGE_NAME;
 
 		String id = us.getAndSaveAsString(args, Photo.ID);
-		Photo photo = PhotoManager.getInstance().getPhoto(id);
+		// Photo photo = PhotoManager.getInstance().getPhoto(id);
+		Photo photo = DrumcymbalPhotoManager.getInstance().getPhoto(id);
 
 		UserManager userManager = UserManager.getInstance();
 		User user = userManager.getUserById(photo.getOwnerId());
@@ -105,18 +107,17 @@ public class ShowUserPhotoFormHandler extends AbstractWebFormHandler {
 			user.setUserPhoto(photo);
 			us.setClient(user);
 			userManager.saveClient(user);
-			log.info(LogBuilder.createUserMessage().
-					addAction("Select user photo").
-					addParameter("Photo", id).toString());
+			log.info(
+					LogBuilder.createUserMessage().addAction("Select user photo").addParameter("Photo", id).toString());
 		} else if (us.isFormType(args, "delete")) {
 			photo.setStatus(photo.getStatus().asDeleted(true));
-			PhotoManager.getInstance().savePhoto(photo);
+			// PhotoManager.getInstance().savePhoto(photo);
+			DrumcymbalPhotoManager.getInstance().savePhoto(photo);
 			if (user.getUserPhoto() == photo) {
 				user.setUserPhoto(null);
 				userManager.saveClient(user);
 			}
-			log.info(LogBuilder.createUserMessage().
-					addAction("Deselect user photo").toString());
+			log.info(LogBuilder.createUserMessage().addAction("Deselect user photo").toString());
 		}
 
 		return result;

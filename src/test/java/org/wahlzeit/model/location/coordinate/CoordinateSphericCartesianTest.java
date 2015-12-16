@@ -263,8 +263,10 @@ public class CoordinateSphericCartesianTest {
 	 */
 	@Test(expected = NullCoordinateException.class)
 	public void testNullCoordinateIsEqual() throws NullCoordinateException {
-		Coordinate coordinate = CoordinateFactory.getInstance().getNullCoordinate();
-		coordinate.isEqual(coordinate);
+		NullCoordinate coordinate = CoordinateFactory.getInstance().getNullCoordinate();
+		CartesianCoordinate cart = CoordinateFactory.getInstance().getCartesianCoordinate(1, 1, 1);
+		
+		coordinate.isEqual(cart);
 	}
 
 }

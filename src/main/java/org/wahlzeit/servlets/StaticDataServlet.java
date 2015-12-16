@@ -1,24 +1,27 @@
 package org.wahlzeit.servlets;
 
-import com.google.appengine.api.images.Image;
-import org.apache.http.HttpStatus;
-import org.wahlzeit.model.Photo;
-import org.wahlzeit.model.PhotoManager;
-import org.wahlzeit.model.PhotoSize;
-import org.wahlzeit.model.persistence.ImageStorage;
-import org.wahlzeit.services.LogBuilder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.http.HttpStatus;
+import org.wahlzeit.model.DrumcymbalPhotoManager;
+import org.wahlzeit.model.Photo;
+import org.wahlzeit.model.PhotoSize;
+import org.wahlzeit.model.persistence.ImageStorage;
+import org.wahlzeit.services.LogBuilder;
+
+import com.google.appengine.api.images.Image;
+
 /**
  * Servlet that returns static data like the Photos to the user.
  *
- * As there are several links for each Photo, this can not the handled via the MainServlet, which has a unique link for
- * each Handler. Instead web.xml redirects all static requests to this Servlet.
+ * As there are several links for each Photo, this can not the handled via the
+ * MainServlet, which has a unique link for each Handler. Instead web.xml
+ * redirects all static requests to this Servlet.
  * 
  * @review
  */
@@ -33,11 +36,8 @@ public class StaticDataServlet extends AbstractServlet {
 			String photoId = request.getParameter("photoId");
 			String sizeString = request.getParameter("size");
 			int size = Integer.valueOf(sizeString);
-			log.info(LogBuilder.createSystemMessage().
-					addAction("Provide static resource").
-					addParameter("type", type).
-					addParameter("photoId", photoId).
-					addParameter("size", size).toString());
+			log.info(LogBuilder.createSystemMessage().addAction("Provide static resource").addParameter("type", type)
+					.addParameter("photoId", photoId).addParameter("size", size).toString());
 
 			if ("image".equals(type)) {
 				Image image = getImage(photoId, size);
@@ -50,8 +50,8 @@ public class StaticDataServlet extends AbstractServlet {
 					response.setStatus(HttpStatus.SC_NOT_FOUND);
 				}
 			} else {
-				log.warning(LogBuilder.createSystemMessage().
-						addMessage("unimplemented static resource type has been requested").toString());
+				log.warning(LogBuilder.createSystemMessage()
+						.addMessage("unimplemented static resource type has been requested").toString());
 				response.setStatus(HttpStatus.SC_NOT_IMPLEMENTED);
 			}
 
@@ -63,12 +63,14 @@ public class StaticDataServlet extends AbstractServlet {
 	/**
 	 * @methodtype command
 	 *
-	 * Loads image either from the <@link>PhotoManager</@link> or from the <@link>ImageStorage</@link>. If image does
-	 * not exist, null is returned.
+	 *             Loads image either from the <@link>PhotoManager</@link> or
+	 *             from the <@link>ImageStorage</@link>. If image does not
+	 *             exist, null is returned.
 	 */
 	private Image getImage(String photoId, int size) {
 		Image image = null;
-		Photo photo = PhotoManager.getInstance().getPhoto(photoId);
+		// Photo photo = PhotoManager.getInstance().getPhoto(photoId);
+		Photo photo = DrumcymbalPhotoManager.getInstance().getPhoto(photoId);
 		if (photo != null) {
 			PhotoSize photoSize = PhotoSize.getFromInt(size);
 			image = photo.getImage(photoSize);
@@ -88,4 +90,3 @@ public class StaticDataServlet extends AbstractServlet {
 		return image;
 	}
 }
-

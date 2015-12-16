@@ -1,6 +1,8 @@
 package org.wahlzeit.agents;
 
 import com.google.apphosting.api.ApiProxy;
+
+import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.LanguageConfigs;
 import org.wahlzeit.model.ModelConfig;
 import org.wahlzeit.model.Photo;
@@ -38,7 +40,9 @@ public class NotifyUsersAboutPraiseAgent extends Agent {
 	 * Notifies all users that want to get informed if their photos have been praised.
 	 */
 	protected void doRun() {
-		Map<PhotoId, Photo> photoCache = PhotoManager.getInstance().getPhotoCache();
+//		Map<PhotoId, Photo> photoCache = PhotoManager.getInstance().getPhotoCache();
+		Map<PhotoId, Photo> photoCache = DrumcymbalPhotoManager.getInstance().getPhotoCache();
+		
 		Collection<Photo> photos = photoCache.values();
 
 		ArrayList<Photo> arrayListOfPhotos;
@@ -58,7 +62,8 @@ public class NotifyUsersAboutPraiseAgent extends Agent {
 					arrayListOfPhotos.add(photo);
 					ownerIdPhotosMap.put(ownerId, arrayListOfPhotos);
 					photo.setNoNewPraise();
-					PhotoManager.getInstance().savePhoto(photo);
+//					PhotoManager.getInstance().savePhoto(photo);
+					DrumcymbalPhotoManager.getInstance().savePhoto(photo);
 				}
 			}
 		}

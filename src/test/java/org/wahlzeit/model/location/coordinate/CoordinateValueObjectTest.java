@@ -136,7 +136,7 @@ public class CoordinateValueObjectTest {
 		 */
 		cartesianSix = cartesianSix.setXValue(5).setYValue(5).setZValue(5);
 		cartesianFive = cartesianFive.setXValue(5).setYValue(5).setZValue(5);
-		assertTrue(cartesianSix.isSame(cartesianFive));
+		assertTrue(cartesianFive.isSame(cartesianSix));
 		assertTrue(cartesianSix.isSame(cartesianFive));
 
 		/*
@@ -163,6 +163,14 @@ public class CoordinateValueObjectTest {
 
 		assertTrue(sphericSix.isSame(sphericFive));
 		assertTrue(sphericSix.isSame(sphericFive));
+		
+		/*
+		 * Test with method chaining
+		 */
+		sphericSix = sphericSix.setLatitude(5).setLongitude(5).setRadius(5);
+		sphericFive = sphericFive.setLatitude(5).setLongitude(5).setRadius(5);
+		assertTrue(sphericSix.isSame(sphericFive));
+		assertTrue(sphericFive.isSame(sphericSix));
 
 		/*
 		 * checks whether two sphericCoordinates are same instances
@@ -205,6 +213,7 @@ public class CoordinateValueObjectTest {
 		cartesianThree = coordinateFactory.getCartesianCoordinate(6371, 0, 0);
 
 		assertTrue(cartesianThree.isEqual(sphericOne));
+		assertTrue(sphericOne.isEqual(cartesianThree));
 
 		/*
 		 * Two seperate objects, both have same coordinates. This test shall

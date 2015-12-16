@@ -34,7 +34,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 * keyString. The keyString is used to save a coordinate-instance in
 	 * INSTANCES HashMap.
 	 * 
-	 * @methodtype helper
+	 * @methodtype factory
 	 * @methodproperty primitive
 	 */
 	protected static String doCreateKeyString(double paramOne, double paramTwo, double paramThree, String className) {
@@ -115,6 +115,8 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 * Checks if this == other
 	 * 
 	 * @return true, if both objects references same object
+	 * 
+	 * @methodtype comparison
 	 */
 	public boolean isSame(Object other) {
 
