@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import java.util.Date;
+
 import com.googlecode.objectify.annotation.Subclass;
 
 /**
@@ -7,25 +9,19 @@ import com.googlecode.objectify.annotation.Subclass;
  * 
  * @author ThomasDeinlein
  * 
- * @Pattern (
- *   name = “Abstract Factory”
- *   participants = {
- *      “AbstractProduct”, 
- *     “ConcreteProduct”   } )
+ * 		@Pattern (   name = “Abstract Factory”   participants = {
+ *             “AbstractProduct”,      “ConcreteProduct”   } )
  *
  */
-@Subclass(index=true)
+@Subclass(index = true)
 public class DrumcymbalPhoto extends Photo {
-
-	private String name = "";
-	private int size;
 
 	/**
 	 * @methodtype constructor
 	 */
 	public DrumcymbalPhoto() {
 		super();
-
+		photoInstance = new Drumcymbal();
 	}
 
 	/**
@@ -35,6 +31,7 @@ public class DrumcymbalPhoto extends Photo {
 	 */
 	public DrumcymbalPhoto(PhotoId id) {
 		super(id);
+		photoInstance = new Drumcymbal();
 	}
 
 	/**
@@ -42,62 +39,11 @@ public class DrumcymbalPhoto extends Photo {
 	 * @param id
 	 * @methodtype constructor
 	 */
-	public DrumcymbalPhoto(PhotoId id, String name) {
+	public DrumcymbalPhoto(PhotoId id, String name, Date date) {
 		super(id);
 		this.name = checkIsStringNull(name);
-	}
-
-	/**
-	 * @return the name
-	 * @methodtype get
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 * @methodtype set
-	 */
-	public void setName(String name) {
-		this.name = checkIsStringNull(name);
-	}
-
-	/**
-	 * @param name
-	 *            the String which shall be checked
-	 * @methodtype assertion
-	 */
-	private String checkIsStringNull(String name) {
-		return (name == null) ? "" : name;
-	}
-
-	/**
-	 * @return the CymbalSize
-	 * @methodtype get
-	 */
-	public int getSize() {
-		return size;
-	}
-
-	/**
-	 * @param the
-	 *            Cymbalsize
-	 * @methodtype set
-	 */
-	public void setSize(int size) {
-		assertIsSizeValid(size);
-		this.size = size;
-	}
-
-	/**
-	 * @param size
-	 * @methodtype assertion
-	 */
-	private void assertIsSizeValid(int size) {
-		if (size < 2 || size > 30) {
-			throw new IllegalArgumentException("There is no Cymbal with such a size.");
-		}
+		this.timeTaken = date;
+		photoInstance = new Drumcymbal();
 	}
 
 }

@@ -20,6 +20,16 @@
 
 package org.wahlzeit.model;
 
+import java.util.Date;
+import java.util.Map;
+
+import org.wahlzeit.model.location.Location;
+import org.wahlzeit.model.location.coordinate.CoordinateFactory;
+import org.wahlzeit.services.DataObject;
+import org.wahlzeit.services.EmailAddress;
+import org.wahlzeit.services.Language;
+import org.wahlzeit.services.ObjectManager;
+
 import com.google.api.client.util.ArrayMap;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.images.Image;
@@ -29,23 +39,11 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Parent;
 
-import org.wahlzeit.model.location.Location;
-import org.wahlzeit.model.location.coordinate.CoordinateFactory;
-import org.wahlzeit.services.DataObject;
-import org.wahlzeit.services.EmailAddress;
-import org.wahlzeit.services.Language;
-import org.wahlzeit.services.ObjectManager;
-
-import java.util.Map;
-
 /**
  * A photo represents a user-provided (uploaded) photo.
  * 
- * @Pattern (
- *   name = “Abstract Factory”
- *   participants = {
- *      “AbstractProduct”, 
- *     “ConcreteProduct”   } )
+ * @Pattern (   name = “Abstract Factory”   participants = {
+ *     “AbstractProduct”,      “ConcreteProduct”   } )
  */
 @Entity
 public abstract class Photo extends DataObject {
@@ -163,14 +161,17 @@ public abstract class Photo extends DataObject {
 
 	/**
 	 * added in context of adap-hw03 + adap-hw05
-	 * @throws NullCoordinateException 
-	 * @throws IllegalStateException 
+	 * 
+	 * @throws NullCoordinateException
+	 * @throws IllegalStateException
 	 * 
 	 * @methodtype constructor
 	 */
-	public Photo(PhotoId myId, String locationName, Double latitude, Double longitude) throws IllegalStateException, NullCoordinateException {
+	public Photo(PhotoId myId, String locationName, Double latitude, Double longitude)
+			throws IllegalStateException, NullCoordinateException {
 		id = myId;
-		this.location = new Location(locationName, CoordinateFactory.getInstance().getSphericCoordinate(latitude, longitude));
+		this.location = new Location(locationName,
+				CoordinateFactory.getInstance().getSphericCoordinate(latitude, longitude));
 		incWriteCount();
 	}
 
@@ -186,25 +187,73 @@ public abstract class Photo extends DataObject {
 	}
 
 	// added in the context of adap-hw03 + adap-hw04 + adap-hw05
+	// @Container
+	// protected Location location = new Location(null, null);
+	//
+	// /**
+	// * @return the location
+	// * @methodtype get
+	// */
+	// public Location getLocation() {
+	// return location;
+	// }
+	//
+	// /**
+	// * @param location
+	// * @methodtype set
+	// */
+	// public void setLocation(Location location) {
+	// this.location = location;
+	// incWriteCount();
+	// }
+	//
+
+	// added due to adap-hw12
 	@Container
-	protected Location location = new Location(null,null);
+	protected PhotoInstance photoInstance /* flower */;
+	protected String name = "";
+	@Container
+	protected Date timeTaken;
 
 	/**
-	 * @return the location
 	 * @methodtype get
 	 */
-	public Location getLocation() {
-		return location;
+	public PhotoInstance getPhotoInstance() {
+		return this.photoInstance;
 	}
 
 	/**
-	 * @param location
 	 * @methodtype set
 	 */
-	public void setLocation(Location location) {
-		this.location = location;
-		incWriteCount();
+	public void setPhotoInstance(PhotoInstance photoInstance) {
+		this.photoInstance = photoInstance;
 	}
+
+	/**
+	 * @return the name
+	 * @methodtype get
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 * @methodtype set
+	 */
+	public void setName(String name) {
+		this.name = checkIsStringNull(name);
+	}
+
+	/**
+	 * @param name
+	 *            the String which shall be checked
+	 * @methodtype assertion
+	 */
+	protected String checkIsStringNull(String name) {
+		return (name == null) ? "" : name;
+	}
+
 	//
 
 	/**

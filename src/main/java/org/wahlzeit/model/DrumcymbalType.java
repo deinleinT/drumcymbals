@@ -1,5 +1,13 @@
 package org.wahlzeit.model;
 
-public class DrumcymbalType {
+import org.wahlzeit.services.DataObject;
+
+public class DrumcymbalType extends DataObject {
+
+	protected String name;
+
+	protected Drumcymbal instance;
+
+	// TODO
 
 }
