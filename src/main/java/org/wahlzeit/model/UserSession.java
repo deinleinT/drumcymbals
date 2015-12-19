@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
 
+import org.wahlzeit.model.domain.DrumcymbalPhotoFactory;
 import org.wahlzeit.services.Language;
 import org.wahlzeit.services.Session;
 import org.wahlzeit.utils.HtmlUtil;

@@ -21,10 +21,10 @@
 package org.wahlzeit.handlers;
 
 import org.wahlzeit.model.AccessRights;
-import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserSession;
+import org.wahlzeit.model.domain.DrumcymbalPhotoManager;
 import org.wahlzeit.utils.HtmlUtil;
 import org.wahlzeit.webparts.WebPart;
 import org.wahlzeit.webparts.Writable;

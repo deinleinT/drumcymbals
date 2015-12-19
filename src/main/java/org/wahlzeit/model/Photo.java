@@ -20,11 +20,9 @@
 
 package org.wahlzeit.model;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.wahlzeit.model.location.Location;
-import org.wahlzeit.model.location.coordinate.CoordinateFactory;
 import org.wahlzeit.services.DataObject;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.Language;
@@ -167,17 +165,15 @@ public abstract class Photo extends DataObject {
 	 * 
 	 * @methodtype constructor
 	 */
-	public Photo(PhotoId myId, String locationName, Double latitude, Double longitude)
+	public Photo(PhotoId myId, String locationName, double latitude, double longitude)
 			throws IllegalStateException, NullCoordinateException {
 		id = myId;
-		this.location = new Location(locationName,
-				CoordinateFactory.getInstance().getSphericCoordinate(latitude, longitude));
 		incWriteCount();
 	}
 
 	/**
 	 * added in context of adap-hw03 + adap-hw05
-	 * 
+	 *
 	 * @methodtype constructor
 	 */
 	public Photo(PhotoId myId, Location location) {
@@ -187,47 +183,27 @@ public abstract class Photo extends DataObject {
 	}
 
 	// added in the context of adap-hw03 + adap-hw04 + adap-hw05
-	// @Container
-	// protected Location location = new Location(null, null);
-	//
-	// /**
-	// * @return the location
-	// * @methodtype get
-	// */
-	// public Location getLocation() {
-	// return location;
-	// }
-	//
-	// /**
-	// * @param location
-	// * @methodtype set
-	// */
-	// public void setLocation(Location location) {
-	// this.location = location;
-	// incWriteCount();
-	// }
-	//
-
-	// added due to adap-hw12
 	@Container
-	protected PhotoInstance photoInstance /* flower */;
-	protected String name = "";
-	@Container
-	protected Date timeTaken;
+	protected Location location = new Location(null, null);
 
 	/**
+	 * @return the location
 	 * @methodtype get
 	 */
-	public PhotoInstance getPhotoInstance() {
-		return this.photoInstance;
+	public Location getLocation() {
+		return location;
 	}
 
 	/**
+	 * @param location
 	 * @methodtype set
 	 */
-	public void setPhotoInstance(PhotoInstance photoInstance) {
-		this.photoInstance = photoInstance;
+	public void setLocation(Location location) {
+		this.location = location;
+		incWriteCount();
 	}
+
+	protected String name = "";
 
 	/**
 	 * @return the name

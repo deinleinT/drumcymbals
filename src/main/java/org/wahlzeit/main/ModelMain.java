@@ -25,13 +25,13 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.wahlzeit.model.DrumcymbalPhotoFactory;
-import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.GlobalsManager;
 import org.wahlzeit.model.PhotoCaseManager;
 import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserManager;
+import org.wahlzeit.model.domain.DrumcymbalPhotoFactory;
+import org.wahlzeit.model.domain.DrumcymbalPhotoManager;
 import org.wahlzeit.model.location.coordinate.CoordinateFactory;
 import org.wahlzeit.model.persistence.DatastoreAdapter;
 import org.wahlzeit.model.persistence.ImageStorage;

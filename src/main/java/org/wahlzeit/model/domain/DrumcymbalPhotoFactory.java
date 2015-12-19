@@ -1,5 +1,8 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.domain;
 
+import org.wahlzeit.model.Photo;
+import org.wahlzeit.model.PhotoFactory;
+import org.wahlzeit.model.PhotoId;
 import org.wahlzeit.services.LogBuilder;
 
 /**

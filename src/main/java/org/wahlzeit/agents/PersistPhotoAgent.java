@@ -1,8 +1,8 @@
 package org.wahlzeit.agents;
 
-import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoManager;
+import org.wahlzeit.model.domain.DrumcymbalPhotoManager;
 import org.wahlzeit.services.LogBuilder;
 
 import javax.servlet.ServletException;

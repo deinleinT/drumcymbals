@@ -25,13 +25,13 @@ import java.util.logging.Logger;
 
 import org.wahlzeit.agents.AsyncTaskExecutor;
 import org.wahlzeit.model.AccessRights;
-import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.FlagReason;
 import org.wahlzeit.model.ModelConfig;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoCase;
 import org.wahlzeit.model.PhotoCaseManager;
 import org.wahlzeit.model.UserSession;
+import org.wahlzeit.model.domain.DrumcymbalPhotoManager;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.services.mailing.EmailService;

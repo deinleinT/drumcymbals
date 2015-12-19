@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
-import org.wahlzeit.model.DrumcymbalPhotoManager;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoSize;
+import org.wahlzeit.model.domain.DrumcymbalPhotoManager;
 import org.wahlzeit.model.persistence.ImageStorage;
 import org.wahlzeit.services.LogBuilder;
 

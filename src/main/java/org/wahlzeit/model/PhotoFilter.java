@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import org.wahlzeit.model.domain.DrumcymbalPhotoManager;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.utils.StringUtil;
 

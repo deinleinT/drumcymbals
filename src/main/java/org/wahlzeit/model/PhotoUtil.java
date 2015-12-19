@@ -22,6 +22,7 @@ package org.wahlzeit.model;
 
 import java.util.logging.Logger;
 
+import org.wahlzeit.model.domain.DrumcymbalPhotoFactory;
 import org.wahlzeit.services.LogBuilder;
 
 import com.google.appengine.api.images.Image;
